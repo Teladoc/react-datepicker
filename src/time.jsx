@@ -14,6 +14,7 @@ import {
 
 export default class Time extends React.Component {
   static propTypes = {
+    closeDialog: PropTypes.func,
     format: PropTypes.string,
     includeTimes: PropTypes.array,
     intervals: PropTypes.number,
@@ -81,6 +82,17 @@ export default class Time extends React.Component {
     this.props.onChange(time);
   };
 
+  isDisabledTime = time => {
+    return (
+      ((this.props.minTime || this.props.maxTime) &&
+        isTimeInDisabledRange(time, this.props)) ||
+      (this.props.excludeTimes &&
+        isTimeDisabled(time, this.props.excludeTimes)) ||
+      (this.props.includeTimes &&
+        !isTimeDisabled(time, this.props.includeTimes))
+    );
+  };
+
   liClasses = (time, currH, currM) => {
     let classes = ["react-datepicker__time-list-item"];
 
@@ -91,14 +103,7 @@ export default class Time extends React.Component {
     ) {
       classes.push("react-datepicker__time-list-item--selected");
     }
-    if (
-      ((this.props.minTime || this.props.maxTime) &&
-        isTimeInDisabledRange(time, this.props)) ||
-      (this.props.excludeTimes &&
-        isTimeDisabled(time, this.props.excludeTimes)) ||
-      (this.props.includeTimes &&
-        !isTimeDisabled(time, this.props.includeTimes))
-    ) {
+    if (this.isDisabledTime(time)) {
       classes.push("react-datepicker__time-list-item--disabled");
     }
     if (
@@ -146,7 +151,6 @@ export default class Time extends React.Component {
     return times.map((time, i) => (
       <li
         key={i}
-        onClick={this.handleClick.bind(this, time)}
         className={this.liClasses(time, currH, currM)}
         ref={li => {
           if (currH === getHours(time) && currM >= getMinutes(time)) {
@@ -154,9 +158,50 @@ export default class Time extends React.Component {
           }
         }}
       >
-        {formatDate(time, format, this.props.locale)}
+        <button
+          {...(this.isDisabledTime(time) ? { disabled: "disabled" } : "")}
+          onClick={this.handleClick.bind(this, time)}
+        >
+          {formatDate(time, format, this.props.locale)}
+        </button>
       </li>
     ));
+  };
+
+  onKeyDown = e => {
+    switch (e.key) {
+      case "Up":
+      case "ArrowUp":
+        this.centerLi = this.centerLi.previousSibling;
+        this.centerLi.firstChild.focus();
+        break;
+      case "Down":
+      case "ArrowDown":
+        this.centerLi = this.centerLi.nextSibling;
+        this.centerLi.firstChild.focus();
+        break;
+      case "Esc":
+      case "Escape":
+        this.props.closeDialog();
+        break;
+      case "Enter":
+      case " ":
+        return;
+      case "Home":
+        this.centerLi = this.centerLi.parentNode.firstChild;
+        this.centerLi.firstChild.focus();
+        break;
+      case "End":
+        this.centerLi = this.centerLi.parentNode.lastChild;
+        this.centerLi.firstChild.focus();
+        break;
+      case "Tab":
+        return;
+      default:
+        return;
+    }
+
+    e.preventDefault();
   };
 
   render() {
@@ -183,6 +228,7 @@ export default class Time extends React.Component {
         <div className="react-datepicker__time">
           <div className="react-datepicker__time-box">
             <ul
+              onKeyDown={this.onKeyDown}
               className="react-datepicker__time-list"
               ref={list => {
                 this.list = list;

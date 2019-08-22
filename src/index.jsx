@@ -355,7 +355,8 @@ export default class DatePicker extends React.Component {
     if (
       this.state.open &&
       !this.props.withPortal &&
-      !this.props.showTimeInput
+      !this.props.showTimeInput &&
+      !this.props.showTimeSelect
     ) {
       this.deferFocusInput();
     } else {
@@ -415,6 +416,14 @@ export default class DatePicker extends React.Component {
       this.setPreSelection(date);
     } else if (!this.props.inline) {
       this.setOpen(false);
+    }
+
+    if (this.props.showTimeSelect) {
+      document
+        .querySelector(
+          ".react-datepicker__time-list-item > button:not([disabled])"
+        )
+        .focus();
     }
   };
 
@@ -514,6 +523,13 @@ export default class DatePicker extends React.Component {
     this.props.onInputClick();
   };
 
+  closeDialog = () => {
+    this.setOpen(false);
+    if (!this.inputOk()) {
+      this.props.onInputError({ code: 1, msg: INPUT_ERR_1 });
+    }
+  };
+
   onInputKeyDown = event => {
     this.props.onKeyDown(event);
     const eventKey = event.key;
@@ -541,11 +557,7 @@ export default class DatePicker extends React.Component {
       }
     } else if (eventKey === "Escape") {
       event.preventDefault();
-
-      this.setOpen(false);
-      if (!this.inputOk()) {
-        this.props.onInputError({ code: 1, msg: INPUT_ERR_1 });
-      }
+      this.closeDialog();
     } else if (eventKey === "Tab") {
       this.setOpen(false, true);
     } else if (!this.props.disabledKeyboardNavigation) {
@@ -617,6 +629,7 @@ export default class DatePicker extends React.Component {
         locale={this.props.locale}
         adjustDateOnChange={this.props.adjustDateOnChange}
         setOpen={this.setOpen}
+        closeDialog={this.closeDialog}
         shouldCloseOnSelect={this.props.shouldCloseOnSelect}
         dateFormat={this.props.dateFormatCalendar}
         useWeekdaysShort={this.props.useWeekdaysShort}

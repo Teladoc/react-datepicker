@@ -356,6 +356,8 @@
   li.react-datepicker__time-list-item {
   height: 30px;
   padding: 5px 10px;
+  button-width: 100%;
+  button-padding: 0 10px;
 }
 .react-datepicker__time-container
   .react-datepicker__time
