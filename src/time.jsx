@@ -235,7 +235,7 @@ export default class Time extends React.Component {
               }}
               style={height ? { height } : {}}
             >
-              {this.renderTimes.bind(this)()}
+              {this.renderTimes()}
             </ul>
           </div>
         </div>
