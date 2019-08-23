@@ -39,12 +39,12 @@ describe("TimeComponent", () => {
 
     it("should format the time based on the default locale (en-US)", () => {
       mount(<TimeComponent format="p" />);
-      expect(spy.args[0][1].innerHTML).to.eq("1:00 PM");
+      expect(spy.args[0][1].firstChild.innerHTML).to.eq("1:00 PM");
     });
 
     it("should format the time based on the pt-BR locale", () => {
       mount(<TimeComponent format="p" locale="pt-BR" />);
-      expect(spy.args[0][1].innerHTML).to.eq("13:00");
+      expect(spy.args[0][1].firstChild.innerHTML).to.eq("13:00");
     });
   });
 
@@ -61,12 +61,12 @@ describe("TimeComponent", () => {
 
     it("should call calcCenterPosition with centerLi ref, closest to the current time", () => {
       mount(<TimeComponent format="HH:mm" />);
-      expect(spy.args[0][1].innerHTML).to.eq("13:00");
+      expect(spy.args[0][1].firstChild.innerHTML).to.eq("13:00");
     });
 
     it("with five minute time interval, should call calcCenterPosition with centerLi ref, closest to the current time", () => {
       mount(<TimeComponent format="HH:mm" intervals={5} />);
-      expect(spy.args[0][1].innerHTML).to.eq("13:25");
+      expect(spy.args[0][1].firstChild.innerHTML).to.eq("13:25");
     });
 
     it("should call calcCenterPosition with centerLi ref, closest to the selected time", () => {
@@ -77,7 +77,7 @@ describe("TimeComponent", () => {
           openToDate={new Date("1990-06-14 09:11")}
         />
       );
-      expect(spy.args[0][1].innerHTML).to.eq("08:00");
+      expect(spy.args[0][1].firstChild.innerHTML).to.eq("08:00");
     });
 
     it("should call calcCenterPosition with centerLi ref, which is selected", () => {
@@ -102,7 +102,7 @@ describe("TimeComponent", () => {
           openToDate={new Date("1990-06-14 09:11")}
         />
       );
-      expect(spy.args[0][1].innerHTML).to.eq("09:00");
+      expect(spy.args[0][1].firstChild.innerHTML).to.eq("09:00");
     });
 
     it("when no selected time, should call calcCenterPosition with centerLi ref, and no time should be selected", () => {
