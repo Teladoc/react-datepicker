@@ -14,10 +14,12 @@ import {
 
 export default class Time extends React.Component {
   static propTypes = {
+    closeDialog: PropTypes.func,
     format: PropTypes.string,
     includeTimes: PropTypes.array,
     intervals: PropTypes.number,
     selected: PropTypes.instanceOf(Date),
+    openToDate: PropTypes.instanceOf(Date),
     onChange: PropTypes.func,
     todayButton: PropTypes.node,
     minTime: PropTypes.instanceOf(Date),
@@ -80,20 +82,28 @@ export default class Time extends React.Component {
     this.props.onChange(time);
   };
 
-  liClasses = (time, currH, currM) => {
-    let classes = ["react-datepicker__time-list-item"];
-
-    if (currH === getHours(time) && currM === getMinutes(time)) {
-      classes.push("react-datepicker__time-list-item--selected");
-    }
-    if (
+  isDisabledTime = time => {
+    return (
       ((this.props.minTime || this.props.maxTime) &&
         isTimeInDisabledRange(time, this.props)) ||
       (this.props.excludeTimes &&
         isTimeDisabled(time, this.props.excludeTimes)) ||
       (this.props.includeTimes &&
         !isTimeDisabled(time, this.props.includeTimes))
+    );
+  };
+
+  liClasses = (time, currH, currM) => {
+    let classes = ["react-datepicker__time-list-item"];
+
+    if (
+      this.props.selected &&
+      currH === getHours(time) &&
+      currM === getMinutes(time)
     ) {
+      classes.push("react-datepicker__time-list-item--selected");
+    }
+    if (this.isDisabledTime(time)) {
       classes.push("react-datepicker__time-list-item--disabled");
     }
     if (
@@ -110,7 +120,9 @@ export default class Time extends React.Component {
     let times = [];
     const format = this.props.format ? this.props.format : "p";
     const intervals = this.props.intervals;
-    const activeTime = this.props.selected ? this.props.selected : newDate();
+    const activeTime =
+      this.props.selected || this.props.openToDate || newDate();
+
     const currH = getHours(activeTime);
     const currM = getMinutes(activeTime);
     let base = getStartOfDay(newDate());
@@ -139,20 +151,57 @@ export default class Time extends React.Component {
     return times.map((time, i) => (
       <li
         key={i}
-        onClick={this.handleClick.bind(this, time)}
         className={this.liClasses(time, currH, currM)}
         ref={li => {
-          if (
-            (currH === getHours(time) && currM === getMinutes(time)) ||
-            (currH === getHours(time) && !this.centerLi)
-          ) {
+          if (currH === getHours(time) && currM >= getMinutes(time)) {
             this.centerLi = li;
           }
         }}
       >
-        {formatDate(time, format, this.props.locale)}
+        <button
+          {...(this.isDisabledTime(time) ? { disabled: "disabled" } : "")}
+          onClick={this.handleClick.bind(this, time)}
+        >
+          {formatDate(time, format, this.props.locale)}
+        </button>
       </li>
     ));
+  };
+
+  onKeyDown = e => {
+    switch (e.key) {
+      case "Up":
+      case "ArrowUp":
+        this.centerLi = this.centerLi.previousSibling;
+        this.centerLi.firstChild.focus();
+        break;
+      case "Down":
+      case "ArrowDown":
+        this.centerLi = this.centerLi.nextSibling;
+        this.centerLi.firstChild.focus();
+        break;
+      case "Esc":
+      case "Escape":
+        this.props.closeDialog();
+        break;
+      case "Enter":
+      case " ":
+        return;
+      case "Home":
+        this.centerLi = this.centerLi.parentNode.firstChild;
+        this.centerLi.firstChild.focus();
+        break;
+      case "End":
+        this.centerLi = this.centerLi.parentNode.lastChild;
+        this.centerLi.firstChild.focus();
+        break;
+      case "Tab":
+        return;
+      default:
+        return;
+    }
+
+    e.preventDefault();
   };
 
   render() {
@@ -179,6 +228,7 @@ export default class Time extends React.Component {
         <div className="react-datepicker__time">
           <div className="react-datepicker__time-box">
             <ul
+              onKeyDown={this.onKeyDown}
               className="react-datepicker__time-list"
               ref={list => {
                 this.list = list;

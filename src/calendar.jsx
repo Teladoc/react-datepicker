@@ -52,6 +52,7 @@ export default class Calendar extends React.Component {
   static propTypes = {
     adjustDateOnChange: PropTypes.bool,
     className: PropTypes.string,
+    closeDialog: PropTypes.func,
     children: PropTypes.node,
     container: PropTypes.func,
     dateFormat: PropTypes.oneOfType([PropTypes.string, PropTypes.array])
@@ -662,6 +663,7 @@ export default class Calendar extends React.Component {
       return (
         <Time
           selected={this.props.selected}
+          openToDate={this.props.openToDate}
           onChange={this.props.onTimeChange}
           format={this.props.timeFormat}
           includeTimes={this.props.includeTimes}
@@ -678,6 +680,7 @@ export default class Calendar extends React.Component {
           monthRef={this.state.monthContainer}
           injectTimes={this.props.injectTimes}
           locale={this.props.locale}
+          closeDialog={this.props.closeDialog}
         />
       );
     }
