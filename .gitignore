@@ -93,8 +93,6 @@ typings/
 
 # End of https://www.gitignore.io/api/node
 
-dist
-lib
 es
 tmp
 
@@ -102,8 +100,6 @@ tmp
 *.iml
 .idea
 
-docs-site/*bundle.js
-docs-site/style.css
 
 docs/calendar.md
 docs/date_input.md
