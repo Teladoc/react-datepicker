@@ -396,6 +396,7 @@
   li.react-datepicker__time-list-item {
   height: 30px;
   padding: 5px 10px;
+  white-space: nowrap;
   button-width: 100%;
   button-padding: 0 10px;
 }
@@ -740,13 +741,13 @@
   background-color: transparent;
   border: 0;
   outline: 0;
-  padding: 0;
+  padding: 0px 6px 0px 0px;
   position: absolute;
-  top: 50%;
-  right: 7px;
-  height: 16px;
-  width: 16px;
-  margin: -8px auto 0;
+  top: 0;
+  right: 0;
+  height: 100%;
+  display: table-cell;
+  vertical-align: middle;
 }
 
 .react-datepicker__close-icon::after {
@@ -754,15 +755,14 @@
   background-color: #216ba5;
   color: #fff;
   border-radius: 50%;
-  position: absolute;
-  top: 0;
-  right: 0;
   height: 16px;
   width: 16px;
   padding: 2px;
   font-size: 12px;
   line-height: 1;
   text-align: center;
+  display: table-cell;
+  vertical-align: middle;
   content: "\00d7";
 }
 

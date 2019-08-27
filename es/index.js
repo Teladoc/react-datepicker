@@ -3530,8 +3530,11 @@ var Calendar =
         "increaseYear",
         function() {
           _this.setState(
-            {
-              date: addYears(_this.state.date, 1)
+            function(_ref7) {
+              var date = _ref7.date;
+              return {
+                date: addYears(date, 1)
+              };
             },
             function() {
               return _this.handleYearChange(_this.state.date);
@@ -3738,9 +3741,9 @@ var Calendar =
       _defineProperty(
         _assertThisInitialized(_this),
         "renderDefaultHeader",
-        function(_ref7) {
-          var monthDate = _ref7.monthDate,
-            i = _ref7.i;
+        function(_ref8) {
+          var monthDate = _ref8.monthDate,
+            i = _ref8.i;
           return React.createElement(
             "div",
             {
@@ -3773,9 +3776,9 @@ var Calendar =
       _defineProperty(
         _assertThisInitialized(_this),
         "renderCustomHeader",
-        function(_ref8) {
-          var monthDate = _ref8.monthDate,
-            i = _ref8.i;
+        function(_ref9) {
+          var monthDate = _ref9.monthDate,
+            i = _ref9.i;
 
           if (i !== 0) {
             return null;

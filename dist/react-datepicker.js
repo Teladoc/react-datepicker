@@ -2334,9 +2334,14 @@
             }
           }),
           se(ue(p), "increaseYear", function() {
-            p.setState({ date: a(p.state.date, 1) }, function() {
-              return p.handleYearChange(p.state.date);
-            });
+            p.setState(
+              function(e) {
+                return { date: a(e.date, 1) };
+              },
+              function() {
+                return p.handleYearChange(p.state.date);
+              }
+            );
           }),
           se(ue(p), "renderNextButton", function() {
             if (!p.props.renderCustomHeader) {
