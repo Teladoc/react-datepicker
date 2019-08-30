@@ -29,7 +29,7 @@ describe("TimePicker", () => {
     setManually("February 28, 2018 4:45 PM");
     TestUtils.Simulate.focus(ReactDOM.findDOMNode(datePicker.input));
     const time = TestUtils.findRenderedComponentWithType(datePicker, Time);
-    const lis = TestUtils.scryRenderedDOMComponentsWithTag(time, "li");
+    const lis = TestUtils.scryRenderedDOMComponentsWithTag(time, "button");
     TestUtils.Simulate.click(lis[1]);
     expect(getInputString()).to.equal("February 28, 2018 12:30 AM");
   });

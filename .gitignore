@@ -92,14 +92,12 @@ typings/
 
 # End of https://www.gitignore.io/api/node
 
-dist
-lib
-es
 tmp
 
 .vscode
 *.iml
 .idea
+
 
 docs/calendar.md
 docs/date_input.md
