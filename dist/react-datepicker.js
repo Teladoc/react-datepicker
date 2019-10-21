@@ -204,8 +204,8 @@
   S,
   M,
   O,
-  P,
   E,
+  P,
   N,
   T,
   x,
@@ -361,8 +361,8 @@
     (S = S && S.hasOwnProperty("default") ? S.default : S),
     (M = M && M.hasOwnProperty("default") ? M.default : M),
     (O = O && O.hasOwnProperty("default") ? O.default : O),
-    (P = P && P.hasOwnProperty("default") ? P.default : P),
     (E = E && E.hasOwnProperty("default") ? E.default : E),
+    (P = P && P.hasOwnProperty("default") ? P.default : P),
     (N = N && N.hasOwnProperty("default") ? N.default : N),
     (T = T && T.hasOwnProperty("default") ? T.default : T),
     (x = x && x.hasOwnProperty("default") ? x.default : x),
@@ -490,7 +490,7 @@
       a = t.minute,
       o = void 0 === a ? 0 : a,
       s = t.second;
-    return E(P(O(e, void 0 === s ? 0 : s), o), r);
+    return P(E(O(e, void 0 === s ? 0 : s), o), r);
   }
   function _e(e, t) {
     var n = Te(t || Ne());
@@ -508,10 +508,10 @@
   function Oe(e, t) {
     return e && t ? K(e, t) : !e && !t;
   }
-  function Pe(e, t) {
+  function Ee(e, t) {
     return e && t ? A(e, t) : !e && !t;
   }
-  function Ee(e, t, n) {
+  function Pe(e, t, n) {
     var r,
       a = q(t),
       o = H(n);
@@ -569,9 +569,9 @@
     if (!n || !r) throw Error("Both minTime and maxTime props required");
     var a,
       o = we(),
-      s = E(P(o, k(e)), C(e)),
-      i = E(P(o, k(n)), C(n)),
-      p = E(P(o, k(r)), C(r));
+      s = P(E(o, k(e)), C(e)),
+      i = P(E(o, k(n)), C(n)),
+      p = P(E(o, k(r)), C(r));
     try {
       a = !J(s, { start: i, end: p });
     } catch (e) {
@@ -1387,7 +1387,7 @@
             var e = i.props,
               t = e.startDate,
               n = e.endDate;
-            return !(!t || !n) && Ee(e.day, t, n);
+            return !(!t || !n) && Pe(e.day, t, n);
           }),
           se(ue(i), "isInSelectingRange", function() {
             var e = i.props,
@@ -1399,9 +1399,9 @@
               s = e.endDate;
             return (
               !((!n && !r) || !a || i.isDisabled()) &&
-              (n && s && (G(a, s) || Pe(a, s))
-                ? Ee(t, a, s)
-                : !(!r || !o || (!z(a, o) && !Pe(a, o))) && Ee(t, o, a))
+              (n && s && (G(a, s) || Ee(a, s))
+                ? Pe(t, a, s)
+                : !(!r || !o || (!z(a, o) && !Ee(a, o))) && Pe(t, o, a))
             );
           }),
           se(ue(i), "isSelectingRangeStart", function() {
@@ -1878,39 +1878,38 @@
                 r.push("react-datepicker__time-list-item--selected"),
               u.isDisabledTime(e) &&
                 r.push("react-datepicker__time-list-item--disabled"),
-              u.props.injectTimes &&
-                (60 * C(e) + k(e)) % u.props.intervals != 0 &&
+              (!u.props.intervals ||
+                (u.props.injectTimes &&
+                  (60 * C(e) + k(e)) % u.props.intervals != 0)) &&
                 r.push("react-datepicker__time-list-item--injected"),
               r.join(" ")
             );
           }),
           se(ue(u), "renderTimes", function() {
-            for (
-              var e = [],
-                n = u.props.format ? u.props.format : "p",
-                t = u.props.intervals,
-                r = u.props.selected || u.props.openToDate || we(),
-                a = C(r),
-                o = k(r),
-                s = (function(e) {
-                  return q(e);
-                })(we()),
-                i = 1440 / t,
-                p =
-                  u.props.injectTimes &&
-                  u.props.injectTimes.sort(function(e, t) {
-                    return e - t;
-                  }),
-                c = 0;
-              c < i;
-              c++
-            ) {
-              var l = f(s, c * t);
-              if ((e.push(l), p)) {
-                var d = Re(s, l, c, t, p);
-                e = e.concat(d);
+            var e = [],
+              n = u.props.format ? u.props.format : "p",
+              t = u.props.intervals,
+              r = u.props.selected || u.props.openToDate || we(),
+              a = C(r),
+              o = k(r),
+              s = (function(e) {
+                return q(e);
+              })(we()),
+              i = 1440 / t,
+              p =
+                u.props.injectTimes &&
+                u.props.injectTimes.sort(function(e, t) {
+                  return e - t;
+                });
+            if (t)
+              for (var c = 0; c < i; c++) {
+                var l = f(s, c * t);
+                if ((e.push(l), p)) {
+                  var d = Re(s, l, c, t, p);
+                  e = e.concat(d);
+                }
               }
-            }
+            else e = p;
             return e.map(function(t, e) {
               return h.createElement(
                 "li",
@@ -1975,20 +1974,13 @@
             {
               key: "componentDidMount",
               value: function() {
-                (this.list.scrollTop = a.calcCenterPosition(
-                  this.props.monthRef
-                    ? this.props.monthRef.clientHeight -
-                        this.header.clientHeight
-                    : this.list.clientHeight,
-                  this.centerLi
-                )),
-                  this.props.monthRef &&
-                    this.header &&
-                    this.setState({
-                      height:
-                        this.props.monthRef.clientHeight -
-                        this.header.clientHeight
-                    });
+                this.props.monthRef &&
+                  this.header &&
+                  this.setState({
+                    height:
+                      this.props.monthRef.clientHeight -
+                      this.header.clientHeight
+                  });
               }
             },
             {
@@ -2984,7 +2976,7 @@
           se(ue(s), "setSelected", function(e, t, n, r) {
             var a = e;
             if (null === a || !Ye(a, s.props)) {
-              if (!Pe(s.props.selected, a) || s.props.allowSameDay) {
+              if (!Ee(s.props.selected, a) || s.props.allowSameDay) {
                 if (null !== a) {
                   if (s.props.selected) {
                     var o = s.props.selected;
@@ -3008,7 +3000,7 @@
               r = !0;
             e &&
               (t && n
-                ? (r = Ee(e, s.props.minDate, s.props.maxDate))
+                ? (r = Pe(e, s.props.minDate, s.props.maxDate))
                 : t
                 ? (r = z(e, s.props.minDate))
                 : n && (r = G(e, s.props.maxDate))),
@@ -3305,7 +3297,7 @@
                     highlightDates: He(this.props.highlightDates)
                   }),
                 t.focused ||
-                  Pe(e.selected, this.props.selected) ||
+                  Ee(e.selected, this.props.selected) ||
                   this.setState({ inputValue: null });
             }
           },
