@@ -3021,6 +3021,7 @@
             );
             s.setState({ preSelection: t }),
               s.props.onChange(t),
+              s.props.onTimeChange && s.props.onTimeChange(t),
               s.props.shouldCloseOnSelect && s.setOpen(!1),
               s.props.showTimeInput && s.setOpen(!0),
               s.setState({ inputValue: null });
