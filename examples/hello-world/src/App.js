@@ -18,6 +18,7 @@ class App extends Component {
         onChange={this.handleChange}
         showTimeSelect
         timeFormat="HH:mm"
+        timeIntervals={null}
         injectTimes={[
           setHours(setMinutes(new Date(), 1), 0),
           setHours(setMinutes(new Date(), 5), 12),
