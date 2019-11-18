@@ -451,7 +451,11 @@ describe("DatePicker", () => {
         }}
       />
     );
-    var timeButton = datePicker.find('.react-datepicker__time-list-item').first().find('button').first();
+    var timeButton = datePicker
+      .find(".react-datepicker__time-list-item")
+      .first()
+      .find("button")
+      .first();
     timeButton.props().onClick(selected);
 
     expect(date).to.not.be.undefined;
