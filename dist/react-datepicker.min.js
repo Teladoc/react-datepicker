@@ -204,8 +204,8 @@
   S,
   M,
   O,
-  P,
   E,
+  P,
   N,
   T,
   x,
@@ -361,8 +361,8 @@
     (S = S && S.hasOwnProperty("default") ? S.default : S),
     (M = M && M.hasOwnProperty("default") ? M.default : M),
     (O = O && O.hasOwnProperty("default") ? O.default : O),
-    (P = P && P.hasOwnProperty("default") ? P.default : P),
     (E = E && E.hasOwnProperty("default") ? E.default : E),
+    (P = P && P.hasOwnProperty("default") ? P.default : P),
     (N = N && N.hasOwnProperty("default") ? N.default : N),
     (T = T && T.hasOwnProperty("default") ? T.default : T),
     (x = x && x.hasOwnProperty("default") ? x.default : x),
@@ -490,7 +490,7 @@
       a = t.minute,
       o = void 0 === a ? 0 : a,
       s = t.second;
-    return E(P(O(e, void 0 === s ? 0 : s), o), r);
+    return P(E(O(e, void 0 === s ? 0 : s), o), r);
   }
   function _e(e, t) {
     var n = Te(t || Ne());
@@ -508,10 +508,10 @@
   function Oe(e, t) {
     return e && t ? K(e, t) : !e && !t;
   }
-  function Pe(e, t) {
+  function Ee(e, t) {
     return e && t ? A(e, t) : !e && !t;
   }
-  function Ee(e, t, n) {
+  function Pe(e, t, n) {
     var r,
       a = q(t),
       o = H(n);
@@ -569,9 +569,9 @@
     if (!n || !r) throw Error("Both minTime and maxTime props required");
     var a,
       o = we(),
-      s = E(P(o, k(e)), C(e)),
-      i = E(P(o, k(n)), C(n)),
-      p = E(P(o, k(r)), C(r));
+      s = P(E(o, k(e)), C(e)),
+      i = P(E(o, k(n)), C(n)),
+      p = P(E(o, k(r)), C(r));
     try {
       a = !J(s, { start: i, end: p });
     } catch (e) {
@@ -1333,19 +1333,15 @@
       );
     })(),
     Je = (function() {
-      function a() {
-        var e, i;
-        re(this, a);
-        for (var t = arguments.length, n = Array(t), r = 0; r < t; r++)
-          n[r] = arguments[r];
+      function t(e) {
+        var i;
         return (
-          se(
-            ue((i = he(this, (e = le(a)).call.apply(e, [this].concat(n))))),
-            "handleClick",
-            function(e) {
-              !i.isDisabled() && i.props.onClick && i.props.onClick(e);
-            }
-          ),
+          re(this, t),
+          se(ue((i = he(this, le(t).call(this, e)))), "handleClick", function(
+            e
+          ) {
+            !i.isDisabled() && i.props.onClick && i.props.onClick(e);
+          }),
           se(ue(i), "handleMouseEnter", function(e) {
             !i.isDisabled() && i.props.onMouseEnter && i.props.onMouseEnter(e);
           }),
@@ -1387,7 +1383,7 @@
             var e = i.props,
               t = e.startDate,
               n = e.endDate;
-            return !(!t || !n) && Ee(e.day, t, n);
+            return !(!t || !n) && Pe(e.day, t, n);
           }),
           se(ue(i), "isInSelectingRange", function() {
             var e = i.props,
@@ -1399,9 +1395,9 @@
               s = e.endDate;
             return (
               !((!n && !r) || !a || i.isDisabled()) &&
-              (n && s && (G(a, s) || Pe(a, s))
-                ? Ee(t, a, s)
-                : !(!r || !o || (!z(a, o) && !Pe(a, o))) && Ee(t, o, a))
+              (n && s && (G(a, s) || Ee(a, s))
+                ? Pe(t, a, s)
+                : !(!r || !o || (!z(a, o) && !Ee(a, o))) && Pe(t, o, a))
             );
           }),
           se(ue(i), "isSelectingRangeStart", function() {
@@ -1462,22 +1458,34 @@
               i.getHighLightedClass("react-datepicker__day--highlighted")
             );
           }),
+          (i.state = { selectedDay: 1 }),
           i
         );
       }
       return (
-        ce(a, h.Component),
-        oe(a, [
+        ce(t, h.Component),
+        oe(t, [
           {
             key: "render",
             value: function() {
+              var e = this,
+                t = _(this.props.day);
               return h.createElement(
-                "div",
+                "button",
                 {
                   className: this.getClassNames(this.props.day),
+                  key: t,
                   onClick: this.handleClick,
                   onMouseEnter: this.handleMouseEnter,
-                  "aria-label": "day-".concat(_(this.props.day)),
+                  onFocus: function() {
+                    return e.setState({ selectedDay: t });
+                  },
+                  "aria-label": ke(
+                    this.props.day,
+                    "EEEE LLLL do yyyy",
+                    this.props.locale
+                  ),
+                  "aria-selected": (t === this.state.selectedDay) + "",
                   role: "option"
                 },
                 this.props.renderDayContents
@@ -1490,7 +1498,7 @@
             }
           }
         ]),
-        a
+        t
       );
     })(),
     Qe = (function() {
@@ -1583,6 +1591,7 @@
                   key: e,
                   day: t,
                   month: a.props.month,
+                  locale: a.props.locale,
                   onClick: a.handleDayClick.bind(ue(a), t),
                   onMouseEnter: a.handleDayMouseEnter.bind(ue(a), t),
                   minDate: a.props.minDate,
@@ -2984,7 +2993,7 @@
           se(ue(s), "setSelected", function(e, t, n, r) {
             var a = e;
             if (null === a || !Ye(a, s.props)) {
-              if (!Pe(s.props.selected, a) || s.props.allowSameDay) {
+              if (!Ee(s.props.selected, a) || s.props.allowSameDay) {
                 if (null !== a) {
                   if (s.props.selected) {
                     var o = s.props.selected;
@@ -3008,7 +3017,7 @@
               r = !0;
             e &&
               (t && n
-                ? (r = Ee(e, s.props.minDate, s.props.maxDate))
+                ? (r = Pe(e, s.props.minDate, s.props.maxDate))
                 : t
                 ? (r = z(e, s.props.minDate))
                 : n && (r = G(e, s.props.maxDate))),
@@ -3305,7 +3314,7 @@
                     highlightDates: He(this.props.highlightDates)
                   }),
                 t.focused ||
-                  Pe(e.selected, this.props.selected) ||
+                  Ee(e.selected, this.props.selected) ||
                   this.setState({ inputValue: null });
             }
           },

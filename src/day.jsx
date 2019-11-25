@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import classnames from "classnames";
 import {
+  DAY_ARIA_LABEL,
   getDay,
   getMonth,
   getDate,
@@ -25,6 +26,10 @@ export default class Day extends React.Component {
     endDate: PropTypes.instanceOf(Date),
     highlightDates: PropTypes.instanceOf(Map),
     inline: PropTypes.bool,
+    locale: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.shape({ locale: PropTypes.object })
+    ]),
     month: PropTypes.number,
     onClick: PropTypes.func,
     onMouseEnter: PropTypes.func,
@@ -36,6 +41,11 @@ export default class Day extends React.Component {
     startDate: PropTypes.instanceOf(Date),
     renderDayContents: PropTypes.func
   };
+
+  constructor(props) {
+    super(props);
+    this.state = { selectedDay: 1 };
+  }
 
   handleClick = event => {
     if (!this.isDisabled() && this.props.onClick) {
@@ -198,12 +208,20 @@ export default class Day extends React.Component {
   };
 
   render() {
+    const day = getDate(this.props.day);
     return (
-      <div
+      <button
         className={this.getClassNames(this.props.day)}
+        key={day}
         onClick={this.handleClick}
         onMouseEnter={this.handleMouseEnter}
-        aria-label={`day-${getDate(this.props.day)}`}
+        onFocus={() => this.setState({ selectedDay: day })}
+        aria-label={formatDate(
+          this.props.day,
+          DAY_ARIA_LABEL,
+          this.props.locale
+        )}
+        aria-selected={String(day === this.state.selectedDay)}
         role="option"
       >
         {this.props.renderDayContents
@@ -212,7 +230,7 @@ export default class Day extends React.Component {
               this.props.day
             )
           : getDate(this.props.day)}
-      </div>
+      </button>
     );
   }
 }

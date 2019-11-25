@@ -91,6 +91,7 @@ export default class Week extends React.Component {
             key={offset}
             day={day}
             month={this.props.month}
+            locale={this.props.locale}
             onClick={this.handleDayClick.bind(this, day)}
             onMouseEnter={this.handleDayMouseEnter.bind(this, day)}
             minDate={this.props.minDate}
