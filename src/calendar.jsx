@@ -51,6 +51,7 @@ const isDropdownSelect = (element = {}) => {
 export default class Calendar extends React.Component {
   static propTypes = {
     adjustDateOnChange: PropTypes.bool,
+    ariaDescribedBy: PropTypes.string,
     className: PropTypes.string,
     closeDialog: PropTypes.func,
     children: PropTypes.node,
@@ -718,6 +719,7 @@ export default class Calendar extends React.Component {
         className={classnames("react-datepicker", this.props.className, {
           "react-datepicker--time-only": this.props.showTimeSelectOnly
         })}
+        aria-describedBy={this.props.ariaDescribedBy}
       >
         {this.renderPreviousButton()}
         {this.renderNextButton()}

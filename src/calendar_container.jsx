@@ -5,12 +5,13 @@ export default function CalendarContainer({
   arrowProps,
   className,
   children,
-  containerLabel
+  "aria-describedBy": ariaDescribedBy
 }) {
   return (
     <div
       className={className}
-      aria-label={containerLabel}
+      aria-label="Date picker"
+      aria-describedBy={ariaDescribedBy}
       role="dialog"
       aria-modal="true"
     >
@@ -22,13 +23,12 @@ export default function CalendarContainer({
 
 CalendarContainer.defaultProps = {
   arrowProps: {},
-  className: "",
-  containerLabel: "Date Picker"
+  className: ""
 };
 
 CalendarContainer.propTypes = {
   arrowProps: PropTypes.object,
   className: PropTypes.string,
   children: PropTypes.node.isRequired,
-  containerLabel: PropTypes.string
+  "aria-describedBy": PropTypes.string
 };

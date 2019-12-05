@@ -52,6 +52,7 @@ import toDate from "date-fns/toDate";
 import parse from "date-fns/parse";
 import parseISO from "date-fns/parseISO";
 import onClickOutside from "react-onclickoutside";
+import "date-fns/esm";
 import { Popper, Manager, Reference } from "react-popper";
 
 function _typeof(obj) {
@@ -2170,6 +2171,14 @@ var Day =
 
     _createClass(Day, [
       {
+        key: "componentDidMount",
+        value: function componentDidMount() {
+          if (this.isKeyboardSelected()) {
+            this.buttonRef.focus();
+          }
+        }
+      },
+      {
         key: "componentDidUpdate",
         value: function componentDidUpdate(prevProps) {
           var preSelection = this.props.preSelection;
@@ -2195,7 +2204,7 @@ var Day =
           return React.createElement(
             "button",
             {
-              "aria-label": dayString,
+              "aria-label": "Select ".concat(dayString),
               "aria-selected": String(this.isKeyboardSelected()),
               className: this.getClassNames(this.props.day),
               key: dayString,
@@ -3148,12 +3157,13 @@ function CalendarContainer(_ref) {
   var arrowProps = _ref.arrowProps,
     className = _ref.className,
     children = _ref.children,
-    containerLabel = _ref.containerLabel;
+    ariaDescribedBy = _ref["aria-describedBy"];
   return React.createElement(
     "div",
     {
       className: className,
-      "aria-label": containerLabel,
+      "aria-label": "Date picker",
+      "aria-describedBy": ariaDescribedBy,
       role: "dialog",
       "aria-modal": "true"
     },
@@ -3171,8 +3181,7 @@ function CalendarContainer(_ref) {
 }
 CalendarContainer.defaultProps = {
   arrowProps: {},
-  className: "",
-  containerLabel: "Date Picker"
+  className: ""
 };
 
 var DROPDOWN_FOCUS_CLASSNAMES = [
@@ -4050,7 +4059,8 @@ var Calendar =
             {
               className: classnames("react-datepicker", this.props.className, {
                 "react-datepicker--time-only": this.props.showTimeSelectOnly
-              })
+              }),
+              "aria-describedBy": this.props.ariaDescribedBy
             },
             this.renderPreviousButton(),
             this.renderNextButton(),
@@ -4827,6 +4837,7 @@ var DatePicker =
               container: _this.props.calendarContainer,
               dateFormat: _this.props.dateFormatCalendar,
               dayClassName: _this.props.dayClassName,
+              ariaDescribedBy: _this.props.calendarDialogAriaDescribedBy,
               disabledKeyboardNavigation:
                 _this.props.disabledKeyboardNavigation,
               dropdownMode: _this.props.dropdownMode,
@@ -4929,9 +4940,7 @@ var DatePicker =
           var customInput =
             _this.props.customInput ||
             React.createElement("input", {
-              type: "text",
-              readOnly: true,
-              "aria-hidden": "true"
+              type: "text"
             });
           var customInputRef = _this.props.customInputRef || "ref"; // aria-hidden and readonly required so screenreader won't read input value on arrow keys press
 

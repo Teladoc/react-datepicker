@@ -69,6 +69,7 @@ export default class DatePicker extends React.Component {
     calendarContainer: PropTypes.func,
     children: PropTypes.node,
     className: PropTypes.string,
+    calendarDialogAriaDescribedBy: PropTypes.string,
     customInput: PropTypes.element,
     customInputRef: PropTypes.string,
     dateFormat: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
@@ -637,6 +638,7 @@ export default class DatePicker extends React.Component {
         container={this.props.calendarContainer}
         dateFormat={this.props.dateFormatCalendar}
         dayClassName={this.props.dayClassName}
+        ariaDescribedBy={this.props.calendarDialogAriaDescribedBy}
         disabledKeyboardNavigation={this.props.disabledKeyboardNavigation}
         dropdownMode={this.props.dropdownMode}
         endDate={this.props.endDate}
@@ -727,9 +729,7 @@ export default class DatePicker extends React.Component {
         ? this.state.inputValue
         : safeDateFormat(this.props.selected, this.props);
 
-    const customInput = this.props.customInput || (
-      <input type="text" readOnly aria-hidden="true" />
-    );
+    const customInput = this.props.customInput || <input type="text" />;
     const customInputRef = this.props.customInputRef || "ref";
 
     // aria-hidden and readonly required so screenreader won't read input value on arrow keys press

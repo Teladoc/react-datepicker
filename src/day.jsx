@@ -17,6 +17,7 @@ import {
   getDayOfWeekCode,
   formatDate
 } from "./date_utils";
+import { isThursday } from "date-fns/esm";
 
 export default class Day extends React.Component {
   static propTypes = {
@@ -30,6 +31,7 @@ export default class Day extends React.Component {
       PropTypes.string,
       PropTypes.shape({ locale: PropTypes.object })
     ]),
+    minDate: PropTypes.instanceOf(Date),
     month: PropTypes.number,
     onClick: PropTypes.func,
     onDayFocus: PropTypes.func.isRequired,
@@ -47,6 +49,12 @@ export default class Day extends React.Component {
   constructor(props) {
     super(props);
     this.buttonRef = null;
+  }
+
+  componentDidMount() {
+    if (this.isKeyboardSelected()) {
+      this.buttonRef.focus();
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -228,7 +236,7 @@ export default class Day extends React.Component {
     );
     return (
       <button
-        aria-label={dayString}
+        aria-label={`Select ${dayString}`}
         aria-selected={String(this.isKeyboardSelected())}
         className={this.getClassNames(this.props.day)}
         key={dayString}
