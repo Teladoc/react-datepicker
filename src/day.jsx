@@ -31,7 +31,6 @@ export default class Day extends React.Component {
       PropTypes.string,
       PropTypes.shape({ locale: PropTypes.object })
     ]),
-    minDate: PropTypes.instanceOf(Date),
     month: PropTypes.number,
     onClick: PropTypes.func,
     onDayFocus: PropTypes.func.isRequired,

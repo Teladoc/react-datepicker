@@ -1,6 +1,6 @@
 import React from "react";
 import Day from "../src/day";
-import { shallow } from "enzyme";
+import { mount, shallow } from "enzyme";
 import {
   getDayOfWeekCode,
   newDate,
@@ -69,8 +69,11 @@ describe("Day", () => {
     it("should apply the keyboard-selected class when pre-selected and another day is selected", () => {
       const day = newDate();
       const selected = addDays(day, 1);
-      const shallowDay = renderDay(day, { selected, preSelection: day });
-      expect(shallowDay.hasClass(className)).to.equal(true);
+      const mountedDay = mount(
+        <Day day={day} selected={selected} preSelection={day} />
+      );
+      mountedDay.update();
+      expect(mountedDay.find(`.${className}`).exists()).to.equal(true);
     });
 
     it("should not apply the keyboard-selected class when selected", () => {
@@ -83,8 +86,11 @@ describe("Day", () => {
       const day = newDate();
       const selected = addDays(day, 1);
       const preSelection = addDays(day, 2);
-      const shallowDay = renderDay(day, { selected, preSelection });
-      expect(shallowDay.hasClass(className)).to.equal(false);
+      const mountedDay = mount(
+        <Day day={day} selected={selected} preSelection={preSelection} />
+      );
+      mountedDay.update();
+      expect(mountedDay.hasClass(className)).to.equal(false);
     });
 
     it("should not apply the keyboard-selected class if in inline mode", () => {

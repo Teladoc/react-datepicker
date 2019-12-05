@@ -1039,8 +1039,8 @@ describe("Calendar", function() {
     it("should change the next and previous labels", () => {
       const previous = calendar.find(".react-datepicker__navigation--previous");
       const next = calendar.find(".react-datepicker__navigation--next");
-      expect(previous.text()).to.equal("Previous Year");
-      expect(next.text()).to.equal("Next Year");
+      expect(previous.prop("aria-label")).to.equal("Previous Year");
+      expect(next.prop("aria-label")).to.equal("Next Year");
     });
 
     it("should render custom next and previous labels", function() {
@@ -1056,8 +1056,10 @@ describe("Calendar", function() {
       );
       const previous = calendar.find(".react-datepicker__navigation--previous");
       const next = calendar.find(".react-datepicker__navigation--next");
-      expect(previous.text()).to.equal("Custom Previous Year Label");
-      expect(next.text()).to.equal("Custom Next Year Label");
+      expect(previous.prop("aria-label")).to.equal(
+        "Custom Previous Year Label"
+      );
+      expect(next.prop("aria-label")).to.equal("Custom Next Year Label");
     });
 
     it("calls decreaseYear when previous month button clicked", () => {
