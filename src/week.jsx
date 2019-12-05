@@ -29,7 +29,9 @@ export default class Week extends React.Component {
     minDate: PropTypes.instanceOf(Date),
     month: PropTypes.number,
     onDayClick: PropTypes.func,
+    onDayFocus: PropTypes.func.isRequired,
     onDayMouseEnter: PropTypes.func,
+    onKeyDown: PropTypes.func.isRequired,
     onWeekSelect: PropTypes.func,
     preSelection: PropTypes.instanceOf(Date),
     selected: PropTypes.instanceOf(Date),
@@ -88,29 +90,31 @@ export default class Week extends React.Component {
         const day = utils.addDays(startOfWeek, offset);
         return (
           <Day
-            key={offset}
             day={day}
-            month={this.props.month}
-            locale={this.props.locale}
-            onClick={this.handleDayClick.bind(this, day)}
-            onMouseEnter={this.handleDayMouseEnter.bind(this, day)}
-            minDate={this.props.minDate}
-            maxDate={this.props.maxDate}
+            dayClassName={this.props.dayClassName}
+            disabledKeyboardNavigation={this.props.disabledKeyboardNavigation}
+            endDate={this.props.endDate}
             excludeDates={this.props.excludeDates}
+            filterDate={this.props.filterDate}
+            highlightDates={this.props.highlightDates}
             includeDates={this.props.includeDates}
             inline={this.props.inline}
-            highlightDates={this.props.highlightDates}
-            selectingDate={this.props.selectingDate}
-            filterDate={this.props.filterDate}
+            key={offset}
+            locale={this.props.locale}
+            maxDate={this.props.maxDate}
+            minDate={this.props.minDate}
+            month={this.props.month}
+            onClick={this.handleDayClick.bind(this, day)}
+            onDayFocus={this.props.onDayFocus}
+            onKeyDown={this.props.onKeyDown}
+            onMouseEnter={this.handleDayMouseEnter.bind(this, day)}
             preSelection={this.props.preSelection}
-            selected={this.props.selected}
-            selectsStart={this.props.selectsStart}
-            selectsEnd={this.props.selectsEnd}
-            startDate={this.props.startDate}
-            endDate={this.props.endDate}
-            dayClassName={this.props.dayClassName}
             renderDayContents={this.props.renderDayContents}
-            disabledKeyboardNavigation={this.props.disabledKeyboardNavigation}
+            selected={this.props.selected}
+            selectingDate={this.props.selectingDate}
+            selectsEnd={this.props.selectsEnd}
+            selectsStart={this.props.selectsStart}
+            startDate={this.props.startDate}
           />
         );
       })

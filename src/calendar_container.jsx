@@ -2,20 +2,33 @@ import PropTypes from "prop-types";
 import React from "react";
 
 export default function CalendarContainer({
+  arrowProps,
   className,
   children,
-  arrowProps = {}
+  containerLabel
 }) {
   return (
-    <div className={className}>
+    <div
+      className={className}
+      aria-label={containerLabel}
+      role="dialog"
+      aria-modal="true"
+    >
       <div className="react-datepicker__triangle" {...arrowProps} />
       {children}
     </div>
   );
 }
 
+CalendarContainer.defaultProps = {
+  arrowProps: {},
+  className: "",
+  containerLabel: "Date Picker"
+};
+
 CalendarContainer.propTypes = {
+  arrowProps: PropTypes.object,
   className: PropTypes.string,
-  children: PropTypes.node,
-  arrowProps: PropTypes.object // react-popper arrow props
+  children: PropTypes.node.isRequired,
+  containerLabel: PropTypes.string
 };

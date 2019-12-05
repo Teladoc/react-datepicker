@@ -24,7 +24,9 @@ const Root = () => {
             </a>
           </div>
           <div className="hero__example">
+            <label htmlFor="example1">Pick a Date</label>
             <DatePicker
+              id="example1"
               open
               selected={startDate}
               onChange={date => setStartDate(date)}

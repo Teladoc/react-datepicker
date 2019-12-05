@@ -32,6 +32,8 @@ export default class Day extends React.Component {
     ]),
     month: PropTypes.number,
     onClick: PropTypes.func,
+    onDayFocus: PropTypes.func.isRequired,
+    onKeyDown: PropTypes.func.isRequired,
     onMouseEnter: PropTypes.func,
     preSelection: PropTypes.instanceOf(Date),
     selected: PropTypes.object,
@@ -44,7 +46,18 @@ export default class Day extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { selectedDay: 1 };
+    this.buttonRef = null;
+  }
+
+  componentDidUpdate(prevProps) {
+    const { preSelection } = this.props;
+    const { preSelection: prevPreSelection } = prevProps;
+
+    if (preSelection !== prevPreSelection) {
+      if (this.isKeyboardSelected()) {
+        this.buttonRef.focus();
+      }
+    }
   }
 
   handleClick = event => {
@@ -208,21 +221,24 @@ export default class Day extends React.Component {
   };
 
   render() {
-    const day = getDate(this.props.day);
+    const dayString = formatDate(
+      this.props.day,
+      DAY_ARIA_LABEL,
+      this.props.locale
+    );
     return (
       <button
+        aria-label={dayString}
+        aria-selected={String(this.isKeyboardSelected())}
         className={this.getClassNames(this.props.day)}
-        key={day}
+        key={dayString}
         onClick={this.handleClick}
+        onFocus={this.props.onDayFocus}
+        onKeyDown={this.props.onKeyDown}
         onMouseEnter={this.handleMouseEnter}
-        onFocus={() => this.setState({ selectedDay: day })}
-        aria-label={formatDate(
-          this.props.day,
-          DAY_ARIA_LABEL,
-          this.props.locale
-        )}
-        aria-selected={String(day === this.state.selectedDay)}
+        ref={r => (this.buttonRef = r)}
         role="option"
+        tabIndex="-1"
       >
         {this.props.renderDayContents
           ? this.props.renderDayContents(
