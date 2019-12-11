@@ -4423,7 +4423,7 @@ var DatePicker =
         _assertThisInitialized(_this),
         "deferFocusInput",
         function() {
-          _this.cancelFocusInput(); // this.inputFocusTimeout = setTimeout(() => this.setFocus(), 1);
+          _this.cancelFocusInput();
         }
       );
 
