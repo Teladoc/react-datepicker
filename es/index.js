@@ -2174,7 +2174,9 @@ var Day =
         key: "componentDidMount",
         value: function componentDidMount() {
           if (this.isKeyboardSelected()) {
-            this.buttonRef.focus();
+            this.buttonRef.focus({
+              preventScroll: true
+            });
           }
         }
       },
@@ -2186,7 +2188,9 @@ var Day =
 
           if (preSelection !== prevPreSelection) {
             if (this.isKeyboardSelected()) {
-              this.buttonRef.focus();
+              this.buttonRef.focus({
+                preventScroll: true
+              });
             }
           }
         }

@@ -1472,7 +1472,8 @@
           {
             key: "componentDidMount",
             value: function() {
-              this.isKeyboardSelected() && this.buttonRef.focus();
+              this.isKeyboardSelected() &&
+                this.buttonRef.focus({ preventScroll: !0 });
             }
           },
           {
@@ -1480,7 +1481,7 @@
             value: function(e) {
               this.props.preSelection !== e.preSelection &&
                 this.isKeyboardSelected() &&
-                this.buttonRef.focus();
+                this.buttonRef.focus({ preventScroll: !0 });
             }
           },
           {

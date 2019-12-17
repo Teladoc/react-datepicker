@@ -52,7 +52,7 @@ export default class Day extends React.Component {
 
   componentDidMount() {
     if (this.isKeyboardSelected()) {
-      this.buttonRef.focus();
+      this.buttonRef.focus({ preventScroll: true });
     }
   }
 
@@ -62,7 +62,7 @@ export default class Day extends React.Component {
 
     if (preSelection !== prevPreSelection) {
       if (this.isKeyboardSelected()) {
-        this.buttonRef.focus();
+        this.buttonRef.focus({ preventScroll: true });
       }
     }
   }
