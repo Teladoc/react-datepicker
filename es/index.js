@@ -4633,6 +4633,10 @@ var DatePicker =
 
           _this.props.onChange(changedDate);
 
+          if (_this.props.onTimeChange) {
+            _this.props.onTimeChange(changedDate);
+          }
+
           if (_this.props.shouldCloseOnSelect) {
             _this.setOpen(false);
           }

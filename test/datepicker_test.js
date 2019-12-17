@@ -405,9 +405,10 @@ describe("DatePicker", () => {
     expect(clearButtonText).to.equal("clear button");
   });
 
-  it("should save time from the selected date", () => {
+  it("when day is selected, should trigger change event but not time change event", () => {
     const selected = utils.newDate("2015-12-20 10:11:12");
     let date;
+    let time;
 
     var datePicker = TestUtils.renderIntoDocument(
       <DatePicker
@@ -415,6 +416,9 @@ describe("DatePicker", () => {
         selected={selected}
         onChange={d => {
           date = d;
+        }}
+        onTimeChange={d => {
+          time = d;
         }}
       />
     );
@@ -424,9 +428,38 @@ describe("DatePicker", () => {
     )[0];
     TestUtils.Simulate.click(dayButton);
 
-    expect(utils.getHours(date)).to.equal(10);
-    expect(utils.getMinutes(date)).to.equal(11);
-    expect(utils.getSeconds(date)).to.equal(12);
+    // Only a day was selected, no time was selected yet
+    expect(date).to.not.be.undefined;
+    expect(time).to.be.undefined;
+  });
+
+  it("when time is selected, should trigger both change event and time change event", () => {
+    const selected = utils.newDate("2015-12-20 10:11:12");
+    let date;
+    let time;
+
+    var datePicker = mount(
+      <DatePicker
+        inline
+        showTimeSelect
+        selected={selected}
+        onChange={d => {
+          date = d;
+        }}
+        onTimeChange={d => {
+          time = d;
+        }}
+      />
+    );
+    var timeButton = datePicker
+      .find(".react-datepicker__time-list-item")
+      .first()
+      .find("button")
+      .first();
+    timeButton.props().onClick(selected);
+
+    expect(date).to.not.be.undefined;
+    expect(time).to.equal(date);
   });
 
   it("should mount and unmount properly", done => {
