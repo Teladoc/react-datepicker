@@ -401,6 +401,10 @@
 .react-datepicker__week {
   white-space: nowrap;
 }
+button.react-datepicker__day {
+  border: none;
+  padding: 0;
+}
 .react-datepicker__day-name,
 .react-datepicker__day,
 .react-datepicker__time-name {

@@ -24,10 +24,12 @@ const Root = () => {
             </a>
           </div>
           <div className="hero__example">
+            <div id="example1">Pick a date</div>
             <DatePicker
+              id="example1"
               open
-              selected={startDate}
               onChange={date => setStartDate(date)}
+              calendarDialogAriaDescribedBy="example1"
             />
           </div>
         </div>
