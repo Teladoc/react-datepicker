@@ -246,6 +246,7 @@ export default class Day extends React.Component {
         ref={r => (this.buttonRef = r)}
         role="option"
         tabIndex="-1"
+        type="button"
       >
         {this.props.renderDayContents
           ? this.props.renderDayContents(
