@@ -16,7 +16,7 @@ describe("Month", () => {
       const expectedDay = utils.addDays(start, offset);
       assert(
         utils.isSameDay(day.props.day, expectedDay),
-        `Day ${offset % 7 + 1} ` +
+        `Day ${(offset % 7) + 1} ` +
           `of week ${Math.floor(offset / 7) + 1} ` +
           `should be "${utils.formatDate(expectedDay, "yyyy-MM-dd")}" ` +
           `but it is "${utils.formatDate(day.props.day, "yyyy-MM-dd")}"`
@@ -27,17 +27,6 @@ describe("Month", () => {
   it("should have the month CSS class", () => {
     const month = shallow(<Month day={utils.newDate()} />);
     expect(month.hasClass("react-datepicker__month")).to.equal(true);
-  });
-
-  it("should have the month aria-label", () => {
-    const month = TestUtils.renderIntoDocument(
-      <Month day={utils.newDate("2015-12-01")} />
-    );
-    const month_dom = TestUtils.findRenderedDOMComponentWithClass(
-      month,
-      "react-datepicker__month"
-    );
-    expect(month_dom.getAttribute("aria-label")).to.equal("month-2015-12");
   });
 
   it("should render all days of the month and some days in neighboring months", () => {

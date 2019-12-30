@@ -69,9 +69,9 @@ export default class DatePicker extends React.Component {
     calendarContainer: PropTypes.func,
     children: PropTypes.node,
     className: PropTypes.string,
+    calendarDialogAriaDescribedBy: PropTypes.string,
     customInput: PropTypes.element,
     customInputRef: PropTypes.string,
-    // eslint-disable-next-line react/no-unused-prop-types
     dateFormat: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
     dateFormatCalendar: PropTypes.string,
     dayClassName: PropTypes.func,
@@ -351,7 +351,6 @@ export default class DatePicker extends React.Component {
 
   deferFocusInput = () => {
     this.cancelFocusInput();
-    this.inputFocusTimeout = setTimeout(() => this.setFocus(), 1);
   };
 
   handleDropdownFocus = () => {
@@ -426,11 +425,13 @@ export default class DatePicker extends React.Component {
     }
 
     if (this.props.showTimeSelect) {
-      document
-        .querySelector(
-          ".react-datepicker__time-list-item > button:not([disabled])"
-        )
-        .focus();
+      setTimeout(() => {
+        document
+          .querySelector(
+            ".react-datepicker__time-list-item > button:not([disabled])"
+          )
+          .focus();
+      }, 100);
     }
   };
 
@@ -540,7 +541,8 @@ export default class DatePicker extends React.Component {
     }
   };
 
-  onInputKeyDown = event => {
+  onKeyDown = event => {
+    event.stopPropagation();
     this.props.onKeyDown(event);
     const eventKey = event.key;
     if (
@@ -572,6 +574,7 @@ export default class DatePicker extends React.Component {
       this.setOpen(false, true);
     } else if (!this.props.disabledKeyboardNavigation) {
       let newSelection;
+      event.preventDefault();
       switch (eventKey) {
         case "ArrowLeft":
           newSelection = subDays(copy, 1);
@@ -604,7 +607,6 @@ export default class DatePicker extends React.Component {
         }
         return; // Let the input component handle this keydown
       }
-      event.preventDefault();
       this.setState({ lastPreSelectChange: PRESELECT_CHANGE_VIA_NAVIGATE });
       if (this.props.adjustDateOnChange) {
         this.setSelected(newSelection);
@@ -633,84 +635,84 @@ export default class DatePicker extends React.Component {
     }
     return (
       <WrappedCalendar
-        ref={elem => {
-          this.calendar = elem;
-        }}
-        locale={this.props.locale}
         adjustDateOnChange={this.props.adjustDateOnChange}
-        setOpen={this.setOpen}
+        className={this.props.calendarClassName}
         closeDialog={this.closeDialog}
-        shouldCloseOnSelect={this.props.shouldCloseOnSelect}
+        container={this.props.calendarContainer}
         dateFormat={this.props.dateFormatCalendar}
-        useWeekdaysShort={this.props.useWeekdaysShort}
-        formatWeekDay={this.props.formatWeekDay}
+        dayClassName={this.props.dayClassName}
+        ariaDescribedBy={this.props.calendarDialogAriaDescribedBy}
+        disabledKeyboardNavigation={this.props.disabledKeyboardNavigation}
         dropdownMode={this.props.dropdownMode}
-        selected={this.props.selected}
-        preSelection={this.state.preSelection}
-        onSelect={this.handleSelect}
-        onWeekSelect={this.props.onWeekSelect}
-        openToDate={this.props.openToDate}
-        minDate={this.props.minDate}
-        maxDate={this.props.maxDate}
-        selectsStart={this.props.selectsStart}
-        selectsEnd={this.props.selectsEnd}
-        startDate={this.props.startDate}
         endDate={this.props.endDate}
         excludeDates={this.props.excludeDates}
+        excludeTimes={this.props.excludeTimes}
         filterDate={this.props.filterDate}
-        onClickOutside={this.handleCalendarClickOutside}
+        fixedHeight={this.props.fixedHeight}
+        forceShowMonthNavigation={this.props.forceShowMonthNavigation}
+        formatWeekDay={this.props.formatWeekDay}
         formatWeekNumber={this.props.formatWeekNumber}
         highlightDates={this.state.highlightDates}
         includeDates={this.props.includeDates}
         includeTimes={this.props.includeTimes}
         injectTimes={this.props.injectTimes}
         inline={this.props.inline}
-        peekNextMonth={this.props.peekNextMonth}
-        showMonthDropdown={this.props.showMonthDropdown}
-        useShortMonthInDropdown={this.props.useShortMonthInDropdown}
-        showMonthYearDropdown={this.props.showMonthYearDropdown}
-        showWeekNumbers={this.props.showWeekNumbers}
-        showYearDropdown={this.props.showYearDropdown}
-        withPortal={this.props.withPortal}
-        forceShowMonthNavigation={this.props.forceShowMonthNavigation}
-        showDisabledMonthNavigation={this.props.showDisabledMonthNavigation}
-        scrollableYearDropdown={this.props.scrollableYearDropdown}
-        scrollableMonthYearDropdown={this.props.scrollableMonthYearDropdown}
-        todayButton={this.props.todayButton}
-        weekLabel={this.props.weekLabel}
-        outsideClickIgnoreClass={outsideClickIgnoreClass}
-        fixedHeight={this.props.fixedHeight}
-        monthsShown={this.props.monthsShown}
+        locale={this.props.locale}
+        maxDate={this.props.maxDate}
+        maxTime={this.props.maxTime}
+        minDate={this.props.minDate}
+        minTime={this.props.minTime}
         monthSelectedIn={this.state.monthSelectedIn}
+        monthsShown={this.props.monthsShown}
+        nextMonthButtonLabel={this.props.nextMonthButtonLabel}
+        nextYearButtonLabel={this.props.nextYearButtonLabel}
+        onClickOutside={this.handleCalendarClickOutside}
+        onDayMouseEnter={this.props.onDayMouseEnter}
         onDropdownFocus={this.handleDropdownFocus}
+        onKeyDown={this.onKeyDown}
         onMonthChange={this.props.onMonthChange}
+        onMonthMouseLeave={this.props.onMonthMouseLeave}
+        onSelect={this.handleSelect}
+        onTimeChange={this.handleTimeChange}
+        onWeekSelect={this.props.onWeekSelect}
         onYearChange={this.props.onYearChange}
-        dayClassName={this.props.dayClassName}
+        openToDate={this.props.openToDate}
+        outsideClickIgnoreClass={outsideClickIgnoreClass}
+        peekNextMonth={this.props.peekNextMonth}
+        popperProps={this.props.popperProps}
+        preSelection={this.state.preSelection}
+        previousMonthButtonLabel={this.props.previousMonthButtonLabel}
+        previousYearButtonLabel={this.props.previousYearButtonLabel}
+        ref={elem => (this.calendar = elem)}
+        renderCustomHeader={this.props.renderCustomHeader}
+        renderDayContents={this.props.renderDayContents}
+        scrollableMonthYearDropdown={this.props.scrollableMonthYearDropdown}
+        scrollableYearDropdown={this.props.scrollableYearDropdown}
+        selected={this.props.selected}
+        selectsEnd={this.props.selectsEnd}
+        selectsStart={this.props.selectsStart}
+        setOpen={this.setOpen}
+        shouldCloseOnSelect={this.props.shouldCloseOnSelect}
+        showDisabledMonthNavigation={this.props.showDisabledMonthNavigation}
+        showMonthDropdown={this.props.showMonthDropdown}
+        showMonthYearDropdown={this.props.showMonthYearDropdown}
+        showMonthYearPicker={this.props.showMonthYearPicker}
+        showTimeInput={this.props.showTimeInput}
         showTimeSelect={this.props.showTimeSelect}
         showTimeSelectOnly={this.props.showTimeSelectOnly}
-        onTimeChange={this.handleTimeChange}
-        timeFormat={this.props.timeFormat}
-        timeIntervals={this.props.timeIntervals}
-        minTime={this.props.minTime}
-        maxTime={this.props.maxTime}
-        excludeTimes={this.props.excludeTimes}
+        showWeekNumbers={this.props.showWeekNumbers}
+        showYearDropdown={this.props.showYearDropdown}
+        startDate={this.props.startDate}
         timeCaption={this.props.timeCaption}
-        className={this.props.calendarClassName}
-        container={this.props.calendarContainer}
-        yearDropdownItemNumber={this.props.yearDropdownItemNumber}
-        previousMonthButtonLabel={this.props.previousMonthButtonLabel}
-        nextMonthButtonLabel={this.props.nextMonthButtonLabel}
-        previousYearButtonLabel={this.props.previousYearButtonLabel}
-        nextYearButtonLabel={this.props.nextYearButtonLabel}
+        timeFormat={this.props.timeFormat}
         timeInputLabel={this.props.timeInputLabel}
-        disabledKeyboardNavigation={this.props.disabledKeyboardNavigation}
-        renderCustomHeader={this.props.renderCustomHeader}
-        popperProps={this.props.popperProps}
-        renderDayContents={this.props.renderDayContents}
-        onDayMouseEnter={this.props.onDayMouseEnter}
-        onMonthMouseLeave={this.props.onMonthMouseLeave}
-        showTimeInput={this.props.showTimeInput}
-        showMonthYearPicker={this.props.showMonthYearPicker}
+        timeIntervals={this.props.timeIntervals}
+        todayButton={this.props.todayButton}
+        useShortMonthInDropdown={this.props.useShortMonthInDropdown}
+        useWeekdaysShort={this.props.useWeekdaysShort}
+        weekLabel={this.props.weekLabel}
+        withPortal={this.props.withPortal}
+        yearDropdownItemNumber={this.props.yearDropdownItemNumber}
       >
         {this.props.children}
       </WrappedCalendar>
@@ -721,9 +723,8 @@ export default class DatePicker extends React.Component {
     const className = classnames(this.props.className, {
       [outsideClickIgnoreClass]: this.state.open
     });
+    const { focused } = this.state;
 
-    const customInput = this.props.customInput || <input type="text" />;
-    const customInputRef = this.props.customInputRef || "ref";
     const inputValue =
       typeof this.props.value === "string"
         ? this.props.value
@@ -731,27 +732,32 @@ export default class DatePicker extends React.Component {
         ? this.state.inputValue
         : safeDateFormat(this.props.selected, this.props);
 
+    const customInput = this.props.customInput || <input type="text" />;
+    const customInputRef = this.props.customInputRef || "ref";
+
+    // aria-hidden and readonly required so screenreader won't read input value on arrow keys press
     return React.cloneElement(customInput, {
       [customInputRef]: input => {
         this.input = input;
       },
-      value: inputValue,
+      "aria-hidden": "true",
+      autoComplete: this.props.autoComplete,
+      autoFocus: this.props.autoFocus,
+      className: customInput.props.className + " " + className,
+      disabled: this.props.disabled,
+      id: this.props.id,
+      name: this.props.name,
       onBlur: this.handleBlur,
       onChange: this.handleChange,
       onClick: this.onInputClick,
       onFocus: this.handleFocus,
-      onKeyDown: this.onInputKeyDown,
-      id: this.props.id,
-      name: this.props.name,
-      autoFocus: this.props.autoFocus,
+      onKeyDown: this.onKeyDown,
       placeholder: this.props.placeholderText,
-      disabled: this.props.disabled,
-      autoComplete: this.props.autoComplete,
-      className: customInput.props.className + " " + className,
-      title: this.props.title,
-      readOnly: this.props.readOnly,
+      readOnly: true,
       required: this.props.required,
-      tabIndex: this.props.tabIndex
+      tabIndex: this.props.tabIndex,
+      title: this.props.title,
+      value: inputValue
     });
   };
 
