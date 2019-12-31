@@ -1504,7 +1504,8 @@
                     return (t.buttonRef = e);
                   },
                   role: "option",
-                  tabIndex: "-1"
+                  tabIndex: "-1",
+                  type: "button"
                 },
                 this.props.renderDayContents
                   ? this.props.renderDayContents(

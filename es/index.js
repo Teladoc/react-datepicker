@@ -2220,7 +2220,8 @@ var Day =
                 return (_this2.buttonRef = r);
               },
               role: "option",
-              tabIndex: "-1"
+              tabIndex: "-1",
+              type: "button"
             },
             this.props.renderDayContents
               ? this.props.renderDayContents(
