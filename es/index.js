@@ -52,6 +52,7 @@ import toDate from "date-fns/toDate";
 import parse from "date-fns/parse";
 import parseISO from "date-fns/parseISO";
 import onClickOutside from "react-onclickoutside";
+import "date-fns/esm";
 import { Popper, Manager, Reference } from "react-popper";
 
 function _typeof(obj) {
@@ -344,7 +345,9 @@ var longFormatters = unwrapExports(longFormatters_1);
 
 // sequences of symbols P, p, and the combinations like `PPPPPPPppppp`
 
-var longFormattingTokensRegExp = /P+p+|P+|p+|''|'(''|[^'])+('|$)|./g; // ** Date Constructors **
+var longFormattingTokensRegExp = /P+p+|P+|p+|''|'(''|[^'])+('|$)|./g;
+var DAY_ARIA_LABEL = "EEEE LLLL do yyyy"; // Wednesday January 1st, 2020
+// ** Date Constructors **
 
 function newDate(value) {
   var d = value
@@ -1914,27 +1917,14 @@ var Day =
   (function(_React$Component) {
     _inherits(Day, _React$Component);
 
-    function Day() {
-      var _getPrototypeOf2;
-
+    function Day(props) {
       var _this;
 
       _classCallCheck(this, Day);
 
-      for (
-        var _len = arguments.length, args = new Array(_len), _key = 0;
-        _key < _len;
-        _key++
-      ) {
-        args[_key] = arguments[_key];
-      }
-
       _this = _possibleConstructorReturn(
         this,
-        (_getPrototypeOf2 = _getPrototypeOf(Day)).call.apply(
-          _getPrototypeOf2,
-          [this].concat(args)
-        )
+        _getPrototypeOf(Day).call(this, props)
       );
 
       _defineProperty(_assertThisInitialized(_this), "handleClick", function(
@@ -2175,21 +2165,62 @@ var Day =
         );
       });
 
+      _this.buttonRef = null;
       return _this;
     }
 
     _createClass(Day, [
       {
+        key: "componentDidMount",
+        value: function componentDidMount() {
+          if (this.isKeyboardSelected()) {
+            this.buttonRef.focus({
+              preventScroll: true
+            });
+          }
+        }
+      },
+      {
+        key: "componentDidUpdate",
+        value: function componentDidUpdate(prevProps) {
+          var preSelection = this.props.preSelection;
+          var prevPreSelection = prevProps.preSelection;
+
+          if (preSelection !== prevPreSelection) {
+            if (this.isKeyboardSelected()) {
+              this.buttonRef.focus({
+                preventScroll: true
+              });
+            }
+          }
+        }
+      },
+      {
         key: "render",
         value: function render() {
+          var _this2 = this;
+
+          var dayString = formatDate(
+            this.props.day,
+            DAY_ARIA_LABEL,
+            this.props.locale
+          );
           return React.createElement(
-            "div",
+            "button",
             {
+              "aria-label": "Select ".concat(dayString),
+              "aria-selected": String(this.isKeyboardSelected()),
               className: this.getClassNames(this.props.day),
+              key: dayString,
               onClick: this.handleClick,
+              onFocus: this.props.onDayFocus,
+              onKeyDown: this.props.onKeyDown,
               onMouseEnter: this.handleMouseEnter,
-              "aria-label": "day-".concat(getDate(this.props.day)),
-              role: "option"
+              ref: function ref(r) {
+                return (_this2.buttonRef = r);
+              },
+              role: "option",
+              tabIndex: "-1"
             },
             this.props.renderDayContents
               ? this.props.renderDayContents(
@@ -2256,7 +2287,6 @@ var WeekNumber =
             "div",
             {
               className: classnames(weekNumberClasses),
-              "aria-label": "week-".concat(this.props.weekNumber),
               onClick: this.handleClick
             },
             this.props.weekNumber
@@ -2368,34 +2398,38 @@ var Week =
           [0, 1, 2, 3, 4, 5, 6].map(function(offset) {
             var day = utils$1(startOfWeek, offset);
             return React.createElement(Day, {
-              key: offset,
               day: day,
+              dayClassName: _this.props.dayClassName,
+              disabledKeyboardNavigation:
+                _this.props.disabledKeyboardNavigation,
+              endDate: _this.props.endDate,
+              excludeDates: _this.props.excludeDates,
+              filterDate: _this.props.filterDate,
+              highlightDates: _this.props.highlightDates,
+              includeDates: _this.props.includeDates,
+              inline: _this.props.inline,
+              key: offset,
+              locale: _this.props.locale,
+              maxDate: _this.props.maxDate,
+              minDate: _this.props.minDate,
               month: _this.props.month,
               onClick: _this.handleDayClick.bind(
                 _assertThisInitialized(_this),
                 day
               ),
+              onDayFocus: _this.props.onDayFocus,
+              onKeyDown: _this.props.onKeyDown,
               onMouseEnter: _this.handleDayMouseEnter.bind(
                 _assertThisInitialized(_this),
                 day
               ),
-              minDate: _this.props.minDate,
-              maxDate: _this.props.maxDate,
-              excludeDates: _this.props.excludeDates,
-              includeDates: _this.props.includeDates,
-              inline: _this.props.inline,
-              highlightDates: _this.props.highlightDates,
-              selectingDate: _this.props.selectingDate,
-              filterDate: _this.props.filterDate,
               preSelection: _this.props.preSelection,
-              selected: _this.props.selected,
-              selectsStart: _this.props.selectsStart,
-              selectsEnd: _this.props.selectsEnd,
-              startDate: _this.props.startDate,
-              endDate: _this.props.endDate,
-              dayClassName: _this.props.dayClassName,
               renderDayContents: _this.props.renderDayContents,
-              disabledKeyboardNavigation: _this.props.disabledKeyboardNavigation
+              selected: _this.props.selected,
+              selectingDate: _this.props.selectingDate,
+              selectsEnd: _this.props.selectsEnd,
+              selectsStart: _this.props.selectsStart,
+              startDate: _this.props.startDate
             });
           })
         );
@@ -2543,35 +2577,37 @@ var Month =
         while (true) {
           weeks.push(
             React.createElement(Week, {
-              key: i,
               day: currentWeekStart,
-              month: getMonth(_this.props.day),
-              onDayClick: _this.handleDayClick,
-              onDayMouseEnter: _this.handleDayMouseEnter,
-              onWeekSelect: _this.props.onWeekSelect,
-              formatWeekNumber: _this.props.formatWeekNumber,
-              locale: _this.props.locale,
-              minDate: _this.props.minDate,
-              maxDate: _this.props.maxDate,
-              excludeDates: _this.props.excludeDates,
-              includeDates: _this.props.includeDates,
-              inline: _this.props.inline,
-              highlightDates: _this.props.highlightDates,
-              selectingDate: _this.props.selectingDate,
-              filterDate: _this.props.filterDate,
-              preSelection: _this.props.preSelection,
-              selected: _this.props.selected,
-              selectsStart: _this.props.selectsStart,
-              selectsEnd: _this.props.selectsEnd,
-              showWeekNumber: _this.props.showWeekNumbers,
-              startDate: _this.props.startDate,
-              endDate: _this.props.endDate,
               dayClassName: _this.props.dayClassName,
-              setOpen: _this.props.setOpen,
-              shouldCloseOnSelect: _this.props.shouldCloseOnSelect,
               disabledKeyboardNavigation:
                 _this.props.disabledKeyboardNavigation,
-              renderDayContents: _this.props.renderDayContents
+              endDate: _this.props.endDate,
+              excludeDates: _this.props.excludeDates,
+              filterDate: _this.props.filterDate,
+              formatWeekNumber: _this.props.formatWeekNumber,
+              highlightDates: _this.props.highlightDates,
+              includeDates: _this.props.includeDates,
+              inline: _this.props.inline,
+              key: i,
+              locale: _this.props.locale,
+              maxDate: _this.props.maxDate,
+              minDate: _this.props.minDate,
+              month: getMonth(_this.props.day),
+              onDayClick: _this.handleDayClick,
+              onDayFocus: _this.props.onDayFocus,
+              onDayMouseEnter: _this.handleDayMouseEnter,
+              onKeyDown: _this.props.onKeyDown,
+              onWeekSelect: _this.props.onWeekSelect,
+              preSelection: _this.props.preSelection,
+              renderDayContents: _this.props.renderDayContents,
+              selected: _this.props.selected,
+              selectingDate: _this.props.selectingDate,
+              selectsEnd: _this.props.selectsEnd,
+              selectsStart: _this.props.selectsStart,
+              setOpen: _this.props.setOpen,
+              shouldCloseOnSelect: _this.props.shouldCloseOnSelect,
+              showWeekNumber: _this.props.showWeekNumbers,
+              startDate: _this.props.startDate
             })
           );
           if (breakAfterNextPush) break;
@@ -2701,8 +2737,7 @@ var Month =
             {
               className: this.getClassNames(),
               onMouseLeave: this.handleMouseLeave,
-              role: "listbox",
-              "aria-label": "month-" + formatDate(this.props.day, "yyyy-MM")
+              role: "listbox"
             },
             showMonthYearPicker ? this.renderMonths() : this.renderWeeks()
           );
@@ -3123,14 +3158,18 @@ var inputTime =
   })(React.Component);
 
 function CalendarContainer(_ref) {
-  var className = _ref.className,
+  var arrowProps = _ref.arrowProps,
+    className = _ref.className,
     children = _ref.children,
-    _ref$arrowProps = _ref.arrowProps,
-    arrowProps = _ref$arrowProps === void 0 ? {} : _ref$arrowProps;
+    ariaDescribedBy = _ref["aria-describedBy"];
   return React.createElement(
     "div",
     {
-      className: className
+      className: className,
+      "aria-label": "Date picker",
+      "aria-describedBy": ariaDescribedBy,
+      role: "dialog",
+      "aria-modal": "true"
     },
     React.createElement(
       "div",
@@ -3144,6 +3183,10 @@ function CalendarContainer(_ref) {
     children
   );
 }
+CalendarContainer.defaultProps = {
+  arrowProps: {},
+  className: ""
+};
 
 var DROPDOWN_FOCUS_CLASSNAMES = [
   "react-datepicker__year-select",
@@ -3431,6 +3474,7 @@ var Calendar =
               "div",
               {
                 key: offset,
+                "aria-hidden": "true",
                 className: "react-datepicker__day-name"
               },
               weekDayName
@@ -3511,17 +3555,14 @@ var Calendar =
             clickHandler = null;
           }
 
-          return React.createElement(
-            "button",
-            {
-              type: "button",
-              className: classes.join(" "),
-              onClick: clickHandler
-            },
-            _this.props.showMonthYearPicker
+          return React.createElement("button", {
+            "aria-label": _this.props.showMonthYearPicker
               ? _this.props.previousYearButtonLabel
-              : _this.props.previousMonthButtonLabel
-          );
+              : _this.props.previousMonthButtonLabel,
+            type: "button",
+            className: classes.join(" "),
+            onClick: clickHandler
+          });
         }
       );
 
@@ -3591,17 +3632,14 @@ var Calendar =
             clickHandler = null;
           }
 
-          return React.createElement(
-            "button",
-            {
-              type: "button",
-              className: classes.join(" "),
-              onClick: clickHandler
-            },
-            _this.props.showMonthYearPicker
+          return React.createElement("button", {
+            "aria-label": _this.props.showMonthYearPicker
               ? _this.props.nextYearButtonLabel
-              : _this.props.nextMonthButtonLabel
-          );
+              : _this.props.nextMonthButtonLabel,
+            type: "button",
+            className: classes.join(" "),
+            onClick: clickHandler
+          });
         }
       );
 
@@ -3873,39 +3911,41 @@ var Calendar =
                       i: i
                     }),
                 React.createElement(Month, {
-                  onChange: _this.changeMonthYear,
                   day: monthDate,
                   dayClassName: _this.props.dayClassName,
+                  disabledKeyboardNavigation:
+                    _this.props.disabledKeyboardNavigation,
+                  endDate: _this.props.endDate,
+                  excludeDates: _this.props.excludeDates,
+                  filterDate: _this.props.filterDate,
+                  fixedHeight: _this.props.fixedHeight,
+                  formatWeekNumber: _this.props.formatWeekNumber,
+                  highlightDates: _this.props.highlightDates,
+                  includeDates: _this.props.includeDates,
+                  inline: _this.props.inline,
+                  locale: _this.props.locale,
+                  maxDate: _this.props.maxDate,
+                  minDate: _this.props.minDate,
+                  onChange: _this.changeMonthYear,
                   onDayClick: _this.handleDayClick,
+                  onDayFocus: _this.props.onDropdownFocus,
                   onDayMouseEnter: _this.handleDayMouseEnter,
+                  onKeyDown: _this.props.onKeyDown,
                   onMouseLeave: _this.handleMonthMouseLeave,
                   onWeekSelect: _this.props.onWeekSelect,
                   orderInDisplay: i,
-                  formatWeekNumber: _this.props.formatWeekNumber,
-                  locale: _this.props.locale,
-                  minDate: _this.props.minDate,
-                  maxDate: _this.props.maxDate,
-                  excludeDates: _this.props.excludeDates,
-                  highlightDates: _this.props.highlightDates,
-                  selectingDate: _this.state.selectingDate,
-                  includeDates: _this.props.includeDates,
-                  inline: _this.props.inline,
-                  fixedHeight: _this.props.fixedHeight,
-                  filterDate: _this.props.filterDate,
-                  preSelection: _this.props.preSelection,
-                  selected: _this.props.selected,
-                  selectsStart: _this.props.selectsStart,
-                  selectsEnd: _this.props.selectsEnd,
-                  showWeekNumbers: _this.props.showWeekNumbers,
-                  startDate: _this.props.startDate,
-                  endDate: _this.props.endDate,
                   peekNextMonth: _this.props.peekNextMonth,
+                  preSelection: _this.props.preSelection,
+                  renderDayContents: _this.props.renderDayContents,
+                  selected: _this.props.selected,
+                  selectingDate: _this.state.selectingDate,
+                  selectsEnd: _this.props.selectsEnd,
+                  selectsStart: _this.props.selectsStart,
                   setOpen: _this.props.setOpen,
                   shouldCloseOnSelect: _this.props.shouldCloseOnSelect,
-                  renderDayContents: _this.props.renderDayContents,
-                  disabledKeyboardNavigation:
-                    _this.props.disabledKeyboardNavigation,
-                  showMonthYearPicker: _this.props.showMonthYearPicker
+                  showMonthYearPicker: _this.props.showMonthYearPicker,
+                  showWeekNumbers: _this.props.showWeekNumbers,
+                  startDate: _this.props.startDate
                 })
               )
             );
@@ -4023,7 +4063,8 @@ var Calendar =
             {
               className: classnames("react-datepicker", this.props.className, {
                 "react-datepicker--time-only": this.props.showTimeSelectOnly
-              })
+              }),
+              "aria-describedBy": this.props.ariaDescribedBy
             },
             this.renderPreviousButton(),
             this.renderNextButton(),
@@ -4387,10 +4428,6 @@ var DatePicker =
         "deferFocusInput",
         function() {
           _this.cancelFocusInput();
-
-          _this.inputFocusTimeout = setTimeout(function() {
-            return _this.setFocus();
-          }, 1);
         }
       );
 
@@ -4513,11 +4550,13 @@ var DatePicker =
         }
 
         if (_this.props.showTimeSelect) {
-          document
-            .querySelector(
-              ".react-datepicker__time-list-item > button:not([disabled])"
-            )
-            .focus();
+          setTimeout(function() {
+            document
+              .querySelector(
+                ".react-datepicker__time-list-item > button:not([disabled])"
+              )
+              .focus();
+          }, 100);
         }
       });
 
@@ -4662,9 +4701,11 @@ var DatePicker =
         }
       });
 
-      _defineProperty(_assertThisInitialized(_this), "onInputKeyDown", function(
+      _defineProperty(_assertThisInitialized(_this), "onKeyDown", function(
         event
       ) {
+        event.stopPropagation();
+
         _this.props.onKeyDown(event);
 
         var eventKey = event.key;
@@ -4704,6 +4745,7 @@ var DatePicker =
           _this.setOpen(false, true);
         } else if (!_this.props.disabledKeyboardNavigation) {
           var newSelection;
+          event.preventDefault();
 
           switch (eventKey) {
             case "ArrowLeft":
@@ -4750,8 +4792,6 @@ var DatePicker =
             return; // Let the input component handle this keydown
           }
 
-          event.preventDefault();
-
           _this.setState({
             lastPreSelectChange: PRESELECT_CHANGE_VIA_NAVIGATE
           });
@@ -4795,87 +4835,89 @@ var DatePicker =
           return React.createElement(
             WrappedCalendar,
             {
-              ref: function ref(elem) {
-                _this.calendar = elem;
-              },
-              locale: _this.props.locale,
               adjustDateOnChange: _this.props.adjustDateOnChange,
-              setOpen: _this.setOpen,
+              className: _this.props.calendarClassName,
               closeDialog: _this.closeDialog,
-              shouldCloseOnSelect: _this.props.shouldCloseOnSelect,
+              container: _this.props.calendarContainer,
               dateFormat: _this.props.dateFormatCalendar,
-              useWeekdaysShort: _this.props.useWeekdaysShort,
-              formatWeekDay: _this.props.formatWeekDay,
+              dayClassName: _this.props.dayClassName,
+              ariaDescribedBy: _this.props.calendarDialogAriaDescribedBy,
+              disabledKeyboardNavigation:
+                _this.props.disabledKeyboardNavigation,
               dropdownMode: _this.props.dropdownMode,
-              selected: _this.props.selected,
-              preSelection: _this.state.preSelection,
-              onSelect: _this.handleSelect,
-              onWeekSelect: _this.props.onWeekSelect,
-              openToDate: _this.props.openToDate,
-              minDate: _this.props.minDate,
-              maxDate: _this.props.maxDate,
-              selectsStart: _this.props.selectsStart,
-              selectsEnd: _this.props.selectsEnd,
-              startDate: _this.props.startDate,
               endDate: _this.props.endDate,
               excludeDates: _this.props.excludeDates,
+              excludeTimes: _this.props.excludeTimes,
               filterDate: _this.props.filterDate,
-              onClickOutside: _this.handleCalendarClickOutside,
+              fixedHeight: _this.props.fixedHeight,
+              forceShowMonthNavigation: _this.props.forceShowMonthNavigation,
+              formatWeekDay: _this.props.formatWeekDay,
               formatWeekNumber: _this.props.formatWeekNumber,
               highlightDates: _this.state.highlightDates,
               includeDates: _this.props.includeDates,
               includeTimes: _this.props.includeTimes,
               injectTimes: _this.props.injectTimes,
               inline: _this.props.inline,
+              locale: _this.props.locale,
+              maxDate: _this.props.maxDate,
+              maxTime: _this.props.maxTime,
+              minDate: _this.props.minDate,
+              minTime: _this.props.minTime,
+              monthSelectedIn: _this.state.monthSelectedIn,
+              monthsShown: _this.props.monthsShown,
+              nextMonthButtonLabel: _this.props.nextMonthButtonLabel,
+              nextYearButtonLabel: _this.props.nextYearButtonLabel,
+              onClickOutside: _this.handleCalendarClickOutside,
+              onDayMouseEnter: _this.props.onDayMouseEnter,
+              onDropdownFocus: _this.handleDropdownFocus,
+              onKeyDown: _this.onKeyDown,
+              onMonthChange: _this.props.onMonthChange,
+              onMonthMouseLeave: _this.props.onMonthMouseLeave,
+              onSelect: _this.handleSelect,
+              onTimeChange: _this.handleTimeChange,
+              onWeekSelect: _this.props.onWeekSelect,
+              onYearChange: _this.props.onYearChange,
+              openToDate: _this.props.openToDate,
+              outsideClickIgnoreClass: outsideClickIgnoreClass,
               peekNextMonth: _this.props.peekNextMonth,
-              showMonthDropdown: _this.props.showMonthDropdown,
-              useShortMonthInDropdown: _this.props.useShortMonthInDropdown,
-              showMonthYearDropdown: _this.props.showMonthYearDropdown,
-              showWeekNumbers: _this.props.showWeekNumbers,
-              showYearDropdown: _this.props.showYearDropdown,
-              withPortal: _this.props.withPortal,
-              forceShowMonthNavigation: _this.props.forceShowMonthNavigation,
-              showDisabledMonthNavigation:
-                _this.props.showDisabledMonthNavigation,
-              scrollableYearDropdown: _this.props.scrollableYearDropdown,
+              popperProps: _this.props.popperProps,
+              preSelection: _this.state.preSelection,
+              previousMonthButtonLabel: _this.props.previousMonthButtonLabel,
+              previousYearButtonLabel: _this.props.previousYearButtonLabel,
+              ref: function ref(elem) {
+                return (_this.calendar = elem);
+              },
+              renderCustomHeader: _this.props.renderCustomHeader,
+              renderDayContents: _this.props.renderDayContents,
               scrollableMonthYearDropdown:
                 _this.props.scrollableMonthYearDropdown,
-              todayButton: _this.props.todayButton,
-              weekLabel: _this.props.weekLabel,
-              outsideClickIgnoreClass: outsideClickIgnoreClass,
-              fixedHeight: _this.props.fixedHeight,
-              monthsShown: _this.props.monthsShown,
-              monthSelectedIn: _this.state.monthSelectedIn,
-              onDropdownFocus: _this.handleDropdownFocus,
-              onMonthChange: _this.props.onMonthChange,
-              onYearChange: _this.props.onYearChange,
-              dayClassName: _this.props.dayClassName,
+              scrollableYearDropdown: _this.props.scrollableYearDropdown,
+              selected: _this.props.selected,
+              selectsEnd: _this.props.selectsEnd,
+              selectsStart: _this.props.selectsStart,
+              setOpen: _this.setOpen,
+              shouldCloseOnSelect: _this.props.shouldCloseOnSelect,
+              showDisabledMonthNavigation:
+                _this.props.showDisabledMonthNavigation,
+              showMonthDropdown: _this.props.showMonthDropdown,
+              showMonthYearDropdown: _this.props.showMonthYearDropdown,
+              showMonthYearPicker: _this.props.showMonthYearPicker,
+              showTimeInput: _this.props.showTimeInput,
               showTimeSelect: _this.props.showTimeSelect,
               showTimeSelectOnly: _this.props.showTimeSelectOnly,
-              onTimeChange: _this.handleTimeChange,
-              timeFormat: _this.props.timeFormat,
-              timeIntervals: _this.props.timeIntervals,
-              minTime: _this.props.minTime,
-              maxTime: _this.props.maxTime,
-              excludeTimes: _this.props.excludeTimes,
+              showWeekNumbers: _this.props.showWeekNumbers,
+              showYearDropdown: _this.props.showYearDropdown,
+              startDate: _this.props.startDate,
               timeCaption: _this.props.timeCaption,
-              className: _this.props.calendarClassName,
-              container: _this.props.calendarContainer,
-              yearDropdownItemNumber: _this.props.yearDropdownItemNumber,
-              previousMonthButtonLabel: _this.props.previousMonthButtonLabel,
-              nextMonthButtonLabel: _this.props.nextMonthButtonLabel,
-              previousYearButtonLabel: _this.props.previousYearButtonLabel,
-              nextYearButtonLabel: _this.props.nextYearButtonLabel,
+              timeFormat: _this.props.timeFormat,
               timeInputLabel: _this.props.timeInputLabel,
-              disabledKeyboardNavigation:
-                _this.props.disabledKeyboardNavigation,
-              renderCustomHeader: _this.props.renderCustomHeader,
-              popperProps: _this.props.popperProps,
-              renderDayContents: _this.props.renderDayContents,
-              onDayMouseEnter: _this.props.onDayMouseEnter,
-              onMonthMouseLeave: _this.props.onMonthMouseLeave,
-              showTimeInput: _this.props.showTimeInput,
-              showMonthYearPicker: _this.props.showMonthYearPicker
+              timeIntervals: _this.props.timeIntervals,
+              todayButton: _this.props.todayButton,
+              useShortMonthInDropdown: _this.props.useShortMonthInDropdown,
+              useWeekdaysShort: _this.props.useWeekdaysShort,
+              weekLabel: _this.props.weekLabel,
+              withPortal: _this.props.withPortal,
+              yearDropdownItemNumber: _this.props.yearDropdownItemNumber
             },
             _this.props.children
           );
@@ -4892,18 +4934,20 @@ var DatePicker =
             _this.props.className,
             _defineProperty({}, outsideClickIgnoreClass, _this.state.open)
           );
-          var customInput =
-            _this.props.customInput ||
-            React.createElement("input", {
-              type: "text"
-            });
-          var customInputRef = _this.props.customInputRef || "ref";
+          var focused = _this.state.focused;
           var inputValue =
             typeof _this.props.value === "string"
               ? _this.props.value
               : typeof _this.state.inputValue === "string"
               ? _this.state.inputValue
               : safeDateFormat(_this.props.selected, _this.props);
+          var customInput =
+            _this.props.customInput ||
+            React.createElement("input", {
+              type: "text"
+            });
+          var customInputRef = _this.props.customInputRef || "ref"; // aria-hidden and readonly required so screenreader won't read input value on arrow keys press
+
           return React.cloneElement(
             customInput,
             ((_React$cloneElement = {}),
@@ -4912,7 +4956,29 @@ var DatePicker =
             ) {
               _this.input = input;
             }),
-            _defineProperty(_React$cloneElement, "value", inputValue),
+            _defineProperty(_React$cloneElement, "aria-hidden", "true"),
+            _defineProperty(
+              _React$cloneElement,
+              "autoComplete",
+              _this.props.autoComplete
+            ),
+            _defineProperty(
+              _React$cloneElement,
+              "autoFocus",
+              _this.props.autoFocus
+            ),
+            _defineProperty(
+              _React$cloneElement,
+              "className",
+              customInput.props.className + " " + className
+            ),
+            _defineProperty(
+              _React$cloneElement,
+              "disabled",
+              _this.props.disabled
+            ),
+            _defineProperty(_React$cloneElement, "id", _this.props.id),
+            _defineProperty(_React$cloneElement, "name", _this.props.name),
             _defineProperty(_React$cloneElement, "onBlur", _this.handleBlur),
             _defineProperty(
               _React$cloneElement,
@@ -4921,44 +4987,13 @@ var DatePicker =
             ),
             _defineProperty(_React$cloneElement, "onClick", _this.onInputClick),
             _defineProperty(_React$cloneElement, "onFocus", _this.handleFocus),
-            _defineProperty(
-              _React$cloneElement,
-              "onKeyDown",
-              _this.onInputKeyDown
-            ),
-            _defineProperty(_React$cloneElement, "id", _this.props.id),
-            _defineProperty(_React$cloneElement, "name", _this.props.name),
-            _defineProperty(
-              _React$cloneElement,
-              "autoFocus",
-              _this.props.autoFocus
-            ),
+            _defineProperty(_React$cloneElement, "onKeyDown", _this.onKeyDown),
             _defineProperty(
               _React$cloneElement,
               "placeholder",
               _this.props.placeholderText
             ),
-            _defineProperty(
-              _React$cloneElement,
-              "disabled",
-              _this.props.disabled
-            ),
-            _defineProperty(
-              _React$cloneElement,
-              "autoComplete",
-              _this.props.autoComplete
-            ),
-            _defineProperty(
-              _React$cloneElement,
-              "className",
-              customInput.props.className + " " + className
-            ),
-            _defineProperty(_React$cloneElement, "title", _this.props.title),
-            _defineProperty(
-              _React$cloneElement,
-              "readOnly",
-              _this.props.readOnly
-            ),
+            _defineProperty(_React$cloneElement, "readOnly", true),
             _defineProperty(
               _React$cloneElement,
               "required",
@@ -4969,6 +5004,8 @@ var DatePicker =
               "tabIndex",
               _this.props.tabIndex
             ),
+            _defineProperty(_React$cloneElement, "title", _this.props.title),
+            _defineProperty(_React$cloneElement, "value", inputValue),
             _React$cloneElement)
           );
         }

@@ -53,6 +53,7 @@ import longFormatters from "date-fns/_lib/format/longFormatters";
 // This RegExp catches symbols escaped by quotes, and also
 // sequences of symbols P, p, and the combinations like `PPPPPPPppppp`
 var longFormattingTokensRegExp = /P+p+|P+|p+|''|'(''|[^'])+('|$)|./g;
+export const DAY_ARIA_LABEL = "EEEE LLLL do yyyy"; // Wednesday January 1st, 2020
 
 // ** Date Constructors **
 

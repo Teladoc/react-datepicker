@@ -27,7 +27,9 @@ export default class Month extends React.Component {
     maxDate: PropTypes.instanceOf(Date),
     minDate: PropTypes.instanceOf(Date),
     onDayClick: PropTypes.func,
+    onDayFocus: PropTypes.func.isRequired,
     onDayMouseEnter: PropTypes.func,
+    onKeyDown: PropTypes.func.isRequired,
     onMouseLeave: PropTypes.func,
     onWeekSelect: PropTypes.func,
     peekNextMonth: PropTypes.bool,
@@ -99,34 +101,36 @@ export default class Month extends React.Component {
     while (true) {
       weeks.push(
         <Week
-          key={i}
           day={currentWeekStart}
-          month={utils.getMonth(this.props.day)}
-          onDayClick={this.handleDayClick}
-          onDayMouseEnter={this.handleDayMouseEnter}
-          onWeekSelect={this.props.onWeekSelect}
-          formatWeekNumber={this.props.formatWeekNumber}
-          locale={this.props.locale}
-          minDate={this.props.minDate}
-          maxDate={this.props.maxDate}
+          dayClassName={this.props.dayClassName}
+          disabledKeyboardNavigation={this.props.disabledKeyboardNavigation}
+          endDate={this.props.endDate}
           excludeDates={this.props.excludeDates}
+          filterDate={this.props.filterDate}
+          formatWeekNumber={this.props.formatWeekNumber}
+          highlightDates={this.props.highlightDates}
           includeDates={this.props.includeDates}
           inline={this.props.inline}
-          highlightDates={this.props.highlightDates}
-          selectingDate={this.props.selectingDate}
-          filterDate={this.props.filterDate}
+          key={i}
+          locale={this.props.locale}
+          maxDate={this.props.maxDate}
+          minDate={this.props.minDate}
+          month={utils.getMonth(this.props.day)}
+          onDayClick={this.handleDayClick}
+          onDayFocus={this.props.onDayFocus}
+          onDayMouseEnter={this.handleDayMouseEnter}
+          onKeyDown={this.props.onKeyDown}
+          onWeekSelect={this.props.onWeekSelect}
           preSelection={this.props.preSelection}
+          renderDayContents={this.props.renderDayContents}
           selected={this.props.selected}
-          selectsStart={this.props.selectsStart}
+          selectingDate={this.props.selectingDate}
           selectsEnd={this.props.selectsEnd}
-          showWeekNumber={this.props.showWeekNumbers}
-          startDate={this.props.startDate}
-          endDate={this.props.endDate}
-          dayClassName={this.props.dayClassName}
+          selectsStart={this.props.selectsStart}
           setOpen={this.props.setOpen}
           shouldCloseOnSelect={this.props.shouldCloseOnSelect}
-          disabledKeyboardNavigation={this.props.disabledKeyboardNavigation}
-          renderDayContents={this.props.renderDayContents}
+          showWeekNumber={this.props.showWeekNumbers}
+          startDate={this.props.startDate}
         />
       );
 
@@ -228,7 +232,6 @@ export default class Month extends React.Component {
         className={this.getClassNames()}
         onMouseLeave={this.handleMouseLeave}
         role="listbox"
-        aria-label={"month-" + utils.formatDate(this.props.day, "yyyy-MM")}
       >
         {showMonthYearPicker ? this.renderMonths() : this.renderWeeks()}
       </div>

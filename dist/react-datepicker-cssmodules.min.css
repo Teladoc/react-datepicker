@@ -448,6 +448,10 @@
 :global .react-datepicker__week {
   white-space: nowrap;
 }
+:global button.react-datepicker__day {
+  border: none;
+  padding: 0;
+}
 :global .react-datepicker__day-name,
 :global .react-datepicker__day,
 :global .react-datepicker__time-name {
