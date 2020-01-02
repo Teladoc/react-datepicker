@@ -52,7 +52,6 @@ import toDate from "date-fns/toDate";
 import parse from "date-fns/parse";
 import parseISO from "date-fns/parseISO";
 import onClickOutside from "react-onclickoutside";
-import "date-fns/esm";
 import { Popper, Manager, Reference } from "react-popper";
 
 function _typeof(obj) {
