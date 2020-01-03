@@ -17,7 +17,6 @@ import {
   getDayOfWeekCode,
   formatDate
 } from "./date_utils";
-import { isThursday } from "date-fns/esm";
 
 export default class Day extends React.Component {
   static propTypes = {
