@@ -5,7 +5,7 @@ import DatePicker, {
   registerLocale,
   CalendarContainer
 } from "react-datepicker";
-import * as DateFNS from "date-fns/esm";
+import * as DateFNS from "date-fns";
 import fi from "date-fns/locale/fi";
 import ptBR from "date-fns/locale/pt-BR";
 import enGB from "date-fns/locale/en-GB";

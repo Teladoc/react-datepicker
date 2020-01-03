@@ -52,7 +52,6 @@ import toDate from "date-fns/toDate";
 import parse from "date-fns/parse";
 import parseISO from "date-fns/parseISO";
 import onClickOutside from "react-onclickoutside";
-import "date-fns/esm";
 import { Popper, Manager, Reference } from "react-popper";
 
 function _typeof(obj) {
@@ -2220,7 +2219,8 @@ var Day =
                 return (_this2.buttonRef = r);
               },
               role: "option",
-              tabIndex: "-1"
+              tabIndex: "-1",
+              type: "button"
             },
             this.props.renderDayContents
               ? this.props.renderDayContents(
