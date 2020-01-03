@@ -109,13 +109,11 @@ describe("DatePicker", () => {
   it("should keep the calendar shown when blurring the date input", done => {
     var datePicker = TestUtils.renderIntoDocument(<DatePicker />);
     var dateInput = datePicker.input;
-    var focusSpy = sandbox.spy(dateInput, "focus");
     TestUtils.Simulate.focus(ReactDOM.findDOMNode(dateInput));
     TestUtils.Simulate.blur(ReactDOM.findDOMNode(dateInput));
 
     defer(() => {
       expect(datePicker.calendar).to.exist;
-      assert(focusSpy.calledOnce, "should refocus the date input");
       done();
     });
   });
@@ -800,18 +798,24 @@ describe("DatePicker", () => {
     );
   });
 
-  it("should autofocus the input given the autoFocus prop", () => {
+  it("should autofocus on first day given the autoFocus prop", () => {
     var div = document.createElement("div");
     document.body.appendChild(div);
     ReactDOM.render(<DatePicker autoFocus />, div);
-    expect(div.querySelector("input")).to.equal(document.activeElement);
+    console.log(document.activeElement);
+    expect(div.querySelector('[aria-selected="true"]')).to.equal(
+      document.activeElement
+    );
   });
-  it("should autofocus the input when calling the setFocus method", () => {
+
+  it("should autofocus the first day button when calling the setFocus method", () => {
     var div = document.createElement("div");
     document.body.appendChild(div);
     var datePicker = ReactDOM.render(<DatePicker />, div);
     datePicker.setFocus();
-    expect(div.querySelector("input")).to.equal(document.activeElement);
+    expect(div.querySelector('[aria-selected="true"]')).to.equal(
+      document.activeElement
+    );
   });
   it("should clear preventFocus timeout id when component is unmounted", () => {
     var div = document.createElement("div");

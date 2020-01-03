@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import classnames from "classnames";
 import {
+  DAY_ARIA_LABEL,
   getDay,
   getMonth,
   getDate,
@@ -25,8 +26,14 @@ export default class Day extends React.Component {
     endDate: PropTypes.instanceOf(Date),
     highlightDates: PropTypes.instanceOf(Map),
     inline: PropTypes.bool,
+    locale: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.shape({ locale: PropTypes.object })
+    ]),
     month: PropTypes.number,
     onClick: PropTypes.func,
+    onDayFocus: PropTypes.func.isRequired,
+    onKeyDown: PropTypes.func.isRequired,
     onMouseEnter: PropTypes.func,
     preSelection: PropTypes.instanceOf(Date),
     selected: PropTypes.object,
@@ -36,6 +43,28 @@ export default class Day extends React.Component {
     startDate: PropTypes.instanceOf(Date),
     renderDayContents: PropTypes.func
   };
+
+  constructor(props) {
+    super(props);
+    this.buttonRef = null;
+  }
+
+  componentDidMount() {
+    if (this.isKeyboardSelected()) {
+      this.buttonRef.focus({ preventScroll: true });
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { preSelection } = this.props;
+    const { preSelection: prevPreSelection } = prevProps;
+
+    if (preSelection !== prevPreSelection) {
+      if (this.isKeyboardSelected()) {
+        this.buttonRef.focus({ preventScroll: true });
+      }
+    }
+  }
 
   handleClick = event => {
     if (!this.isDisabled() && this.props.onClick) {
@@ -198,13 +227,25 @@ export default class Day extends React.Component {
   };
 
   render() {
+    const dayString = formatDate(
+      this.props.day,
+      DAY_ARIA_LABEL,
+      this.props.locale
+    );
     return (
-      <div
+      <button
+        aria-label={`Select ${dayString}`}
+        aria-selected={String(this.isKeyboardSelected())}
         className={this.getClassNames(this.props.day)}
+        key={dayString}
         onClick={this.handleClick}
+        onFocus={this.props.onDayFocus}
+        onKeyDown={this.props.onKeyDown}
         onMouseEnter={this.handleMouseEnter}
-        aria-label={`day-${getDate(this.props.day)}`}
+        ref={r => (this.buttonRef = r)}
         role="option"
+        tabIndex="-1"
+        type="button"
       >
         {this.props.renderDayContents
           ? this.props.renderDayContents(
@@ -212,7 +253,7 @@ export default class Day extends React.Component {
               this.props.day
             )
           : getDate(this.props.day)}
-      </div>
+      </button>
     );
   }
 }

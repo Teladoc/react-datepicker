@@ -204,24 +204,24 @@
   S,
   M,
   O,
-  P,
   E,
+  P,
   N,
   T,
   x,
   Y,
   I,
   L,
+  F,
   W,
   q,
-  F,
   B,
   j,
-  H,
   R,
+  H,
+  K,
   V,
   A,
-  K,
   U,
   $,
   z,
@@ -361,24 +361,24 @@
     (S = S && S.hasOwnProperty("default") ? S.default : S),
     (M = M && M.hasOwnProperty("default") ? M.default : M),
     (O = O && O.hasOwnProperty("default") ? O.default : O),
-    (P = P && P.hasOwnProperty("default") ? P.default : P),
     (E = E && E.hasOwnProperty("default") ? E.default : E),
+    (P = P && P.hasOwnProperty("default") ? P.default : P),
     (N = N && N.hasOwnProperty("default") ? N.default : N),
     (T = T && T.hasOwnProperty("default") ? T.default : T),
     (x = x && x.hasOwnProperty("default") ? x.default : x),
     (Y = Y && Y.hasOwnProperty("default") ? Y.default : Y),
     (I = I && I.hasOwnProperty("default") ? I.default : I),
     (L = L && L.hasOwnProperty("default") ? L.default : L),
+    (F = F && F.hasOwnProperty("default") ? F.default : F),
     (W = W && W.hasOwnProperty("default") ? W.default : W),
     (q = q && q.hasOwnProperty("default") ? q.default : q),
-    (F = F && F.hasOwnProperty("default") ? F.default : F),
     (B = B && B.hasOwnProperty("default") ? B.default : B),
     (j = j && j.hasOwnProperty("default") ? j.default : j),
-    (H = H && H.hasOwnProperty("default") ? H.default : H),
     (R = R && R.hasOwnProperty("default") ? R.default : R),
+    (H = H && H.hasOwnProperty("default") ? H.default : H),
+    (K = K && K.hasOwnProperty("default") ? K.default : K),
     (V = V && V.hasOwnProperty("default") ? V.default : V),
     (A = A && A.hasOwnProperty("default") ? A.default : A),
-    (K = K && K.hasOwnProperty("default") ? K.default : K),
     (U = U && U.hasOwnProperty("default") ? U.default : U),
     ($ = $ && $.hasOwnProperty("default") ? $.default : $),
     (z = z && z.hasOwnProperty("default") ? z.default : z),
@@ -490,11 +490,11 @@
       a = t.minute,
       o = void 0 === a ? 0 : a,
       s = t.second;
-    return E(P(O(e, void 0 === s ? 0 : s), o), r);
+    return P(E(O(e, void 0 === s ? 0 : s), o), r);
   }
   function _e(e, t) {
     var n = Te(t || Ne());
-    return F(e, { locale: n });
+    return q(e, { locale: n });
   }
   function be(e) {
     return B(e);
@@ -506,15 +506,15 @@
     return e && t ? U(e, t) : !e && !t;
   }
   function Oe(e, t) {
-    return e && t ? K(e, t) : !e && !t;
-  }
-  function Pe(e, t) {
     return e && t ? A(e, t) : !e && !t;
   }
-  function Ee(e, t, n) {
+  function Ee(e, t) {
+    return e && t ? V(e, t) : !e && !t;
+  }
+  function Pe(e, t, n) {
     var r,
-      a = q(t),
-      o = H(n);
+      a = W(t),
+      o = R(n);
     try {
       r = J(e, { start: a, end: o });
     } catch (e) {
@@ -563,15 +563,15 @@
       if (C(t[r]) === C(e) && k(t[r]) === k(e)) return !0;
     return !1;
   }
-  function We(e, t) {
+  function Fe(e, t) {
     var n = t.minTime,
       r = t.maxTime;
     if (!n || !r) throw Error("Both minTime and maxTime props required");
     var a,
       o = we(),
-      s = E(P(o, k(e)), C(e)),
-      i = E(P(o, k(n)), C(n)),
-      p = E(P(o, k(r)), C(r));
+      s = P(E(o, k(e)), C(e)),
+      i = P(E(o, k(n)), C(n)),
+      p = P(E(o, k(r)), C(r));
     try {
       a = !J(s, { start: i, end: p });
     } catch (e) {
@@ -579,7 +579,7 @@
     }
     return a;
   }
-  function qe(e, t) {
+  function We(e, t) {
     var n = 1 < arguments.length && void 0 !== t ? t : {},
       r = n.minDate,
       a = n.includeDates,
@@ -593,7 +593,7 @@
       !1
     );
   }
-  function Fe(e, t) {
+  function qe(e, t) {
     var n = 1 < arguments.length && void 0 !== t ? t : {},
       r = n.maxDate,
       a = n.includeDates,
@@ -629,7 +629,7 @@
     }
     return n ? Y(n) : t;
   }
-  function He(e, t) {
+  function Re(e, t) {
     for (
       var n = 0 < arguments.length && void 0 !== e ? e : [],
         r =
@@ -661,7 +661,7 @@
     }
     return a;
   }
-  function Re(e, t, n, r, a) {
+  function He(e, t, n, r, a) {
     for (var o = a.length, s = [], i = 0; i < o; i++) {
       var p = f(d(e, C(a[i])), k(a[i])),
         c = f(e, (n + 1) * r);
@@ -669,10 +669,10 @@
     }
     return s;
   }
-  function Ve(e) {
+  function Ke(e) {
     return e < 10 ? "0".concat(e) : "".concat(e);
   }
-  var Ae = ee(
+  var Ve = ee(
       (function() {
         function t(e) {
           var a;
@@ -814,7 +814,7 @@
         );
       })()
     ),
-    Ke = (function() {
+    Ae = (function() {
       function o() {
         var e, a;
         re(this, o);
@@ -876,7 +876,7 @@
             );
           }),
           se(ue(a), "renderDropdown", function() {
-            return h.createElement(Ae, {
+            return h.createElement(Ve, {
               key: "dropdown",
               ref: "options",
               year: a.props.year,
@@ -1333,19 +1333,15 @@
       );
     })(),
     Je = (function() {
-      function a() {
-        var e, i;
-        re(this, a);
-        for (var t = arguments.length, n = Array(t), r = 0; r < t; r++)
-          n[r] = arguments[r];
+      function t(e) {
+        var i;
         return (
-          se(
-            ue((i = he(this, (e = le(a)).call.apply(e, [this].concat(n))))),
-            "handleClick",
-            function(e) {
-              !i.isDisabled() && i.props.onClick && i.props.onClick(e);
-            }
-          ),
+          re(this, t),
+          se(ue((i = he(this, le(t).call(this, e)))), "handleClick", function(
+            e
+          ) {
+            !i.isDisabled() && i.props.onClick && i.props.onClick(e);
+          }),
           se(ue(i), "handleMouseEnter", function(e) {
             !i.isDisabled() && i.props.onMouseEnter && i.props.onMouseEnter(e);
           }),
@@ -1387,7 +1383,7 @@
             var e = i.props,
               t = e.startDate,
               n = e.endDate;
-            return !(!t || !n) && Ee(e.day, t, n);
+            return !(!t || !n) && Pe(e.day, t, n);
           }),
           se(ue(i), "isInSelectingRange", function() {
             var e = i.props,
@@ -1399,9 +1395,9 @@
               s = e.endDate;
             return (
               !((!n && !r) || !a || i.isDisabled()) &&
-              (n && s && (G(a, s) || Pe(a, s))
-                ? Ee(t, a, s)
-                : !(!r || !o || (!z(a, o) && !Pe(a, o))) && Ee(t, o, a))
+              (n && s && (G(a, s) || Ee(a, s))
+                ? Pe(t, a, s)
+                : !(!r || !o || (!z(a, o) && !Ee(a, o))) && Pe(t, o, a))
             );
           }),
           se(ue(i), "isSelectingRangeStart", function() {
@@ -1462,23 +1458,50 @@
               i.getHighLightedClass("react-datepicker__day--highlighted")
             );
           }),
+          (i.buttonRef = null),
           i
         );
       }
       return (
-        ce(a, h.Component),
-        oe(a, [
+        ce(t, h.Component),
+        oe(t, [
+          {
+            key: "componentDidMount",
+            value: function() {
+              this.isKeyboardSelected() &&
+                this.buttonRef.focus({ preventScroll: !0 });
+            }
+          },
+          {
+            key: "componentDidUpdate",
+            value: function(e) {
+              this.props.preSelection !== e.preSelection &&
+                this.isKeyboardSelected() &&
+                this.buttonRef.focus({ preventScroll: !0 });
+            }
+          },
           {
             key: "render",
             value: function() {
+              var t = this,
+                e = ke(this.props.day, "EEEE LLLL do yyyy", this.props.locale);
               return h.createElement(
-                "div",
+                "button",
                 {
+                  "aria-label": "Select ".concat(e),
+                  "aria-selected": this.isKeyboardSelected() + "",
                   className: this.getClassNames(this.props.day),
+                  key: e,
                   onClick: this.handleClick,
+                  onFocus: this.props.onDayFocus,
+                  onKeyDown: this.props.onKeyDown,
                   onMouseEnter: this.handleMouseEnter,
-                  "aria-label": "day-".concat(_(this.props.day)),
-                  role: "option"
+                  ref: function(e) {
+                    return (t.buttonRef = e);
+                  },
+                  role: "option",
+                  tabIndex: "-1",
+                  type: "button"
                 },
                 this.props.renderDayContents
                   ? this.props.renderDayContents(
@@ -1490,7 +1513,7 @@
             }
           }
         ]),
-        a
+        t
       );
     })(),
     Qe = (function() {
@@ -1524,7 +1547,6 @@
                     "react-datepicker__week-number--clickable": !!this.props
                       .onClick
                   }),
-                  "aria-label": "week-".concat(this.props.weekNumber),
                   onClick: this.handleClick
                 },
                 this.props.weekNumber
@@ -1561,7 +1583,7 @@
             return a.props.formatWeekNumber
               ? a.props.formatWeekNumber(e)
               : (function(e) {
-                  return Se(R(e), e) ? W(e, j(e)) + 1 : 1;
+                  return Se(H(e), e) ? F(e, j(e)) + 1 : 1;
                 })(e);
           }),
           se(ue(a), "renderDays", function() {
@@ -1580,28 +1602,32 @@
               [0, 1, 2, 3, 4, 5, 6].map(function(e) {
                 var t = c(n, e);
                 return h.createElement(Je, {
-                  key: e,
                   day: t,
-                  month: a.props.month,
-                  onClick: a.handleDayClick.bind(ue(a), t),
-                  onMouseEnter: a.handleDayMouseEnter.bind(ue(a), t),
-                  minDate: a.props.minDate,
-                  maxDate: a.props.maxDate,
+                  dayClassName: a.props.dayClassName,
+                  disabledKeyboardNavigation:
+                    a.props.disabledKeyboardNavigation,
+                  endDate: a.props.endDate,
                   excludeDates: a.props.excludeDates,
+                  filterDate: a.props.filterDate,
+                  highlightDates: a.props.highlightDates,
                   includeDates: a.props.includeDates,
                   inline: a.props.inline,
-                  highlightDates: a.props.highlightDates,
-                  selectingDate: a.props.selectingDate,
-                  filterDate: a.props.filterDate,
+                  key: e,
+                  locale: a.props.locale,
+                  maxDate: a.props.maxDate,
+                  minDate: a.props.minDate,
+                  month: a.props.month,
+                  onClick: a.handleDayClick.bind(ue(a), t),
+                  onDayFocus: a.props.onDayFocus,
+                  onKeyDown: a.props.onKeyDown,
+                  onMouseEnter: a.handleDayMouseEnter.bind(ue(a), t),
                   preSelection: a.props.preSelection,
-                  selected: a.props.selected,
-                  selectsStart: a.props.selectsStart,
-                  selectsEnd: a.props.selectsEnd,
-                  startDate: a.props.startDate,
-                  endDate: a.props.endDate,
-                  dayClassName: a.props.dayClassName,
                   renderDayContents: a.props.renderDayContents,
-                  disabledKeyboardNavigation: a.props.disabledKeyboardNavigation
+                  selected: a.props.selected,
+                  selectingDate: a.props.selectingDate,
+                  selectsEnd: a.props.selectsEnd,
+                  selectsStart: a.props.selectsStart,
+                  startDate: a.props.startDate
                 });
               })
             );
@@ -1682,35 +1708,37 @@
                 a = !1;
               e.push(
                 h.createElement(Xe, {
-                  key: r,
                   day: n,
-                  month: b(p.props.day),
-                  onDayClick: p.handleDayClick,
-                  onDayMouseEnter: p.handleDayMouseEnter,
-                  onWeekSelect: p.props.onWeekSelect,
-                  formatWeekNumber: p.props.formatWeekNumber,
-                  locale: p.props.locale,
-                  minDate: p.props.minDate,
-                  maxDate: p.props.maxDate,
-                  excludeDates: p.props.excludeDates,
-                  includeDates: p.props.includeDates,
-                  inline: p.props.inline,
-                  highlightDates: p.props.highlightDates,
-                  selectingDate: p.props.selectingDate,
-                  filterDate: p.props.filterDate,
-                  preSelection: p.props.preSelection,
-                  selected: p.props.selected,
-                  selectsStart: p.props.selectsStart,
-                  selectsEnd: p.props.selectsEnd,
-                  showWeekNumber: p.props.showWeekNumbers,
-                  startDate: p.props.startDate,
-                  endDate: p.props.endDate,
                   dayClassName: p.props.dayClassName,
-                  setOpen: p.props.setOpen,
-                  shouldCloseOnSelect: p.props.shouldCloseOnSelect,
                   disabledKeyboardNavigation:
                     p.props.disabledKeyboardNavigation,
-                  renderDayContents: p.props.renderDayContents
+                  endDate: p.props.endDate,
+                  excludeDates: p.props.excludeDates,
+                  filterDate: p.props.filterDate,
+                  formatWeekNumber: p.props.formatWeekNumber,
+                  highlightDates: p.props.highlightDates,
+                  includeDates: p.props.includeDates,
+                  inline: p.props.inline,
+                  key: r,
+                  locale: p.props.locale,
+                  maxDate: p.props.maxDate,
+                  minDate: p.props.minDate,
+                  month: b(p.props.day),
+                  onDayClick: p.handleDayClick,
+                  onDayFocus: p.props.onDayFocus,
+                  onDayMouseEnter: p.handleDayMouseEnter,
+                  onKeyDown: p.props.onKeyDown,
+                  onWeekSelect: p.props.onWeekSelect,
+                  preSelection: p.props.preSelection,
+                  renderDayContents: p.props.renderDayContents,
+                  selected: p.props.selected,
+                  selectingDate: p.props.selectingDate,
+                  selectsEnd: p.props.selectsEnd,
+                  selectsStart: p.props.selectsStart,
+                  setOpen: p.props.setOpen,
+                  shouldCloseOnSelect: p.props.shouldCloseOnSelect,
+                  showWeekNumber: p.props.showWeekNumbers,
+                  startDate: p.props.startDate
                 })
               ),
                 !a;
@@ -1833,8 +1861,7 @@
                 {
                   className: this.getClassNames(),
                   onMouseLeave: this.handleMouseLeave,
-                  role: "listbox",
-                  "aria-label": "month-" + ke(this.props.day, "yyyy-MM")
+                  role: "listbox"
                 },
                 e ? this.renderMonths() : this.renderWeeks()
               );
@@ -1857,14 +1884,14 @@
             { height: null }
           ),
           se(ue(u), "handleClick", function(e) {
-            ((u.props.minTime || u.props.maxTime) && We(e, u.props)) ||
+            ((u.props.minTime || u.props.maxTime) && Fe(e, u.props)) ||
               (u.props.excludeTimes && Le(e, u.props.excludeTimes)) ||
               (u.props.includeTimes && !Le(e, u.props.includeTimes)) ||
               u.props.onChange(e);
           }),
           se(ue(u), "isDisabledTime", function(e) {
             return (
-              ((u.props.minTime || u.props.maxTime) && We(e, u.props)) ||
+              ((u.props.minTime || u.props.maxTime) && Fe(e, u.props)) ||
               (u.props.excludeTimes && Le(e, u.props.excludeTimes)) ||
               (u.props.includeTimes && !Le(e, u.props.includeTimes))
             );
@@ -1893,7 +1920,7 @@
               a = C(r),
               o = k(r),
               s = (function(e) {
-                return q(e);
+                return W(e);
               })(we()),
               i = 1440 / t,
               p =
@@ -1905,7 +1932,7 @@
               for (var c = 0; c < i; c++) {
                 var l = f(s, c * t);
                 if ((e.push(l), p)) {
-                  var d = Re(s, l, c, t, p);
+                  var d = He(s, l, c, t, p);
                   e = e.concat(d);
                 }
               }
@@ -2126,18 +2153,24 @@
     );
   })();
   function nt(e) {
-    var t = e.children,
-      n = e.arrowProps;
+    var t = e.children;
     return h.createElement(
       "div",
-      { className: e.className },
+      {
+        className: e.className,
+        "aria-label": "Date picker",
+        "aria-describedBy": e["aria-describedBy"],
+        role: "dialog",
+        "aria-modal": "true"
+      },
       h.createElement(
         "div",
-        ie({ className: "react-datepicker__triangle" }, void 0 === n ? {} : n)
+        ie({ className: "react-datepicker__triangle" }, e.arrowProps)
       ),
       t
     );
   }
+  nt.defaultProps = { arrowProps: {}, className: "" };
   var rt = [
       "react-datepicker__year-select",
       "react-datepicker__month-select",
@@ -2272,7 +2305,11 @@
                     n = p.formatWeekday(t, p.props.locale);
                   return h.createElement(
                     "div",
-                    { key: e, className: "react-datepicker__day-name" },
+                    {
+                      key: e,
+                      "aria-hidden": "true",
+                      className: "react-datepicker__day-name"
+                    },
                     n
                   );
                 })
@@ -2304,7 +2341,7 @@
           }),
           se(ue(p), "renderPreviousButton", function() {
             if (!p.props.renderCustomHeader) {
-              var e = qe(p.state.date, p.props);
+              var e = We(p.state.date, p.props);
               if (
                 (p.props.forceShowMonthNavigation ||
                   p.props.showDisabledMonthNavigation ||
@@ -2322,13 +2359,14 @@
                     p.props.showDisabledMonthNavigation &&
                     (t.push("react-datepicker__navigation--previous--disabled"),
                     (n = null)),
-                  h.createElement(
-                    "button",
-                    { type: "button", className: t.join(" "), onClick: n },
-                    p.props.showMonthYearPicker
+                  h.createElement("button", {
+                    "aria-label": p.props.showMonthYearPicker
                       ? p.props.previousYearButtonLabel
-                      : p.props.previousMonthButtonLabel
-                  )
+                      : p.props.previousMonthButtonLabel,
+                    type: "button",
+                    className: t.join(" "),
+                    onClick: n
+                  })
                 );
               }
             }
@@ -2345,7 +2383,7 @@
           }),
           se(ue(p), "renderNextButton", function() {
             if (!p.props.renderCustomHeader) {
-              var e = Fe(p.state.date, p.props);
+              var e = qe(p.state.date, p.props);
               if (
                 (p.props.forceShowMonthNavigation ||
                   p.props.showDisabledMonthNavigation ||
@@ -2369,13 +2407,14 @@
                     p.props.showDisabledMonthNavigation &&
                     (t.push("react-datepicker__navigation--next--disabled"),
                     (n = null)),
-                  h.createElement(
-                    "button",
-                    { type: "button", className: t.join(" "), onClick: n },
-                    p.props.showMonthYearPicker
+                  h.createElement("button", {
+                    "aria-label": p.props.showMonthYearPicker
                       ? p.props.nextYearButtonLabel
-                      : p.props.nextMonthButtonLabel
-                  )
+                      : p.props.nextMonthButtonLabel,
+                    type: "button",
+                    className: t.join(" "),
+                    onClick: n
+                  })
                 );
               }
             }
@@ -2405,7 +2444,7 @@
               p.props.showYearDropdown &&
               !(0 < arguments.length && void 0 !== arguments[0] && arguments[0])
             )
-              return h.createElement(Ke, {
+              return h.createElement(Ae, {
                 adjustDateOnChange: p.props.adjustDateOnChange,
                 date: p.state.date,
                 onSelect: p.props.onSelect,
@@ -2455,7 +2494,7 @@
                 {
                   className: "react-datepicker__today-button",
                   onClick: function(e) {
-                    return p.props.onSelect(q(we()), e);
+                    return p.props.onSelect(W(we()), e);
                   }
                 },
                 p.props.todayButton
@@ -2490,8 +2529,8 @@
           se(ue(p), "renderCustomHeader", function(e) {
             var t = e.monthDate;
             if (0 !== e.i) return null;
-            var n = qe(p.state.date, p.props),
-              r = Fe(p.state.date, p.props);
+            var n = We(p.state.date, p.props),
+              r = qe(p.state.date, p.props);
             return h.createElement(
               "div",
               {
@@ -2567,39 +2606,41 @@
                       ? p.renderCustomHeader({ monthDate: n, i: t })
                       : p.renderDefaultHeader({ monthDate: n, i: t }),
                     h.createElement(Ze, {
-                      onChange: p.changeMonthYear,
                       day: n,
                       dayClassName: p.props.dayClassName,
+                      disabledKeyboardNavigation:
+                        p.props.disabledKeyboardNavigation,
+                      endDate: p.props.endDate,
+                      excludeDates: p.props.excludeDates,
+                      filterDate: p.props.filterDate,
+                      fixedHeight: p.props.fixedHeight,
+                      formatWeekNumber: p.props.formatWeekNumber,
+                      highlightDates: p.props.highlightDates,
+                      includeDates: p.props.includeDates,
+                      inline: p.props.inline,
+                      locale: p.props.locale,
+                      maxDate: p.props.maxDate,
+                      minDate: p.props.minDate,
+                      onChange: p.changeMonthYear,
                       onDayClick: p.handleDayClick,
+                      onDayFocus: p.props.onDropdownFocus,
                       onDayMouseEnter: p.handleDayMouseEnter,
+                      onKeyDown: p.props.onKeyDown,
                       onMouseLeave: p.handleMonthMouseLeave,
                       onWeekSelect: p.props.onWeekSelect,
                       orderInDisplay: t,
-                      formatWeekNumber: p.props.formatWeekNumber,
-                      locale: p.props.locale,
-                      minDate: p.props.minDate,
-                      maxDate: p.props.maxDate,
-                      excludeDates: p.props.excludeDates,
-                      highlightDates: p.props.highlightDates,
-                      selectingDate: p.state.selectingDate,
-                      includeDates: p.props.includeDates,
-                      inline: p.props.inline,
-                      fixedHeight: p.props.fixedHeight,
-                      filterDate: p.props.filterDate,
-                      preSelection: p.props.preSelection,
-                      selected: p.props.selected,
-                      selectsStart: p.props.selectsStart,
-                      selectsEnd: p.props.selectsEnd,
-                      showWeekNumbers: p.props.showWeekNumbers,
-                      startDate: p.props.startDate,
-                      endDate: p.props.endDate,
                       peekNextMonth: p.props.peekNextMonth,
+                      preSelection: p.props.preSelection,
+                      renderDayContents: p.props.renderDayContents,
+                      selected: p.props.selected,
+                      selectingDate: p.state.selectingDate,
+                      selectsEnd: p.props.selectsEnd,
+                      selectsStart: p.props.selectsStart,
                       setOpen: p.props.setOpen,
                       shouldCloseOnSelect: p.props.shouldCloseOnSelect,
-                      renderDayContents: p.props.renderDayContents,
-                      disabledKeyboardNavigation:
-                        p.props.disabledKeyboardNavigation,
-                      showMonthYearPicker: p.props.showMonthYearPicker
+                      showMonthYearPicker: p.props.showMonthYearPicker,
+                      showWeekNumbers: p.props.showWeekNumbers,
+                      startDate: p.props.startDate
                     })
                   )
                 );
@@ -2636,7 +2677,7 @@
           }),
           se(ue(p), "renderInputTimeSection", function() {
             var e = new Date(p.props.selected),
-              t = "".concat(Ve(e.getHours()), ":").concat(Ve(e.getMinutes()));
+              t = "".concat(Ke(e.getHours()), ":").concat(Ke(e.getMinutes()));
             if (p.props.showTimeInput)
               return h.createElement(tt, {
                 timeString: t,
@@ -2702,7 +2743,8 @@
                 {
                   className: l("react-datepicker", this.props.className, {
                     "react-datepicker--time-only": this.props.showTimeSelectOnly
-                  })
+                  }),
+                  "aria-describedBy": this.props.ariaDescribedBy
                 },
                 this.renderPreviousButton(),
                 this.renderNextButton(),
@@ -2827,7 +2869,7 @@
               open: s.props.startOpen || !1,
               preventFocus: !1,
               preSelection: s.props.selected ? s.props.selected : r,
-              highlightDates: He(s.props.highlightDates),
+              highlightDates: Re(s.props.highlightDates),
               focused: !1
             };
           }),
@@ -2883,10 +2925,7 @@
             clearTimeout(s.inputFocusTimeout), (s.inputFocusTimeout = null);
           }),
           se(ue(s), "deferFocusInput", function() {
-            s.cancelFocusInput(),
-              (s.inputFocusTimeout = setTimeout(function() {
-                return s.setFocus();
-              }, 1));
+            s.cancelFocusInput();
           }),
           se(ue(s), "handleDropdownFocus", function() {
             s.cancelFocusInput();
@@ -2975,16 +3014,18 @@
                 ? s.setPreSelection(e)
                 : s.props.inline || s.setOpen(!1),
               s.props.showTimeSelect &&
-                document
-                  .querySelector(
-                    ".react-datepicker__time-list-item > button:not([disabled])"
-                  )
-                  .focus();
+                setTimeout(function() {
+                  document
+                    .querySelector(
+                      ".react-datepicker__time-list-item > button:not([disabled])"
+                    )
+                    .focus();
+                }, 100);
           }),
           se(ue(s), "setSelected", function(e, t, n, r) {
             var a = e;
             if (null === a || !Ye(a, s.props)) {
-              if (!Pe(s.props.selected, a) || s.props.allowSameDay) {
+              if (!Ee(s.props.selected, a) || s.props.allowSameDay) {
                 if (null !== a) {
                   if (s.props.selected) {
                     var o = s.props.selected;
@@ -3008,7 +3049,7 @@
               r = !0;
             e &&
               (t && n
-                ? (r = Ee(e, s.props.minDate, s.props.maxDate))
+                ? (r = Pe(e, s.props.minDate, s.props.maxDate))
                 : t
                 ? (r = z(e, s.props.minDate))
                 : n && (r = G(e, s.props.maxDate))),
@@ -3034,8 +3075,8 @@
             s.setOpen(!1),
               s.inputOk() || s.props.onInputError({ code: 1, msg: pt });
           }),
-          se(ue(s), "onInputKeyDown", function(e) {
-            s.props.onKeyDown(e);
+          se(ue(s), "onKeyDown", function(e) {
+            e.stopPropagation(), s.props.onKeyDown(e);
             var t = e.key;
             if (s.state.open || s.props.inline || s.props.preventOpenOnFocus) {
               var n = we(s.state.preSelection);
@@ -3049,7 +3090,7 @@
               else if ("Tab" === t) s.setOpen(!1, !0);
               else if (!s.props.disabledKeyboardNavigation) {
                 var r;
-                switch (t) {
+                switch ((e.preventDefault(), t)) {
                   case "ArrowLeft":
                     r = p(n, 1);
                     break;
@@ -3079,8 +3120,7 @@
                     s.props.onInputError &&
                     s.props.onInputError({ code: 1, msg: pt })
                   );
-                e.preventDefault(),
-                  s.setState({ lastPreSelectChange: dt }),
+                s.setState({ lastPreSelectChange: dt }),
                   s.props.adjustDateOnChange && s.setSelected(r),
                   s.setPreSelection(r);
               }
@@ -3099,87 +3139,89 @@
               ? h.createElement(
                   it,
                   {
-                    ref: function(e) {
-                      s.calendar = e;
-                    },
-                    locale: s.props.locale,
                     adjustDateOnChange: s.props.adjustDateOnChange,
-                    setOpen: s.setOpen,
+                    className: s.props.calendarClassName,
                     closeDialog: s.closeDialog,
-                    shouldCloseOnSelect: s.props.shouldCloseOnSelect,
+                    container: s.props.calendarContainer,
                     dateFormat: s.props.dateFormatCalendar,
-                    useWeekdaysShort: s.props.useWeekdaysShort,
-                    formatWeekDay: s.props.formatWeekDay,
+                    dayClassName: s.props.dayClassName,
+                    ariaDescribedBy: s.props.calendarDialogAriaDescribedBy,
+                    disabledKeyboardNavigation:
+                      s.props.disabledKeyboardNavigation,
                     dropdownMode: s.props.dropdownMode,
-                    selected: s.props.selected,
-                    preSelection: s.state.preSelection,
-                    onSelect: s.handleSelect,
-                    onWeekSelect: s.props.onWeekSelect,
-                    openToDate: s.props.openToDate,
-                    minDate: s.props.minDate,
-                    maxDate: s.props.maxDate,
-                    selectsStart: s.props.selectsStart,
-                    selectsEnd: s.props.selectsEnd,
-                    startDate: s.props.startDate,
                     endDate: s.props.endDate,
                     excludeDates: s.props.excludeDates,
+                    excludeTimes: s.props.excludeTimes,
                     filterDate: s.props.filterDate,
-                    onClickOutside: s.handleCalendarClickOutside,
+                    fixedHeight: s.props.fixedHeight,
+                    forceShowMonthNavigation: s.props.forceShowMonthNavigation,
+                    formatWeekDay: s.props.formatWeekDay,
                     formatWeekNumber: s.props.formatWeekNumber,
                     highlightDates: s.state.highlightDates,
                     includeDates: s.props.includeDates,
                     includeTimes: s.props.includeTimes,
                     injectTimes: s.props.injectTimes,
                     inline: s.props.inline,
+                    locale: s.props.locale,
+                    maxDate: s.props.maxDate,
+                    maxTime: s.props.maxTime,
+                    minDate: s.props.minDate,
+                    minTime: s.props.minTime,
+                    monthSelectedIn: s.state.monthSelectedIn,
+                    monthsShown: s.props.monthsShown,
+                    nextMonthButtonLabel: s.props.nextMonthButtonLabel,
+                    nextYearButtonLabel: s.props.nextYearButtonLabel,
+                    onClickOutside: s.handleCalendarClickOutside,
+                    onDayMouseEnter: s.props.onDayMouseEnter,
+                    onDropdownFocus: s.handleDropdownFocus,
+                    onKeyDown: s.onKeyDown,
+                    onMonthChange: s.props.onMonthChange,
+                    onMonthMouseLeave: s.props.onMonthMouseLeave,
+                    onSelect: s.handleSelect,
+                    onTimeChange: s.handleTimeChange,
+                    onWeekSelect: s.props.onWeekSelect,
+                    onYearChange: s.props.onYearChange,
+                    openToDate: s.props.openToDate,
+                    outsideClickIgnoreClass: st,
                     peekNextMonth: s.props.peekNextMonth,
-                    showMonthDropdown: s.props.showMonthDropdown,
-                    useShortMonthInDropdown: s.props.useShortMonthInDropdown,
-                    showMonthYearDropdown: s.props.showMonthYearDropdown,
-                    showWeekNumbers: s.props.showWeekNumbers,
-                    showYearDropdown: s.props.showYearDropdown,
-                    withPortal: s.props.withPortal,
-                    forceShowMonthNavigation: s.props.forceShowMonthNavigation,
-                    showDisabledMonthNavigation:
-                      s.props.showDisabledMonthNavigation,
-                    scrollableYearDropdown: s.props.scrollableYearDropdown,
+                    popperProps: s.props.popperProps,
+                    preSelection: s.state.preSelection,
+                    previousMonthButtonLabel: s.props.previousMonthButtonLabel,
+                    previousYearButtonLabel: s.props.previousYearButtonLabel,
+                    ref: function(e) {
+                      return (s.calendar = e);
+                    },
+                    renderCustomHeader: s.props.renderCustomHeader,
+                    renderDayContents: s.props.renderDayContents,
                     scrollableMonthYearDropdown:
                       s.props.scrollableMonthYearDropdown,
-                    todayButton: s.props.todayButton,
-                    weekLabel: s.props.weekLabel,
-                    outsideClickIgnoreClass: st,
-                    fixedHeight: s.props.fixedHeight,
-                    monthsShown: s.props.monthsShown,
-                    monthSelectedIn: s.state.monthSelectedIn,
-                    onDropdownFocus: s.handleDropdownFocus,
-                    onMonthChange: s.props.onMonthChange,
-                    onYearChange: s.props.onYearChange,
-                    dayClassName: s.props.dayClassName,
+                    scrollableYearDropdown: s.props.scrollableYearDropdown,
+                    selected: s.props.selected,
+                    selectsEnd: s.props.selectsEnd,
+                    selectsStart: s.props.selectsStart,
+                    setOpen: s.setOpen,
+                    shouldCloseOnSelect: s.props.shouldCloseOnSelect,
+                    showDisabledMonthNavigation:
+                      s.props.showDisabledMonthNavigation,
+                    showMonthDropdown: s.props.showMonthDropdown,
+                    showMonthYearDropdown: s.props.showMonthYearDropdown,
+                    showMonthYearPicker: s.props.showMonthYearPicker,
+                    showTimeInput: s.props.showTimeInput,
                     showTimeSelect: s.props.showTimeSelect,
                     showTimeSelectOnly: s.props.showTimeSelectOnly,
-                    onTimeChange: s.handleTimeChange,
-                    timeFormat: s.props.timeFormat,
-                    timeIntervals: s.props.timeIntervals,
-                    minTime: s.props.minTime,
-                    maxTime: s.props.maxTime,
-                    excludeTimes: s.props.excludeTimes,
+                    showWeekNumbers: s.props.showWeekNumbers,
+                    showYearDropdown: s.props.showYearDropdown,
+                    startDate: s.props.startDate,
                     timeCaption: s.props.timeCaption,
-                    className: s.props.calendarClassName,
-                    container: s.props.calendarContainer,
-                    yearDropdownItemNumber: s.props.yearDropdownItemNumber,
-                    previousMonthButtonLabel: s.props.previousMonthButtonLabel,
-                    nextMonthButtonLabel: s.props.nextMonthButtonLabel,
-                    previousYearButtonLabel: s.props.previousYearButtonLabel,
-                    nextYearButtonLabel: s.props.nextYearButtonLabel,
+                    timeFormat: s.props.timeFormat,
                     timeInputLabel: s.props.timeInputLabel,
-                    disabledKeyboardNavigation:
-                      s.props.disabledKeyboardNavigation,
-                    renderCustomHeader: s.props.renderCustomHeader,
-                    popperProps: s.props.popperProps,
-                    renderDayContents: s.props.renderDayContents,
-                    onDayMouseEnter: s.props.onDayMouseEnter,
-                    onMonthMouseLeave: s.props.onMonthMouseLeave,
-                    showTimeInput: s.props.showTimeInput,
-                    showMonthYearPicker: s.props.showMonthYearPicker
+                    timeIntervals: s.props.timeIntervals,
+                    todayButton: s.props.todayButton,
+                    useShortMonthInDropdown: s.props.useShortMonthInDropdown,
+                    useWeekdaysShort: s.props.useWeekdaysShort,
+                    weekLabel: s.props.weekLabel,
+                    withPortal: s.props.withPortal,
+                    yearDropdownItemNumber: s.props.yearDropdownItemNumber
                   },
                   s.props.children
                 )
@@ -3189,10 +3231,6 @@
             var e,
               t = l(s.props.className, se({}, st, s.state.open)),
               n =
-                s.props.customInput ||
-                h.createElement("input", { type: "text" }),
-              r = s.props.customInputRef || "ref",
-              a =
                 "string" == typeof s.props.value
                   ? s.props.value
                   : "string" == typeof s.state.inputValue
@@ -3201,29 +3239,33 @@
                       var n = t.dateFormat,
                         r = t.locale;
                       return (e && ke(e, Array.isArray(n) ? n[0] : n, r)) || "";
-                    })(s.props.selected, s.props);
+                    })(s.props.selected, s.props),
+              r =
+                s.props.customInput ||
+                h.createElement("input", { type: "text" });
             return h.cloneElement(
-              n,
-              (se((e = {}), r, function(e) {
+              r,
+              (se((e = {}), s.props.customInputRef || "ref", function(e) {
                 s.input = e;
               }),
-              se(e, "value", a),
+              se(e, "aria-hidden", "true"),
+              se(e, "autoComplete", s.props.autoComplete),
+              se(e, "autoFocus", s.props.autoFocus),
+              se(e, "className", r.props.className + " " + t),
+              se(e, "disabled", s.props.disabled),
+              se(e, "id", s.props.id),
+              se(e, "name", s.props.name),
               se(e, "onBlur", s.handleBlur),
               se(e, "onChange", s.handleChange),
               se(e, "onClick", s.onInputClick),
               se(e, "onFocus", s.handleFocus),
-              se(e, "onKeyDown", s.onInputKeyDown),
-              se(e, "id", s.props.id),
-              se(e, "name", s.props.name),
-              se(e, "autoFocus", s.props.autoFocus),
+              se(e, "onKeyDown", s.onKeyDown),
               se(e, "placeholder", s.props.placeholderText),
-              se(e, "disabled", s.props.disabled),
-              se(e, "autoComplete", s.props.autoComplete),
-              se(e, "className", n.props.className + " " + t),
-              se(e, "title", s.props.title),
-              se(e, "readOnly", s.props.readOnly),
+              se(e, "readOnly", !0),
               se(e, "required", s.props.required),
               se(e, "tabIndex", s.props.tabIndex),
+              se(e, "title", s.props.title),
+              se(e, "value", n),
               e)
             );
           }),
@@ -3303,10 +3345,10 @@
                   this.setState({ monthSelectedIn: 0 }),
                 e.highlightDates !== this.props.highlightDates &&
                   this.setState({
-                    highlightDates: He(this.props.highlightDates)
+                    highlightDates: Re(this.props.highlightDates)
                   }),
                 t.focused ||
-                  Pe(e.selected, this.props.selected) ||
+                  Ee(e.selected, this.props.selected) ||
                   this.setState({ inputValue: null });
             }
           },

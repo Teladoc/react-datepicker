@@ -24,11 +24,7 @@ export default class WeekNumber extends React.Component<{
       "react-datepicker__week-number--clickable": !!this.props.onClick
     };
     return (
-      <div
-        className={classnames(weekNumberClasses)}
-        aria-label={`week-${this.props.weekNumber}`}
-        onClick={this.handleClick}
-      >
+      <div className={classnames(weekNumberClasses)} onClick={this.handleClick}>
         {this.props.weekNumber}
       </div>
     );
