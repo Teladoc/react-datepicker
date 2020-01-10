@@ -99,7 +99,8 @@ export default class DatePicker extends React.Component {
     monthsShown: PropTypes.number,
     name: PropTypes.string,
     onBlur: PropTypes.func,
-    onChange: PropTypes.func.isRequired,
+    onChange: PropTypes.func,
+    onTimeChange: PropTypes.func,
     onSelect: PropTypes.func,
     onWeekSelect: PropTypes.func,
     onClickOutside: PropTypes.func,
@@ -513,6 +514,9 @@ export default class DatePicker extends React.Component {
     });
 
     this.props.onChange(changedDate);
+    if (this.props.onTimeChange) {
+      this.props.onTimeChange(changedDate);
+    }
     if (this.props.shouldCloseOnSelect) {
       this.setOpen(false);
     }

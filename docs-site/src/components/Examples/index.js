@@ -10,6 +10,7 @@ import ShowTimeOnly from "../../examples/showTimeOnly";
 import ExcludeTimes from "../../examples/excludeTimes";
 import IncludeTimes from "../../examples/includeTimes";
 import InjectTimes from "../../examples/injectTimes";
+import SpecificTimes from "../../examples/specificTimes";
 import ExcludeTimePeriod from "../../examples/excludeTimePeriod";
 import CustomDateFormat from "../../examples/customDateFormat";
 import CustomClassName from "../../examples/customClassName";
@@ -95,6 +96,10 @@ export default class exampleComponents extends React.Component {
     {
       title: "Inject Specific Times",
       component: InjectTimes
+    },
+    {
+      title: "Specific Times only",
+      component: SpecificTimes
     },
     {
       title: "Specific Time Range",

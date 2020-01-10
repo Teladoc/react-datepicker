@@ -93,4 +93,27 @@ describe("TimeComponent", () => {
       "12:03 AM"
     ]);
   });
+
+  it("should not require intervals", () => {
+    const today = utils.getStartOfDay(utils.newDate());
+    const timeComponent = mount(
+      <TimeComponent
+        intervals={null}
+        injectTimes={[
+          utils.addMinutes(today, 3),
+          utils.addMinutes(today, 1),
+          utils.addMinutes(today, 2)
+        ]}
+      />
+    );
+
+    const injectedItems = timeComponent.find(
+      ".react-datepicker__time-list-item"
+    );
+    expect(injectedItems.map(node => node.text())).eql([
+      "12:01 AM",
+      "12:02 AM",
+      "12:03 AM"
+    ]);
+  });
 });

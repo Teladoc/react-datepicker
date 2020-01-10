@@ -1905,39 +1905,38 @@
                 r.push("react-datepicker__time-list-item--selected"),
               u.isDisabledTime(e) &&
                 r.push("react-datepicker__time-list-item--disabled"),
-              u.props.injectTimes &&
-                (60 * C(e) + k(e)) % u.props.intervals != 0 &&
+              (!u.props.intervals ||
+                (u.props.injectTimes &&
+                  (60 * C(e) + k(e)) % u.props.intervals != 0)) &&
                 r.push("react-datepicker__time-list-item--injected"),
               r.join(" ")
             );
           }),
           se(ue(u), "renderTimes", function() {
-            for (
-              var e = [],
-                n = u.props.format ? u.props.format : "p",
-                t = u.props.intervals,
-                r = u.props.selected || u.props.openToDate || we(),
-                a = C(r),
-                o = k(r),
-                s = (function(e) {
-                  return W(e);
-                })(we()),
-                i = 1440 / t,
-                p =
-                  u.props.injectTimes &&
-                  u.props.injectTimes.sort(function(e, t) {
-                    return e - t;
-                  }),
-                c = 0;
-              c < i;
-              c++
-            ) {
-              var l = f(s, c * t);
-              if ((e.push(l), p)) {
-                var d = He(s, l, c, t, p);
-                e = e.concat(d);
+            var e = [],
+              n = u.props.format ? u.props.format : "p",
+              t = u.props.intervals,
+              r = u.props.selected || u.props.openToDate || we(),
+              a = C(r),
+              o = k(r),
+              s = (function(e) {
+                return W(e);
+              })(we()),
+              i = 1440 / t,
+              p =
+                u.props.injectTimes &&
+                u.props.injectTimes.sort(function(e, t) {
+                  return e - t;
+                });
+            if (t)
+              for (var c = 0; c < i; c++) {
+                var l = f(s, c * t);
+                if ((e.push(l), p)) {
+                  var d = He(s, l, c, t, p);
+                  e = e.concat(d);
+                }
               }
-            }
+            else e = p;
             return e.map(function(t, e) {
               return h.createElement(
                 "li",
@@ -2002,13 +2001,14 @@
             {
               key: "componentDidMount",
               value: function() {
-                (this.list.scrollTop = a.calcCenterPosition(
-                  this.props.monthRef
-                    ? this.props.monthRef.clientHeight -
-                        this.header.clientHeight
-                    : this.list.clientHeight,
-                  this.centerLi
-                )),
+                this.centerLi &&
+                  (this.list.scrollTop = a.calcCenterPosition(
+                    this.props.monthRef
+                      ? this.props.monthRef.clientHeight -
+                          this.header.clientHeight
+                      : this.list.clientHeight,
+                    this.centerLi
+                  )),
                   this.props.monthRef &&
                     this.header &&
                     this.setState({
@@ -3062,6 +3062,7 @@
             );
             s.setState({ preSelection: t }),
               s.props.onChange(t),
+              s.props.onTimeChange && s.props.onTimeChange(t),
               s.props.shouldCloseOnSelect && s.setOpen(!1),
               s.props.showTimeInput && s.setOpen(!0),
               s.setState({ inputValue: null });

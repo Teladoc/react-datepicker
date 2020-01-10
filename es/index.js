@@ -2830,8 +2830,10 @@ var Time =
         }
 
         if (
-          _this.props.injectTimes &&
-          (getHours(time) * 60 + getMinutes(time)) % _this.props.intervals !== 0
+          !_this.props.intervals ||
+          (_this.props.injectTimes &&
+            (getHours(time) * 60 + getMinutes(time)) % _this.props.intervals !==
+              0)
         ) {
           classes.push("react-datepicker__time-list-item--injected");
         }
@@ -2856,20 +2858,24 @@ var Time =
             return a - b;
           });
 
-        for (var i = 0; i < multiplier; i++) {
-          var currentTime = addMinutes(base, i * intervals);
-          times.push(currentTime);
+        if (intervals) {
+          for (var i = 0; i < multiplier; i++) {
+            var currentTime = addMinutes(base, i * intervals);
+            times.push(currentTime);
 
-          if (sortedInjectTimes) {
-            var timesToInject = timesToInjectAfter(
-              base,
-              currentTime,
-              i,
-              intervals,
-              sortedInjectTimes
-            );
-            times = times.concat(timesToInject);
+            if (sortedInjectTimes) {
+              var timesToInject = timesToInjectAfter(
+                base,
+                currentTime,
+                i,
+                intervals,
+                sortedInjectTimes
+              );
+              times = times.concat(timesToInject);
+            }
           }
+        } else {
+          times = sortedInjectTimes;
         }
 
         return times.map(function(time, i) {
@@ -2968,12 +2974,14 @@ var Time =
           key: "componentDidMount",
           value: function componentDidMount() {
             // code to ensure selected time will always be in focus within time window when it first appears
-            this.list.scrollTop = Time.calcCenterPosition(
-              this.props.monthRef
-                ? this.props.monthRef.clientHeight - this.header.clientHeight
-                : this.list.clientHeight,
-              this.centerLi
-            );
+            if (this.centerLi) {
+              this.list.scrollTop = Time.calcCenterPosition(
+                this.props.monthRef
+                  ? this.props.monthRef.clientHeight - this.header.clientHeight
+                  : this.list.clientHeight,
+                this.centerLi
+              );
+            }
 
             if (this.props.monthRef && this.header) {
               this.setState({
@@ -4663,6 +4671,10 @@ var DatePicker =
           });
 
           _this.props.onChange(changedDate);
+
+          if (_this.props.onTimeChange) {
+            _this.props.onTimeChange(changedDate);
+          }
 
           if (_this.props.shouldCloseOnSelect) {
             _this.setOpen(false);

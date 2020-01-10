@@ -55,12 +55,14 @@ export default class Time extends React.Component {
 
   componentDidMount() {
     // code to ensure selected time will always be in focus within time window when it first appears
-    this.list.scrollTop = Time.calcCenterPosition(
-      this.props.monthRef
-        ? this.props.monthRef.clientHeight - this.header.clientHeight
-        : this.list.clientHeight,
-      this.centerLi
-    );
+    if (this.centerLi) {
+      this.list.scrollTop = Time.calcCenterPosition(
+        this.props.monthRef
+          ? this.props.monthRef.clientHeight - this.header.clientHeight
+          : this.list.clientHeight,
+        this.centerLi
+      );
+    }
     if (this.props.monthRef && this.header) {
       this.setState({
         height: this.props.monthRef.clientHeight - this.header.clientHeight
@@ -107,8 +109,9 @@ export default class Time extends React.Component {
       classes.push("react-datepicker__time-list-item--disabled");
     }
     if (
-      this.props.injectTimes &&
-      (getHours(time) * 60 + getMinutes(time)) % this.props.intervals !== 0
+      !this.props.intervals ||
+      (this.props.injectTimes &&
+        (getHours(time) * 60 + getMinutes(time)) % this.props.intervals !== 0)
     ) {
       classes.push("react-datepicker__time-list-item--injected");
     }
@@ -132,20 +135,25 @@ export default class Time extends React.Component {
       this.props.injectTimes.sort(function(a, b) {
         return a - b;
       });
-    for (let i = 0; i < multiplier; i++) {
-      const currentTime = addMinutes(base, i * intervals);
-      times.push(currentTime);
 
-      if (sortedInjectTimes) {
-        const timesToInject = timesToInjectAfter(
-          base,
-          currentTime,
-          i,
-          intervals,
-          sortedInjectTimes
-        );
-        times = times.concat(timesToInject);
+    if (intervals) {
+      for (let i = 0; i < multiplier; i++) {
+        const currentTime = addMinutes(base, i * intervals);
+        times.push(currentTime);
+
+        if (sortedInjectTimes) {
+          const timesToInject = timesToInjectAfter(
+            base,
+            currentTime,
+            i,
+            intervals,
+            sortedInjectTimes
+          );
+          times = times.concat(timesToInject);
+        }
       }
+    } else {
+      times = sortedInjectTimes;
     }
 
     return times.map((time, i) => (
