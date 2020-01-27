@@ -1488,7 +1488,7 @@
               return h.createElement(
                 "button",
                 {
-                  "aria-label": "Select ".concat(e),
+                  "aria-label": "Select ".concat(e), //announces the current date selection
                   "aria-selected": this.isKeyboardSelected() + "",
                   className: this.getClassNames(this.props.day),
                   key: e,
@@ -1941,6 +1941,7 @@
               return h.createElement(
                 "li",
                 {
+                  "aria-label": "Select ".concat(e), //announces current time selection
                   key: e,
                   className: u.liClasses(t, a, o),
                   ref: function(e) {
@@ -2158,7 +2159,7 @@
       "div",
       {
         className: e.className,
-        "aria-label": "Date picker",
+        "aria-label": "Date picker", // announces date picker
         "aria-describedBy": e["aria-describedBy"],
         role: "dialog",
         "aria-modal": "true"
@@ -2360,7 +2361,7 @@
                     (t.push("react-datepicker__navigation--previous--disabled"),
                     (n = null)),
                   h.createElement("button", {
-                    "aria-label": p.props.showMonthYearPicker
+                    "aria-label": p.props.showMonthYearPicker // announces the year
                       ? p.props.previousYearButtonLabel
                       : p.props.previousMonthButtonLabel,
                     type: "button",
@@ -2408,7 +2409,7 @@
                     (t.push("react-datepicker__navigation--next--disabled"),
                     (n = null)),
                   h.createElement("button", {
-                    "aria-label": p.props.showMonthYearPicker
+                    "aria-label": p.props.showMonthYearPicker //announces the year
                       ? p.props.nextYearButtonLabel
                       : p.props.nextMonthButtonLabel,
                     type: "button",
