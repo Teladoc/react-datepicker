@@ -158,6 +158,7 @@ export default class Time extends React.Component {
 
     return times.map((time, i) => (
       <li
+        aria-label={`Select ${time}`}
         key={i}
         className={this.liClasses(time, currH, currM)}
         ref={li => {

@@ -2882,6 +2882,7 @@ var Time =
           return React.createElement(
             "li",
             {
+              "aria-label": "Select ".concat(time),
               key: i,
               className: _this.liClasses(time, currH, currM),
               ref: function ref(li) {
