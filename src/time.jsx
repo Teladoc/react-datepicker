@@ -158,7 +158,8 @@ export default class Time extends React.Component {
 
     return times.map((time, i) => (
       <li
-        aria-label={`Select ${time}`}
+        aria-label={`Select ${formatDate(time, format, this.props.locale)}`}
+        aria-describedby="time-option-header"
         key={i}
         className={this.liClasses(time, currH, currM)}
         ref={li => {
@@ -173,6 +174,9 @@ export default class Time extends React.Component {
         >
           {formatDate(time, format, this.props.locale)}
         </button>
+        <p id="time-option-header" hidden>
+          Please select a time Milly
+        </p>
       </li>
     ));
   };

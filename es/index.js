@@ -2882,7 +2882,10 @@ var Time =
           return React.createElement(
             "li",
             {
-              "aria-label": "Select ".concat(time),
+              "aria-label": "Select ".concat(
+                formatDate(time, format, _this.props.locale)
+              ),
+              "aria-describedby": "time-option-header",
               key: i,
               className: _this.liClasses(time, currH, currM),
               ref: function ref(li) {
@@ -2908,6 +2911,14 @@ var Time =
                 }
               ),
               formatDate(time, format, _this.props.locale)
+            ),
+            React.createElement(
+              "p",
+              {
+                id: "time-option-header",
+                hidden: true
+              },
+              "Please select a time Milly"
             )
           );
         });

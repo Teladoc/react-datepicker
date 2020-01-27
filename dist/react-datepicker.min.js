@@ -199,8 +199,8 @@
   k,
   C,
   s,
-  _,
   b,
+  _,
   S,
   M,
   O,
@@ -356,8 +356,8 @@
     (k = k && k.hasOwnProperty("default") ? k.default : k),
     (C = C && C.hasOwnProperty("default") ? C.default : C),
     (s = s && s.hasOwnProperty("default") ? s.default : s),
-    (_ = _ && _.hasOwnProperty("default") ? _.default : _),
     (b = b && b.hasOwnProperty("default") ? b.default : b),
+    (_ = _ && _.hasOwnProperty("default") ? _.default : _),
     (S = S && S.hasOwnProperty("default") ? S.default : S),
     (M = M && M.hasOwnProperty("default") ? M.default : M),
     (O = O && O.hasOwnProperty("default") ? O.default : O),
@@ -492,11 +492,11 @@
       s = t.second;
     return P(E(O(e, void 0 === s ? 0 : s), o), r);
   }
-  function _e(e, t) {
+  function be(e, t) {
     var n = Te(t || Ne());
     return q(e, { locale: n });
   }
-  function be(e) {
+  function _e(e) {
     return B(e);
   }
   function Se(e, t) {
@@ -1174,7 +1174,7 @@
             }),
             (r.state = {
               monthYearsList: (function(e, t) {
-                for (var n = [], r = be(e), a = be(t); !z(r, a); )
+                for (var n = [], r = _e(e), a = _e(t); !z(r, a); )
                   n.push(we(r)), (r = m(r, 1));
                 return n;
               })(r.props.minDate, r.props.maxDate)
@@ -1219,7 +1219,7 @@
           ),
           se(ue(a), "renderSelectOptions", function() {
             for (
-              var e = be(a.props.minDate), t = be(a.props.maxDate), n = [];
+              var e = _e(a.props.minDate), t = _e(a.props.maxDate), n = [];
               !z(e, t);
 
             ) {
@@ -1242,7 +1242,7 @@
             return h.createElement(
               "select",
               {
-                value: M(be(a.props.date)),
+                value: M(_e(a.props.date)),
                 className: "react-datepicker__month-year-select",
                 onChange: a.onSelectChange
               },
@@ -1427,7 +1427,7 @@
             return 0 === e || 6 === e;
           }),
           se(ue(i), "isOutsideMonth", function() {
-            return void 0 !== i.props.month && i.props.month !== b(i.props.day);
+            return void 0 !== i.props.month && i.props.month !== _(i.props.day);
           }),
           se(ue(i), "getClassNames", function(e) {
             var t = i.props.dayClassName ? i.props.dayClassName(e) : void 0;
@@ -1505,10 +1505,10 @@
                 },
                 this.props.renderDayContents
                   ? this.props.renderDayContents(
-                      _(this.props.day),
+                      b(this.props.day),
                       this.props.day
                     )
-                  : _(this.props.day)
+                  : b(this.props.day)
               );
             }
           }
@@ -1587,7 +1587,7 @@
                 })(e);
           }),
           se(ue(a), "renderDays", function() {
-            var n = _e(a.props.day, a.props.locale),
+            var n = be(a.props.day, a.props.locale),
               e = [],
               t = a.formatWeekNumber(n);
             if (a.props.showWeekNumber) {
@@ -1703,7 +1703,7 @@
             for (
               var e = [],
                 t = p.props.fixedHeight,
-                n = _e(be(p.props.day), p.props.locale),
+                n = be(_e(p.props.day), p.props.locale),
                 r = 0,
                 a = !1;
               e.push(
@@ -1723,7 +1723,7 @@
                   locale: p.props.locale,
                   maxDate: p.props.maxDate,
                   minDate: p.props.minDate,
-                  month: b(p.props.day),
+                  month: _(p.props.day),
                   onDayClick: p.handleDayClick,
                   onDayFocus: p.props.onDayFocus,
                   onDayMouseEnter: p.handleDayMouseEnter,
@@ -1755,7 +1755,7 @@
             return e;
           }),
           se(ue(p), "onMonthClick", function(e, t) {
-            p.handleDayClick(be(N(p.props.day, t)), e);
+            p.handleDayClick(_e(N(p.props.day, t)), e);
           }),
           se(ue(p), "getMonthClassNames", function(e) {
             var t = p.props,
@@ -1791,12 +1791,12 @@
                     );
                   })(N(n, e), p.props),
                 "react-datepicker__month--selected":
-                  b(n) === e && S(n) === S(o),
+                  _(n) === e && S(n) === S(o),
                 "react-datepicker__month--in-range": (function(e, t, n, r) {
                   var a = S(e),
-                    o = b(e),
+                    o = _(e),
                     s = S(t),
-                    i = b(t),
+                    i = _(t),
                     p = S(r);
                   return a === s && a === p
                     ? o <= n && n <= i
@@ -1941,7 +1941,8 @@
               return h.createElement(
                 "li",
                 {
-                  "aria-label": "Select ".concat(t),
+                  "aria-label": "Select ".concat(ke(t, n, u.props.locale)),
+                  "aria-describedby": "time-option-header",
                   key: e,
                   className: u.liClasses(t, a, o),
                   ref: function(e) {
@@ -1954,6 +1955,11 @@
                     onClick: u.handleClick.bind(ue(u), t)
                   }),
                   ke(t, n, u.props.locale)
+                ),
+                h.createElement(
+                  "p",
+                  { id: "time-option-header", hidden: !0 },
+                  "Please select a time Milly"
                 )
               );
             });
@@ -2276,7 +2282,7 @@
           se(ue(p), "changeMonthYear", function(t) {
             p.setState(
               function(e) {
-                return { date: T(N(e.date, b(t)), S(t)) };
+                return { date: T(N(e.date, _(t)), S(t)) };
               },
               function() {
                 return p.handleMonthYearChange(p.state.date);
@@ -2284,7 +2290,7 @@
             );
           }),
           se(ue(p), "header", function() {
-            var r = _e(
+            var r = be(
                 0 < arguments.length && void 0 !== arguments[0]
                   ? arguments[0]
                   : p.state.date,
@@ -2468,7 +2474,7 @@
                 dropdownMode: p.props.dropdownMode,
                 locale: p.props.locale,
                 onChange: p.changeMonth,
-                month: b(p.state.date),
+                month: _(p.state.date),
                 useShortMonthInDropdown: p.props.useShortMonthInDropdown
               });
           }),
@@ -3338,7 +3344,7 @@
             value: function(e, t) {
               e.inline &&
                 (function(e, t) {
-                  return e && t ? b(e) !== b(t) || S(e) !== S(t) : e !== t;
+                  return e && t ? _(e) !== _(t) || S(e) !== S(t) : e !== t;
                 })(e.selected, this.props.selected) &&
                 this.setPreSelection(this.props.selected),
                 void 0 !== this.state.monthSelectedIn &&
