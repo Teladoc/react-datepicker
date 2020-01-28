@@ -158,8 +158,8 @@ export default class Time extends React.Component {
 
     return times.map((time, i) => (
       <li
-        aria-label={`Select ${formatDate(time, format, this.props.locale)}`}
-        aria-describedby="time-option-header"
+        tabIndex="-1"
+        aria-label="Please select an appointment time."
         key={i}
         className={this.liClasses(time, currH, currM)}
         ref={li => {
@@ -169,14 +169,12 @@ export default class Time extends React.Component {
         }}
       >
         <button
+          aria-label={`Select ${formatDate(time, format, this.props.locale)}`}
           {...(this.isDisabledTime(time) ? { disabled: "disabled" } : "")}
           onClick={this.handleClick.bind(this, time)}
         >
           {formatDate(time, format, this.props.locale)}
         </button>
-        <p id="time-option-header" hidden>
-          Please select a time Milly
-        </p>
       </li>
     ));
   };
@@ -222,6 +220,7 @@ export default class Time extends React.Component {
 
     return (
       <div
+        aria-label="Please select an appointment time"
         className={`react-datepicker__time-container ${
           this.props.todayButton
             ? "react-datepicker__time-container--with-today-button"
