@@ -158,8 +158,6 @@ export default class Time extends React.Component {
 
     return times.map((time, i) => (
       <li
-        tabIndex="-1"
-        aria-label="Please select an appointment time."
         key={i}
         className={this.liClasses(time, currH, currM)}
         ref={li => {
@@ -220,7 +218,6 @@ export default class Time extends React.Component {
 
     return (
       <div
-        aria-label="Please select an appointment time"
         className={`react-datepicker__time-container ${
           this.props.todayButton
             ? "react-datepicker__time-container--with-today-button"
@@ -240,6 +237,8 @@ export default class Time extends React.Component {
         <div className="react-datepicker__time">
           <div className="react-datepicker__time-box">
             <ul
+              tabIndex="-1"
+              aria-label="Please select an appointment time"
               onKeyDown={this.onKeyDown}
               className="react-datepicker__time-list"
               ref={list => {

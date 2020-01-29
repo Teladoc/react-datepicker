@@ -1953,8 +1953,6 @@
               return f.createElement(
                 "li",
                 {
-                  tabIndex: "-1",
-                  "aria-label": "Please select an appointment time.",
                   key: e,
                   className: h.liClasses(t, o, s),
                   ref: function(e) {
@@ -2044,7 +2042,6 @@
                 return f.createElement(
                   "div",
                   {
-                    "aria-label": "Please select an appointment time",
                     className: "react-datepicker__time-container ".concat(
                       this.props.todayButton
                         ? "react-datepicker__time-container--with-today-button"
@@ -2075,6 +2072,8 @@
                       f.createElement(
                         "ul",
                         {
+                          tabIndex: "-1",
+                          "aria-label": "Please select an appointment time",
                           onKeyDown: this.onKeyDown,
                           className: "react-datepicker__time-list",
                           ref: function(e) {

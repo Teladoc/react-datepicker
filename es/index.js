@@ -2887,8 +2887,6 @@ var Time =
           return React.createElement(
             "li",
             {
-              tabIndex: "-1",
-              "aria-label": "Please select an appointment time.",
               key: i,
               className: _this.liClasses(time, currH, currM),
               ref: function ref(li) {
@@ -3011,7 +3009,6 @@ var Time =
             return React.createElement(
               "div",
               {
-                "aria-label": "Please select an appointment time",
                 className: "react-datepicker__time-container ".concat(
                   this.props.todayButton
                     ? "react-datepicker__time-container--with-today-button"
@@ -3048,6 +3045,8 @@ var Time =
                   React.createElement(
                     "ul",
                     {
+                      tabIndex: "-1",
+                      "aria-label": "Please select an appointment time",
                       onKeyDown: this.onKeyDown,
                       className: "react-datepicker__time-list",
                       ref: function ref(list) {
