@@ -150,13 +150,13 @@ function _objectSpread2(target) {
     var source = arguments[i] != null ? arguments[i] : {};
 
     if (i % 2) {
-      ownKeys(source, true).forEach(function(key) {
+      ownKeys(Object(source), true).forEach(function(key) {
         _defineProperty(target, key, source[key]);
       });
     } else if (Object.getOwnPropertyDescriptors) {
       Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
     } else {
-      ownKeys(source).forEach(function(key) {
+      ownKeys(Object(source)).forEach(function(key) {
         Object.defineProperty(
           target,
           key,
@@ -2218,7 +2218,7 @@ var Day =
               ref: function ref(r) {
                 return (_this2.buttonRef = r);
               },
-              role: "option",
+              role: "button",
               tabIndex: "-1",
               type: "button"
             },
@@ -2676,7 +2676,12 @@ var Month =
         _assertThisInitialized(_this),
         "renderMonths",
         function() {
-          var months = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [9, 10, 11]];
+          var months = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [9, 10, 11]
+          ];
           return months.map(function(month, i) {
             return React.createElement(
               "div",
@@ -2893,7 +2898,11 @@ var Time =
             React.createElement(
               "button",
               _extends(
-                {},
+                {
+                  "aria-label": "Select ".concat(
+                    formatDate(time, format, _this.props.locale)
+                  )
+                },
                 _this.isDisabledTime(time)
                   ? {
                       disabled: "disabled"
@@ -3036,6 +3045,8 @@ var Time =
                   React.createElement(
                     "ul",
                     {
+                      tabIndex: "-1",
+                      "aria-label": "Please select an appointment time",
                       onKeyDown: this.onKeyDown,
                       className: "react-datepicker__time-list",
                       ref: function ref(list) {
@@ -3898,6 +3909,7 @@ var Calendar =
               React.createElement(
                 "div",
                 {
+                  "aria-label": "Please select an appointment day",
                   key: monthKey,
                   ref: function ref(div) {
                     _this.monthContainer = div;

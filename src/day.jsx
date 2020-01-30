@@ -243,7 +243,7 @@ export default class Day extends React.Component {
         onKeyDown={this.props.onKeyDown}
         onMouseEnter={this.handleMouseEnter}
         ref={r => (this.buttonRef = r)}
-        role="option"
+        role="button"
         tabIndex="-1"
         type="button"
       >
