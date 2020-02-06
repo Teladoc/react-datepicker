@@ -167,7 +167,11 @@ export default class Time extends React.Component {
         }}
       >
         <button
-          aria-label={`Select ${formatDate(time, format, this.props.locale)}`}
+          aria-label={
+            this.isDisabledTime(time)
+              ? `${formatDate(time, format, this.props.locale)} is unavailable`
+              : `Select ${formatDate(time, format, this.props.locale)}`
+          }
           {...(this.isDisabledTime(time) ? { disabled: "disabled" } : "")}
           onClick={this.handleClick.bind(this, time)}
         >
