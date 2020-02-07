@@ -167,11 +167,7 @@ export default class Time extends React.Component {
         }}
       >
         <button
-          aria-label={
-            this.isDisabledTime(time)
-              ? `${formatDate(time, format, this.props.locale)} is unavailable`
-              : `Select ${formatDate(time, format, this.props.locale)}`
-          }
+          aria-label={`Select ${formatDate(time, format, this.props.locale)}`}
           {...(this.isDisabledTime(time) ? { disabled: "disabled" } : "")}
           onClick={this.handleClick.bind(this, time)}
         >
@@ -241,10 +237,8 @@ export default class Time extends React.Component {
         <div className="react-datepicker__time">
           <div className="react-datepicker__time-box">
             <ul
-              tabIndex="-1"
-              aria-label="Please select an appointment time"
-              onKeyDown={this.onKeyDown}
               className="react-datepicker__time-list"
+              onKeyDown={this.onKeyDown}
               ref={list => {
                 this.list = list;
               }}
