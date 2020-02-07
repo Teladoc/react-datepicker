@@ -226,6 +226,9 @@ export default class Day extends React.Component {
     );
   };
 
+  buildAriaLabelText = dayString =>
+    this.isDisabled() ? `${dayString} is unavailable` : `Select ${dayString}`;
+
   render() {
     const dayString = formatDate(
       this.props.day,
@@ -234,7 +237,7 @@ export default class Day extends React.Component {
     );
     return (
       <button
-        aria-label={`Select ${dayString}`}
+        aria-label={this.buildAriaLabelText(dayString)}
         aria-selected={String(this.isKeyboardSelected())}
         className={this.getClassNames(this.props.day)}
         key={dayString}
@@ -246,6 +249,7 @@ export default class Day extends React.Component {
         role="button"
         tabIndex="-1"
         type="button"
+        disabled={this.isDisabled()}
       >
         {this.props.renderDayContents
           ? this.props.renderDayContents(
