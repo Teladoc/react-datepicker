@@ -2164,16 +2164,6 @@ var Day =
         );
       });
 
-      _defineProperty(
-        _assertThisInitialized(_this),
-        "buildAriaLabelText",
-        function(dayString) {
-          return _this.isDisabled()
-            ? "".concat(dayString, " is unavailable")
-            : "Select ".concat(dayString);
-        }
-      );
-
       _this.buttonRef = null;
       return _this;
     }
@@ -2217,7 +2207,7 @@ var Day =
           return React.createElement(
             "button",
             {
-              "aria-label": this.buildAriaLabelText(dayString),
+              "aria-label": "Select ".concat(dayString),
               "aria-selected": String(this.isKeyboardSelected()),
               className: this.getClassNames(this.props.day),
               key: dayString,
@@ -2228,10 +2218,9 @@ var Day =
               ref: function ref(r) {
                 return (_this2.buttonRef = r);
               },
-              role: "button",
+              role: "option",
               tabIndex: "-1",
-              type: "button",
-              disabled: this.isDisabled()
+              type: "button"
             },
             this.props.renderDayContents
               ? this.props.renderDayContents(
@@ -2687,7 +2676,12 @@ var Month =
         _assertThisInitialized(_this),
         "renderMonths",
         function() {
-          var months = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [9, 10, 11]];
+          var months = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [9, 10, 11]
+          ];
           return months.map(function(month, i) {
             return React.createElement(
               "div",
@@ -2904,16 +2898,7 @@ var Time =
             React.createElement(
               "button",
               _extends(
-                {
-                  "aria-label": _this.isDisabledTime(time)
-                    ? "".concat(
-                        formatDate(time, format, _this.props.locale),
-                        " is unavailable"
-                      )
-                    : "Select ".concat(
-                        formatDate(time, format, _this.props.locale)
-                      )
-                },
+                {},
                 _this.isDisabledTime(time)
                   ? {
                       disabled: "disabled"
@@ -3056,8 +3041,6 @@ var Time =
                   React.createElement(
                     "ul",
                     {
-                      tabIndex: "-1",
-                      "aria-label": "Please select an appointment time",
                       onKeyDown: this.onKeyDown,
                       className: "react-datepicker__time-list",
                       ref: function ref(list) {
@@ -3197,7 +3180,7 @@ function CalendarContainer(_ref) {
     {
       className: className,
       "aria-label": "Date picker",
-      "aria-describedby": ariaDescribedBy,
+      "aria-describedBy": ariaDescribedBy,
       role: "dialog",
       "aria-modal": "true"
     },
@@ -3920,7 +3903,6 @@ var Calendar =
               React.createElement(
                 "div",
                 {
-                  "aria-label": "Please select an appointment day",
                   key: monthKey,
                   ref: function ref(div) {
                     _this.monthContainer = div;

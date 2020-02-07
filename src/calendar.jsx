@@ -612,7 +612,6 @@ export default class Calendar extends React.Component {
       var monthKey = `month-${i}`;
       monthList.push(
         <div
-          aria-label="Please select an appointment day"
           key={monthKey}
           ref={div => {
             this.monthContainer = div;
