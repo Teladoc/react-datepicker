@@ -1766,9 +1766,11 @@ var MonthYearDropdownOptions = (function(e) {
                 endDate: r.props.endDate,
                 excludeDates: r.props.excludeDates,
                 filterDate: r.props.filterDate,
+                handleOnKeyDown: r.props.handleOnKeyDown,
                 highlightDates: r.props.highlightDates,
                 includeDates: r.props.includeDates,
                 inline: r.props.inline,
+                isInputFocused: r.props.isInputFocused,
                 locale: r.props.locale,
                 maxDate: r.props.maxDate,
                 minDate: r.props.minDate,
@@ -1786,9 +1788,7 @@ var MonthYearDropdownOptions = (function(e) {
                 selectingDate: r.props.selectingDate,
                 selectsEnd: r.props.selectsEnd,
                 selectsStart: r.props.selectsStart,
-                startDate: r.props.startDate,
-                handleOnKeyDown: r.props.handleOnKeyDown,
-                isInputFocused: r.props.isInputFocused
+                startDate: r.props.startDate
               });
             })
           );
@@ -1924,9 +1924,11 @@ var MonthYearDropdownOptions = (function(e) {
                 excludeDates: r.props.excludeDates,
                 filterDate: r.props.filterDate,
                 formatWeekNumber: r.props.formatWeekNumber,
+                handleOnKeyDown: r.props.handleOnKeyDown,
                 highlightDates: r.props.highlightDates,
                 includeDates: r.props.includeDates,
                 inline: r.props.inline,
+                isInputFocused: r.props.isInputFocused,
                 key: a,
                 locale: r.props.locale,
                 maxDate: r.props.maxDate,
@@ -1945,8 +1947,8 @@ var MonthYearDropdownOptions = (function(e) {
                 selectsStart: r.props.selectsStart,
                 setOpen: r.props.setOpen,
                 shouldCloseOnSelect: r.props.shouldCloseOnSelect,
-                handleOnKeyDown: r.props.handleOnKeyDown,
-                isInputFocused: r.props.isInputFocused
+                showWeekNumber: r.props.showWeekNumbers,
+                startDate: r.props.startDate
               })
             ),
               !o;
@@ -2161,25 +2163,6 @@ var MonthYearDropdownOptions = (function(e) {
             (r.props.excludeTimes && isTimeDisabled(e, r.props.excludeTimes)) ||
             (r.props.includeTimes && !isTimeDisabled(e, r.props.includeTimes))
           );
-        }),
-        _defineProperty(_assertThisInitialized(r), "liClasses", function(
-          e,
-          t,
-          n
-        ) {
-          var a = [
-            "react-datepicker__time-list-item",
-            r.props.timeClassName ? r.props.timeClassName(e, t, n) : void 0
-          ];
-          r.props.selected &&
-            t === getHours(e) &&
-            n === getMinutes(e) &&
-            a.push("react-datepicker__time-list-item--selected"),
-            ((r.props.minTime || r.props.maxTime) &&
-              isTimeInDisabledRange(e, r.props)) ||
-              (r.props.excludeTimes &&
-                isTimeDisabled(e, r.props.excludeTimes)) ||
-              (r.props.includeTimes && isTimeDisabled(e, r.props.includeTimes));
         }),
         _defineProperty(_assertThisInitialized(r), "liClasses", function(
           e,
@@ -2455,20 +2438,27 @@ var inputTime = (function(e) {
   );
 })();
 function CalendarContainer(e) {
-  var t = e.className,
-    r = e.children,
-    n = e.showPopperArrow,
-    a = e.arrowProps,
-    o = void 0 === a ? {} : a;
+  var t = e["aria-describedBy"],
+    r = e.arrowProps,
+    n = void 0 === r ? {} : r,
+    a = e.className,
+    o = e.children,
+    i = e.showPopperArrow;
   return React.createElement(
     "div",
-    { className: t },
-    n &&
+    {
+      className: a,
+      "aria-label": "Date picker",
+      "aria-describedby": t,
+      role: "dialog",
+      "aria-modal": "true"
+    },
+    i &&
       React.createElement(
         "div",
-        _extends({ className: "react-datepicker__triangle" }, o)
+        _extends({ className: "react-datepicker__triangle" }, n)
       ),
-    r
+    o
   );
 }
 CalendarContainer.defaultProps = { arrowProps: {}, className: "" };
@@ -2713,9 +2703,7 @@ var DROPDOWN_FOCUS_CLASSNAMES = [
                 return React.createElement(
                   "button",
                   {
-                    "aria-label": r.props.showMonthYearPicker
-                      ? r.props.previousYearButtonLabel
-                      : r.props.previousMonthButtonLabel,
+                    "aria-label": a ? "Previous Year" : "Previous Month",
                     type: "button",
                     className: t.join(" "),
                     onClick: n
@@ -2776,9 +2764,7 @@ var DROPDOWN_FOCUS_CLASSNAMES = [
                 return React.createElement(
                   "button",
                   {
-                    "aria-label": r.props.showMonthYearPicker
-                      ? r.props.nextYearButtonLabel
-                      : r.props.nextMonthButtonLabel,
+                    "aria-label": a ? "Next Year" : "Next Month",
                     type: "button",
                     className: t.join(" "),
                     onClick: n
@@ -3007,8 +2993,24 @@ var DROPDOWN_FOCUS_CLASSNAMES = [
                   React.createElement(Month, {
                     day: i,
                     dayClassName: r.props.dayClassName,
-                    monthClassName: r.props.monthClassName,
+                    disabledKeyboardNavigation:
+                      r.props.disabledKeyboardNavigation,
+                    endDate: r.props.endDate,
+                    excludeDates: r.props.excludeDates,
+                    filterDate: r.props.filterDate,
+                    fixedHeight: r.props.fixedHeight,
+                    formatWeekNumber: r.props.formatWeekNumber,
+                    highlightDates: r.props.highlightDates,
+                    includeDates: r.props.includeDates,
+                    inline: r.props.inline,
+                    isInputFocused: r.props.isInputFocused,
+                    locale: r.props.locale,
+                    maxDate: r.props.maxDate,
+                    minDate: r.props.minDate,
+                    onChange: r.changeMonthYear,
                     onDayClick: r.handleDayClick,
+                    onDayFocus: r.props.onDropdownFocus,
+                    monthClassName: r.props.monthClassName,
                     handleOnKeyDown: r.props.handleOnKeyDown,
                     onDayMouseEnter: r.handleDayMouseEnter,
                     onKeyDown: r.props.onKeyDown,
@@ -3026,7 +3028,8 @@ var DROPDOWN_FOCUS_CLASSNAMES = [
                     shouldCloseOnSelect: r.props.shouldCloseOnSelect,
                     showMonthYearPicker: r.props.showMonthYearPicker,
                     showQuarterYearPicker: r.props.showQuarterYearPicker,
-                    isInputFocused: r.props.isInputFocused
+                    showWeekNumbers: r.props.showWeekNumbers,
+                    startDate: r.props.startDate
                   })
                 )
               );
@@ -3145,6 +3148,7 @@ var DROPDOWN_FOCUS_CLASSNAMES = [
               React.createElement(
                 e,
                 {
+                  "aria-describedby": this.props.ariaDescribedBy,
                   className: classnames(
                     "react-datepicker",
                     this.props.className,
@@ -3478,8 +3482,12 @@ var INPUT_ERR_1 = "Date input not valid.",
           }
         ),
         _defineProperty(_assertThisInitialized(r), "handleBlur", function(e) {
-          (!r.state.open || r.props.withPortal || r.props.showTimeInput) &&
-            r.props.onBlur(e),
+          !r.state.open ||
+          r.props.withPortal ||
+          r.props.showTimeInput ||
+          r.props.showTimeSelect
+            ? r.props.onBlur(e)
+            : r.deferFocusInput(),
             r.setState({ focused: !1 });
         }),
         _defineProperty(
@@ -3732,6 +3740,11 @@ var INPUT_ERR_1 = "Date input not valid.",
                     includeTimes: r.props.includeTimes,
                     injectTimes: r.props.injectTimes,
                     inline: r.props.inline,
+                    locale: r.props.locale,
+                    maxDate: r.props.maxDate,
+                    maxTime: r.props.maxTime,
+                    minDate: r.props.minDate,
+                    minTime: r.props.minTime,
                     peekNextMonth: r.props.peekNextMonth,
                     showMonthDropdown: r.props.showMonthDropdown,
                     showPreviousMonths: r.props.showPreviousMonths,
@@ -3757,6 +3770,8 @@ var INPUT_ERR_1 = "Date input not valid.",
                     onDropdownFocus: r.handleDropdownFocus,
                     onKeyDown: r.onKeyDown,
                     onMonthChange: r.props.onMonthChange,
+                    onMonthMouseLeave: r.props.onMonthMouseLeave,
+                    onSelect: r.handleSelect,
                     onYearChange: r.props.onYearChange,
                     monthClassName: r.props.monthClassName,
                     timeClassName: r.props.timeClassName,
@@ -3780,6 +3795,14 @@ var INPUT_ERR_1 = "Date input not valid.",
                     setOpen: r.setOpen,
                     shouldCloseOnSelect: r.props.shouldCloseOnSelect,
                     showMonthYearPicker: r.props.showMonthYearPicker,
+                    showTimeInput: r.props.showTimeInput,
+                    startDate: r.props.startDate,
+                    timeCaption: r.props.timeCaption,
+                    timeFormat: r.props.timeFormat,
+                    timeInputLabel: r.props.timeInputLabel,
+                    timeIntervals: r.props.timeIntervals,
+                    useWeekdaysShort: r.props.useWeekdaysShort,
+                    yearDropdownItemNumber: r.props.yearDropdownItemNumber,
                     showQuarterYearPicker: r.props.showQuarterYearPicker,
                     showPopperArrow: r.props.showPopperArrow,
                     excludeScrollbar: r.props.excludeScrollbar,
@@ -3807,19 +3830,21 @@ var INPUT_ERR_1 = "Date input not valid.",
                   ? r.props.value
                   : "string" == typeof r.state.inputValue
                   ? r.state.inputValue
-                  : safeDateFormat(r.props.selected, r.props),
+                  : safeDateFormat(r.props.selected, r.props)),
+              a =
                 r.props.customInput ||
-                  React.createElement("input", { type: "text" })),
-              a = r.props.customInputRef || "ref";
+                React.createElement("input", { type: "text" }),
+              o = r.props.customInputRef || "ref";
             return React.cloneElement(
-              n,
-              (_defineProperty((e = {}), a, function(e) {
+              a,
+              (_defineProperty((e = {}), o, function(e) {
                 r.input = e;
               }),
               _defineProperty(e, "aria-hidden", "true"),
+              _defineProperty(e, "aria-labelledby", r.props.ariaLabelledBy),
               _defineProperty(e, "autoComplete", r.props.autoComplete),
               _defineProperty(e, "autoFocus", r.props.autoFocus),
-              _defineProperty(e, "className", n.props.className + " " + t),
+              _defineProperty(e, "className", classnames(a.props.className, t)),
               _defineProperty(e, "disabled", r.props.disabled),
               _defineProperty(e, "id", r.props.id),
               _defineProperty(e, "name", r.props.name),
@@ -3829,14 +3854,11 @@ var INPUT_ERR_1 = "Date input not valid.",
               _defineProperty(e, "onFocus", r.handleFocus),
               _defineProperty(e, "onKeyDown", r.onKeyDown),
               _defineProperty(e, "placeholder", r.props.placeholderText),
-              _defineProperty(e, "disabled", r.props.disabled),
-              _defineProperty(e, "autoComplete", r.props.autoComplete),
-              _defineProperty(e, "className", classnames(n.props.className, t)),
-              _defineProperty(e, "title", r.props.title),
-              _defineProperty(e, "readOnly", r.props.readOnly),
+              _defineProperty(e, "readOnly", !0),
               _defineProperty(e, "required", r.props.required),
               _defineProperty(e, "tabIndex", r.props.tabIndex),
-              _defineProperty(e, "aria-labelledby", r.props.ariaLabelledBy),
+              _defineProperty(e, "title", r.props.title),
+              _defineProperty(e, "value", n),
               e)
             );
           }

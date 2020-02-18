@@ -12,7 +12,7 @@ export default function CalendarContainer({
     <div
       className={className}
       aria-label="Date picker"
-      aria-describedBy={ariaDescribedBy}
+      aria-describedby={ariaDescribedBy}
       role="dialog"
       aria-modal="true"
     >
