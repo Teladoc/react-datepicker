@@ -13,27 +13,6 @@ import {
 } from "./date_utils";
 
 export default class Time extends React.Component {
-  static propTypes = {
-    closeDialog: PropTypes.func,
-    format: PropTypes.string,
-    includeTimes: PropTypes.array,
-    intervals: PropTypes.number,
-    selected: PropTypes.instanceOf(Date),
-    openToDate: PropTypes.instanceOf(Date),
-    onChange: PropTypes.func,
-    todayButton: PropTypes.node,
-    minTime: PropTypes.instanceOf(Date),
-    maxTime: PropTypes.instanceOf(Date),
-    excludeTimes: PropTypes.array,
-    monthRef: PropTypes.object,
-    timeCaption: PropTypes.string,
-    injectTimes: PropTypes.array,
-    locale: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.shape({ locale: PropTypes.object })
-    ])
-  };
-
   static get defaultProps() {
     return {
       intervals: 30,
@@ -47,6 +26,28 @@ export default class Time extends React.Component {
     return (
       centerLiRef.offsetTop - (listHeight / 2 - centerLiRef.clientHeight / 2)
     );
+  };
+
+  static propTypes = {
+    closeDialog: PropTypes.func,
+    format: PropTypes.string,
+    includeTimes: PropTypes.array,
+    intervals: PropTypes.number,
+    selected: PropTypes.instanceOf(Date),
+    openToDate: PropTypes.instanceOf(Date),
+    onChange: PropTypes.func,
+    timeClassName: PropTypes.func,
+    todayButton: PropTypes.node,
+    minTime: PropTypes.instanceOf(Date),
+    maxTime: PropTypes.instanceOf(Date),
+    excludeTimes: PropTypes.array,
+    monthRef: PropTypes.object,
+    timeCaption: PropTypes.string,
+    injectTimes: PropTypes.array,
+    locale: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.shape({ locale: PropTypes.object })
+    ])
   };
 
   state = {

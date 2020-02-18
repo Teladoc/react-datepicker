@@ -4,7 +4,8 @@
     <DatePicker
       selected={startDate}
       onChange={date => setStartDate(date)}
-      className="red-border"
+      dateFormat="yyyy, QQQ"
+      showQuarterYearPicker
     />
   );
 };

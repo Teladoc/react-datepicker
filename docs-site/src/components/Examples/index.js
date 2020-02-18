@@ -5,6 +5,7 @@ import slugify from "slugify";
 import CodeExampleComponent from "../Example";
 
 import Default from "../../examples/default";
+import NoAnchorArrow from "../../examples/noAnchorArrow";
 import ShowTime from "../../examples/showTime";
 import ShowTimeOnly from "../../examples/showTimeOnly";
 import ExcludeTimes from "../../examples/excludeTimes";
@@ -16,6 +17,7 @@ import CustomDateFormat from "../../examples/customDateFormat";
 import CustomClassName from "../../examples/customClassName";
 import CustomCalendarClassName from "../../examples/customCalendarClassName";
 import CustomDayClassName from "../../examples/customDayClassName";
+import CustomTimeClassName from "../../examples/customTimeClassName";
 import Today from "../../examples/today";
 import PlaceholderText from "../../examples/placeholderText";
 import SpecificDateRange from "../../examples/specificDateRange";
@@ -50,6 +52,7 @@ import FixedCalendar from "../../examples/fixedCalendar";
 import WeekNumbers from "../../examples/weekNumbers";
 import CustomInput from "../../examples/customInput";
 import MultiMonth from "../../examples/multiMonth";
+import MultiMonthPrevious from "../../examples/multiMonthPrevious";
 import MultiMonthDropdown from "../../examples/multiMonthDropdown";
 import MultiMonthInline from "../../examples/multiMonthInline";
 import Children from "../../examples/children";
@@ -62,6 +65,10 @@ import TimeInput from "../../examples/timeInput";
 import StrictParsing from "../../examples/strictParsing";
 import MonthPicker from "../../examples/monthPicker";
 import RangeMonthPicker from "../../examples/rangeMonthPicker";
+import QuarterPicker from "../../examples/quarterPicker";
+import RangeQuarterPicker from "../../examples/rangeQuarterPicker";
+import OnCalendarChangeStateCallbacks from "../../examples/onCalendarOpenStateCallbacks";
+import CustomTimeInput from "../../examples/customTimeInput";
 
 import "./style.scss";
 import "react-datepicker/dist/react-datepicker.css";
@@ -76,6 +83,10 @@ export default class exampleComponents extends React.Component {
     {
       title: "Default",
       component: Default
+    },
+    {
+      title: "No Anchor Arrow",
+      component: NoAnchorArrow
     },
     {
       title: "Select Time",
@@ -120,6 +131,10 @@ export default class exampleComponents extends React.Component {
     {
       title: "Custom day class name",
       component: CustomDayClassName
+    },
+    {
+      title: "Custom time class name",
+      component: CustomTimeClassName
     },
     {
       title: "Today button",
@@ -262,6 +277,10 @@ export default class exampleComponents extends React.Component {
       component: MultiMonth
     },
     {
+      title: "Show previous months",
+      component: MultiMonthPrevious
+    },
+    {
       title: "Multiple months with year dropdown",
       component: MultiMonthDropdown
     },
@@ -308,12 +327,28 @@ export default class exampleComponents extends React.Component {
     {
       title: "Range Month Picker",
       component: RangeMonthPicker
+    },
+    {
+      title: "Quarter Picker",
+      component: QuarterPicker
+    },
+    {
+      title: "Range Quarter Picker",
+      component: RangeQuarterPicker
+    },
+    {
+      title: "Calendar open state callbacks",
+      component: OnCalendarChangeStateCallbacks
+    },
+    {
+      title: "Custom time input",
+      component: CustomTimeInput
     }
   ];
 
   render() {
     return (
-      <div>
+      <>
         <h1>Examples</h1>
         <ul className="examples__navigation">
           {this.examples.map((example, index) => (
@@ -329,7 +364,7 @@ export default class exampleComponents extends React.Component {
             <CodeExampleComponent key={index} example={example} />
           ))}
         </div>
-      </div>
+      </>
     );
   }
 }

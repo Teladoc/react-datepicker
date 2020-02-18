@@ -1,6 +1,6 @@
 () => {
   const [startDate, setStartDate] = useState(new Date("2014/02/08"));
-  const [endDate, setEndDate] = useState(new Date("2014/02/10"));
+  const [endDate, setEndDate] = useState(new Date("2014/07/08"));
   return (
     <>
       <DatePicker
@@ -9,6 +9,8 @@
         selectsStart
         startDate={startDate}
         endDate={endDate}
+        dateFormat="yyyy, QQQ"
+        showQuarterYearPicker
       />
       <DatePicker
         selected={endDate}
@@ -16,7 +18,8 @@
         selectsEnd
         startDate={startDate}
         endDate={endDate}
-        minDate={startDate}
+        dateFormat="yyyy, QQQ"
+        showQuarterYearPicker
       />
     </>
   );

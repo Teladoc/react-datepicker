@@ -3,8 +3,9 @@
   return (
     <DatePicker
       selected={startDate}
+      showPreviousMonths
       onChange={date => setStartDate(date)}
-      className="red-border"
+      monthsShown={2}
     />
   );
 };

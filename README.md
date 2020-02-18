@@ -14,10 +14,16 @@ A simple and reusable Datepicker component for React ([Demo](https://reactdatepi
 
 ## Installation
 
-The package can be installed via NPM:
+The package can be installed via [npm](https://github.com/npm/cli):
 
 ```
 npm install react-datepicker --save
+```
+
+Or via [yarn](https://github.com/yarnpkg/yarn):
+
+```
+yarn add react-datepicker
 ```
 
 You’ll need to install React and PropTypes separately since those dependencies aren’t included in the package. If you need to use a locale other than the default en-US, you'll also need to import that into your project from date-fns (see Localization section below). Below is a simple example of how to use the Datepicker in a React view. You will also need to require the CSS file from this package (or provide your own). The example below shows how to include the CSS from this package if your build system supports requiring CSS files (Webpack is one that does).
@@ -122,7 +128,8 @@ We're always trying to stay compatible with the latest version of React. We can'
 
 Latest compatible versions:
 
-- React 15.5 or newer: All above React-datepicker v.0.40.0
+- React 16 or newer: React-datepicker v2.9.4 and newer
+- React 15.5: React-datepicker v2.9.3
 - React 15.4.1: needs React-datepicker v0.40.0, newer won't work (due to react-onclickoutside dependencies)
 - React 0.14 or newer: All above React-datepicker v0.13.0
 - React 0.13: React-datepicker v0.13.0
@@ -140,7 +147,15 @@ Unfortunately, it is difficult to support legacy browsers while maintaining our 
 
 ## Local Development
 
-The `master` branch contains the latest version of the Datepicker component. To start your example app, you can run `yarn start`. This starts a simple webserver on http://localhost:8080.
+The `master` branch contains the latest version of the Datepicker component.
+
+To begin local development:
+
+1. `yarn install`
+2. `yarn build-dev`
+3. `yarn start`
+
+The last step starts documentation app as a simple webserver on http://localhost:3000.
 
 You can run `yarn test` to execute the test suite and linters. To help you develop the component we’ve set up some tests that cover the basic functionality (can be found in `/tests`). Even though we’re big fans of testing, this only covers a small piece of the component. We highly recommend you add tests when you’re adding new functionality.
 

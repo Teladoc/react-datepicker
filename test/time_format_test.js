@@ -69,6 +69,11 @@ describe("TimeComponent", () => {
       expect(spy.args[0][1].firstChild.innerHTML).to.eq("13:25");
     });
 
+    it("with five minute time interval, should call calcCenterPosition with centerLi ref, closest to the current time", () => {
+      mount(<TimeComponent format="HH:mm" intervals={5} />);
+      expect(spy.args[0][1].innerHTML).to.eq("13:25");
+    });
+
     it("should call calcCenterPosition with centerLi ref, closest to the selected time", () => {
       mount(
         <TimeComponent
@@ -102,7 +107,7 @@ describe("TimeComponent", () => {
           openToDate={new Date("1990-06-14 09:11")}
         />
       );
-      expect(spy.args[0][1].firstChild.innerHTML).to.eq("09:00");
+      expect(spy.args[0][1].innerHTML).to.eq("09:00");
     });
 
     it("when no selected time, should call calcCenterPosition with centerLi ref, and no time should be selected", () => {

@@ -41,30 +41,37 @@ export default class Day extends React.Component {
     selectsEnd: PropTypes.bool,
     selectsStart: PropTypes.bool,
     startDate: PropTypes.instanceOf(Date),
-    renderDayContents: PropTypes.func
+    renderDayContents: PropTypes.func,
+    handleOnKeyDown: PropTypes.func,
+    isInputFocused: PropTypes.bool
   };
 
-  constructor(props) {
-    super(props);
-    this.buttonRef = null;
-  }
-
   componentDidMount() {
-    if (this.isKeyboardSelected()) {
-      this.buttonRef.focus({ preventScroll: true });
+    const newTabIndex = this.getTabIndex();
+
+    if (newTabIndex === 0 && this.isSameDay(this.props.preSelection)) {
+      // focus the day on mount so that keyboard navigation works while cycling through months
+      // prevent focus for these activeElement cases so we don't pull focus from the input as the calendar opens
+      (!document.activeElement || document.activeElement === document.body) &&
+        this.dayEl.current.focus();
     }
   }
 
   componentDidUpdate(prevProps) {
-    const { preSelection } = this.props;
-    const { preSelection: prevPreSelection } = prevProps;
+    const newTabIndex = this.getTabIndex();
 
-    if (preSelection !== prevPreSelection) {
-      if (this.isKeyboardSelected()) {
-        this.buttonRef.focus({ preventScroll: true });
-      }
+    if (
+      newTabIndex === 0 &&
+      this.isSameDay(this.props.preSelection) !==
+        this.isSameDay(prevProps.preSelection)
+    ) {
+      // only do this while the input isn't focused
+      // otherwise, typing/backspacing the date manually may steal focus away from the input
+      !prevProps.isInputFocused && this.dayEl.current.focus();
     }
   }
+
+  dayEl = React.createRef();
 
   handleClick = event => {
     if (!this.isDisabled() && this.props.onClick) {
@@ -76,6 +83,16 @@ export default class Day extends React.Component {
     if (!this.isDisabled() && this.props.onMouseEnter) {
       this.props.onMouseEnter(event);
     }
+  };
+
+  handleOnKeyDown = event => {
+    const eventKey = event.key;
+    if (eventKey === " ") {
+      event.preventDefault();
+      event.key = "Enter";
+    }
+
+    this.props.handleOnKeyDown(event);
   };
 
   isSameDay = other => isSameDay(this.props.day, other);
@@ -226,34 +243,42 @@ export default class Day extends React.Component {
     );
   };
 
-  render() {
-    const dayString = formatDate(
-      this.props.day,
-      DAY_ARIA_LABEL,
-      this.props.locale
-    );
-    return (
-      <button
-        aria-label={`Select ${dayString}`}
-        aria-selected={String(this.isKeyboardSelected())}
-        className={this.getClassNames(this.props.day)}
-        key={dayString}
-        onClick={this.handleClick}
-        onFocus={this.props.onDayFocus}
-        onKeyDown={this.props.onKeyDown}
-        onMouseEnter={this.handleMouseEnter}
-        ref={r => (this.buttonRef = r)}
-        role="option"
-        tabIndex="-1"
-        type="button"
-      >
-        {this.props.renderDayContents
-          ? this.props.renderDayContents(
-              getDate(this.props.day),
-              this.props.day
-            )
-          : getDate(this.props.day)}
-      </button>
-    );
-  }
+  getAriaLabel = () => {
+    const { day } = this.props;
+    const prefix =
+      this.isDisabled() || this.isExcluded() ? "Not available" : "Choose";
+
+    return `${prefix} ${formatDate(day, "PPPP")}`;
+  };
+
+  getTabIndex = (selected, preSelection) => {
+    const selectedDay = selected || this.props.selected;
+    const preSelectionDay = preSelection || this.props.preSelection;
+
+    const tabIndex =
+      this.isKeyboardSelected() ||
+      (this.isSameDay(selectedDay) && isSameDay(preSelectionDay, selectedDay))
+        ? 0
+        : -1;
+
+    return tabIndex;
+  };
+
+  render = () => (
+    <div
+      ref={this.dayEl}
+      className={this.getClassNames(this.props.day)}
+      onKeyDown={this.handleOnKeyDown}
+      onClick={this.handleClick}
+      onMouseEnter={this.handleMouseEnter}
+      tabIndex={this.getTabIndex()}
+      aria-label={this.getAriaLabel()}
+      role="option"
+      aria-disabled={this.isDisabled()}
+    >
+      {this.props.renderDayContents
+        ? this.props.renderDayContents(getDate(this.props.day), this.props.day)
+        : getDate(this.props.day)}
+    </div>
+  );
 }

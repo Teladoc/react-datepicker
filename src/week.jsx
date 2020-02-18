@@ -42,7 +42,9 @@ export default class Week extends React.Component {
     startDate: PropTypes.instanceOf(Date),
     setOpen: PropTypes.func,
     shouldCloseOnSelect: PropTypes.bool,
-    renderDayContents: PropTypes.func
+    renderDayContents: PropTypes.func,
+    handleOnKeyDown: PropTypes.func,
+    isInputFocused: PropTypes.bool
   };
 
   handleDayClick = (day, event) => {
@@ -90,16 +92,18 @@ export default class Week extends React.Component {
         const day = utils.addDays(startOfWeek, offset);
         return (
           <Day
+            key={day.valueOf()}
             day={day}
             dayClassName={this.props.dayClassName}
             disabledKeyboardNavigation={this.props.disabledKeyboardNavigation}
             endDate={this.props.endDate}
             excludeDates={this.props.excludeDates}
             filterDate={this.props.filterDate}
+            handleOnKeyDown={this.props.handleOnKeyDown}
             highlightDates={this.props.highlightDates}
             includeDates={this.props.includeDates}
             inline={this.props.inline}
-            key={offset}
+            isInputFocused={this.props.isInputFocused}
             locale={this.props.locale}
             maxDate={this.props.maxDate}
             minDate={this.props.minDate}

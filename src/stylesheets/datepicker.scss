@@ -52,6 +52,14 @@
     }
   }
 
+  &[data-placement="bottom-end"],
+  &[data-placement="top-end"] {
+    .react-datepicker__triangle {
+      left: auto;
+      right: 50px;
+    }
+  }
+
   &[data-placement^="top"] {
     margin-bottom: $datepicker__triangle-size + 2px;
 
@@ -203,7 +211,8 @@
 .react-datepicker__month {
   margin: $datepicker__margin;
   text-align: center;
-  .react-datepicker__month-text {
+  .react-datepicker__month-text,
+  .react-datepicker__quarter-text {
     display: inline-block;
     width: 4rem;
     margin: 2px;
@@ -348,7 +357,8 @@ button.react-datepicker__day {
   margin: $datepicker__day-margin;
 }
 
-.react-datepicker__month {
+.react-datepicker__month,
+.react-datepicker__quarter {
   &--selected,
   &--in-selecting-range,
   &--in-range {
@@ -371,7 +381,8 @@ button.react-datepicker__day {
 }
 
 .react-datepicker__day,
-.react-datepicker__month-text {
+.react-datepicker__month-text,
+.react-datepicker__quarter-text {
   cursor: pointer;
 
   &:hover {
@@ -444,9 +455,12 @@ button.react-datepicker__day {
   }
 }
 
-.react-datepicker__month-text {
+.react-datepicker__month-text,
+.react-datepicker__quarter-text {
   &.react-datepicker__month--selected,
-  &.react-datepicker__month--in-range {
+  &.react-datepicker__month--in-range,
+  &.react-datepicker__quarter--selected,
+  &.react-datepicker__quarter--in-range {
     &:hover {
       background-color: $datepicker__selected-color;
     }
