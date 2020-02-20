@@ -237,8 +237,9 @@ export default class Time extends React.Component {
         <div className="react-datepicker__time">
           <div className="react-datepicker__time-box">
             <ul
-              onKeyDown={this.onKeyDown}
+              aria-label="Please select an appointment time"
               className="react-datepicker__time-list"
+              onKeyDown={this.onKeyDown}
               ref={list => {
                 this.list = list;
               }}

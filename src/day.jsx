@@ -265,20 +265,21 @@ export default class Day extends React.Component {
   };
 
   render = () => (
-    <div
-      ref={this.dayEl}
+    <button
+      aria-disabled={this.isDisabled()}
+      aria-label={this.getAriaLabel()}
       className={this.getClassNames(this.props.day)}
       onKeyDown={this.handleOnKeyDown}
       onClick={this.handleClick}
       onMouseEnter={this.handleMouseEnter}
+      ref={this.dayEl}
+      role="button"
       tabIndex={this.getTabIndex()}
-      aria-label={this.getAriaLabel()}
-      role="option"
-      aria-disabled={this.isDisabled()}
+      type="button"
     >
       {this.props.renderDayContents
         ? this.props.renderDayContents(getDate(this.props.day), this.props.day)
         : getDate(this.props.day)}
-    </div>
+    </button>
   );
 }
