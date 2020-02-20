@@ -1607,17 +1607,18 @@ var MonthYearDropdownOptions = (function(e) {
         }),
         _defineProperty(_assertThisInitialized(r), "render", function() {
           return React.createElement(
-            "div",
+            "button",
             {
-              ref: r.dayEl,
+              "aria-disabled": r.isDisabled(),
+              "aria-label": r.getAriaLabel(),
               className: r.getClassNames(r.props.day),
               onKeyDown: r.handleOnKeyDown,
               onClick: r.handleClick,
               onMouseEnter: r.handleMouseEnter,
+              ref: r.dayEl,
+              role: "button",
               tabIndex: r.getTabIndex(),
-              "aria-label": r.getAriaLabel(),
-              role: "option",
-              "aria-disabled": r.isDisabled()
+              type: "button"
             },
             r.props.renderDayContents
               ? r.props.renderDayContents(getDate(r.props.day), r.props.day)
@@ -2328,8 +2329,9 @@ var MonthYearDropdownOptions = (function(e) {
                     React.createElement(
                       "ul",
                       {
-                        onKeyDown: this.onKeyDown,
+                        "aria-label": "Please select an appointment time",
                         className: "react-datepicker__time-list",
+                        onKeyDown: this.onKeyDown,
                         ref: function(t) {
                           e.list = t;
                         },

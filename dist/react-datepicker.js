@@ -213,8 +213,8 @@
   v,
   g,
   k,
-  C,
   b,
+  C,
   _,
   S,
   M,
@@ -401,8 +401,8 @@
     (v = v && v.hasOwnProperty("default") ? v.default : v),
     (g = g && g.hasOwnProperty("default") ? g.default : g),
     (k = k && k.hasOwnProperty("default") ? k.default : k),
-    (C = C && C.hasOwnProperty("default") ? C.default : C),
     (b = b && b.hasOwnProperty("default") ? b.default : b),
+    (C = C && C.hasOwnProperty("default") ? C.default : C),
     (_ = _ && _.hasOwnProperty("default") ? _.default : _),
     (S = S && S.hasOwnProperty("default") ? S.default : S),
     (M = M && M.hasOwnProperty("default") ? M.default : M),
@@ -464,8 +464,8 @@
         return r.replace("{{date}}", ve(a, t)).replace("{{time}}", ge(o, t));
       }
     },
-    Ce = /P+p+|P+|p+|''|'(''|[^'])+('|$)|./g;
-  function be(e) {
+    be = /P+p+|P+|p+|''|'(''|[^'])+('|$)|./g;
+  function Ce(e) {
     var t = e
       ? "string" == typeof e || e instanceof String
         ? ae(e)
@@ -489,7 +489,7 @@
           ? (i = Se(a) && e === s(a, t, { awareOfUnicodeTokens: !0 }))
           : Se(a) ||
             ((t = t
-              .match(Ce)
+              .match(be)
               .map(function(e) {
                 var t = e[0];
                 if ("p" === t || "P" === t) {
@@ -574,7 +574,7 @@
     return e;
   }
   function We(e, t) {
-    return Me(T(be(), e), "LLL", t);
+    return Me(T(Ce(), e), "LLL", t);
   }
   function Be(e) {
     var t = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : {},
@@ -593,7 +593,7 @@
         !o.some(function(t) {
           return xe(e, t);
         })) ||
-      (s && !s(be(e))) ||
+      (s && !s(Ce(e))) ||
       !1
     );
   }
@@ -614,7 +614,7 @@
         !o.some(function(t) {
           return Te(e, t);
         })) ||
-      (s && !s(be(e))) ||
+      (s && !s(Ce(e))) ||
       !1
     );
   }
@@ -647,7 +647,7 @@
         !o.some(function(t) {
           return Ye(e, t);
         })) ||
-      (s && !s(be(e))) ||
+      (s && !s(Ce(e))) ||
       !1
     );
   }
@@ -679,7 +679,7 @@
       n = t.maxTime;
     if (!r || !n) throw new Error("Both minTime and maxTime props required");
     var a,
-      o = be(),
+      o = Ce(),
       s = N(E(o, g(e)), k(e)),
       i = N(E(o, g(r)), k(r)),
       p = N(E(o, g(n)), k(n));
@@ -1241,7 +1241,7 @@
                         return (
                           (t = e),
                           (n = r.props.locale),
-                          Me(T(be(), t), "LLLL", n)
+                          Me(T(Ce(), t), "LLLL", n)
                         );
                         var t, n;
                       }
@@ -1270,7 +1270,7 @@
     })(t.Component);
   function it(e, t) {
     for (var r = [], n = Ee(e), a = Ee(t); !Z(n, a); )
-      r.push(be(n)), (n = d(n, 1));
+      r.push(Ce(n)), (n = d(n, 1));
     return r;
   }
   var pt = oe(
@@ -1435,7 +1435,7 @@
           }),
           de(De(n), "onChange", function(e) {
             n.toggleDropdown();
-            var t = be(parseInt(e));
+            var t = Ce(parseInt(e));
             (Ne(n.props.date, t) && Te(n.props.date, t)) || n.props.onChange(t);
           }),
           de(De(n), "toggleDropdown", function() {
@@ -1585,7 +1585,7 @@
             return !(!r || !n) && xe(n, t);
           }),
           de(De(a), "isWeekend", function() {
-            var e = C(a.props.day);
+            var e = b(a.props.day);
             return 0 === e || 6 === e;
           }),
           de(De(a), "isOutsideMonth", function() {
@@ -1611,7 +1611,7 @@
                 "react-datepicker__day--in-selecting-range": a.isInSelectingRange(),
                 "react-datepicker__day--selecting-range-start": a.isSelectingRangeStart(),
                 "react-datepicker__day--selecting-range-end": a.isSelectingRangeEnd(),
-                "react-datepicker__day--today": a.isSameDay(be()),
+                "react-datepicker__day--today": a.isSameDay(Ce()),
                 "react-datepicker__day--weekend": a.isWeekend(),
                 "react-datepicker__day--outside-month": a.isOutsideMonth()
               },
@@ -1632,21 +1632,22 @@
           }),
           de(De(a), "render", function() {
             return t.createElement(
-              "div",
+              "button",
               {
-                ref: a.dayEl,
+                "aria-disabled": a.isDisabled(),
+                "aria-label": a.getAriaLabel(),
                 className: a.getClassNames(a.props.day),
                 onKeyDown: a.handleOnKeyDown,
                 onClick: a.handleClick,
                 onMouseEnter: a.handleMouseEnter,
+                ref: a.dayEl,
+                role: "button",
                 tabIndex: a.getTabIndex(),
-                "aria-label": a.getAriaLabel(),
-                role: "option",
-                "aria-disabled": a.isDisabled()
+                type: "button"
               },
               a.props.renderDayContents
-                ? a.props.renderDayContents(b(a.props.day), a.props.day)
-                : b(a.props.day)
+                ? a.props.renderDayContents(C(a.props.day), a.props.day)
+                : C(a.props.day)
             );
           }),
           a
@@ -2030,7 +2031,7 @@
                     },
                     className: a.getQuarterClassNames(e)
                   },
-                  ((n = e), (o = a.props.locale), Me(Y(be(), n), "QQQ", o))
+                  ((n = e), (o = a.props.locale), Me(Y(Ce(), n), "QQQ", o))
                 );
                 var n, o;
               })
@@ -2127,10 +2128,10 @@
               r = [],
               a = n.props.format ? n.props.format : "p",
               o = n.props.intervals,
-              s = n.props.selected || n.props.openToDate || be(),
+              s = n.props.selected || n.props.openToDate || Ce(),
               p = k(s),
               c = g(s),
-              l = ((e = be()), R(e)),
+              l = ((e = Ce()), R(e)),
               d = 1440 / o,
               u =
                 n.props.injectTimes &&
@@ -2265,8 +2266,9 @@
                       t.createElement(
                         "ul",
                         {
-                          onKeyDown: this.onKeyDown,
+                          "aria-label": "Please select an appointment time",
                           className: "react-datepicker__time-list",
+                          onKeyDown: this.onKeyDown,
                           ref: function(t) {
                             e.list = t;
                           },
@@ -2430,7 +2432,7 @@
               a = e.openToDate,
               o = Je(n.props),
               s = Xe(n.props),
-              i = be(),
+              i = Ce(),
               p = a || r || t;
             return p || (o && ee(i, o) ? o : s && Z(i, s) ? s : i);
           }),
@@ -2736,7 +2738,7 @@
                 {
                   className: "react-datepicker__today-button",
                   onClick: function(e) {
-                    return n.props.onSelect(R(be()), e);
+                    return n.props.onSelect(R(Ce()), e);
                   }
                 },
                 n.props.todayButton
@@ -3039,10 +3041,10 @@
       );
     })(t.Component),
     kt = "[tabindex], a, button, input, select, textarea",
-    Ct = function(e) {
+    bt = function(e) {
       return !e.disabled && -1 !== e.tabIndex;
     },
-    bt = (function(e) {
+    Ct = (function(e) {
       function r(e) {
         var n;
         return (
@@ -3053,7 +3055,7 @@
             function() {
               return Array.prototype.slice
                 .call(n.tabLoopRef.current.querySelectorAll(kt), 1, -1)
-                .filter(Ct);
+                .filter(bt);
             }
           ),
           de(De(n), "handleFocusStart", function(e) {
@@ -3143,7 +3145,7 @@
                         a = e.placement,
                         o = e.arrowProps;
                       return t.createElement(
-                        bt,
+                        Ct,
                         { enableTabLoop: u },
                         t.createElement(
                           "div",
@@ -3213,7 +3215,7 @@
                 ? o.props.startDate
                 : o.props.selectsStart && o.props.endDate
                 ? o.props.endDate
-                : be();
+                : Ce();
             }
           ),
           de(De(o), "calcInitialState", function() {
@@ -3352,7 +3354,7 @@
                 if (null !== a) {
                   if (o.props.selected) {
                     var s = o.props.selected;
-                    r && (s = be(a)),
+                    r && (s = Ce(a)),
                       (a = Oe(a, { hour: k(s), minute: g(s), second: v(s) }));
                   }
                   o.props.inline || o.setState({ preSelection: a }),
@@ -3412,7 +3414,7 @@
                     );
                   return void (r && r.focus());
                 }
-                var n = be(o.state.preSelection);
+                var n = Ce(o.state.preSelection);
                 "Enter" === t
                   ? (e.preventDefault(),
                     o.inputOk() && o.state.lastPreSelectChange === Nt
@@ -3427,7 +3429,7 @@
           de(De(o), "onDayKeyDown", function(e) {
             o.props.onKeyDown(e);
             var t = e.key,
-              r = be(o.state.preSelection);
+              r = Ce(o.state.preSelection);
             if ("Enter" === t)
               e.preventDefault(),
                 o.handleSelect(r, e),

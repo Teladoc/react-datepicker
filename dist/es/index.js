@@ -1369,17 +1369,18 @@ var pt = ee(
         }),
         ie(me(o), "render", function() {
           return e.createElement(
-            "div",
+            "button",
             {
-              ref: o.dayEl,
+              "aria-disabled": o.isDisabled(),
+              "aria-label": o.getAriaLabel(),
               className: o.getClassNames(o.props.day),
               onKeyDown: o.handleOnKeyDown,
               onClick: o.handleClick,
               onMouseEnter: o.handleMouseEnter,
+              ref: o.dayEl,
+              role: "button",
               tabIndex: o.getTabIndex(),
-              "aria-label": o.getAriaLabel(),
-              role: "option",
-              "aria-disabled": o.isDisabled()
+              type: "button"
             },
             o.props.renderDayContents
               ? o.props.renderDayContents(g(o.props.day), o.props.day)
@@ -1999,8 +2000,9 @@ var pt = ee(
                     e.createElement(
                       "ul",
                       {
-                        onKeyDown: this.onKeyDown,
+                        "aria-label": "Please select an appointment time",
                         className: "react-datepicker__time-list",
+                        onKeyDown: this.onKeyDown,
                         ref: function(e) {
                           t.list = e;
                         },
