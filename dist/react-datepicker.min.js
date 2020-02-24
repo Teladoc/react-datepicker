@@ -124,7 +124,7 @@
         e.classNames,
         e.isDate,
         e.isValidDate,
-        e.format,
+        e.format$1,
         e.addMinutes,
         e.addHours,
         e.utils,
@@ -197,9 +197,9 @@
   w,
   v,
   k,
-  C,
-  d,
   b,
+  d,
+  C,
   _,
   S,
   M,
@@ -220,8 +220,8 @@
   R,
   H,
   K,
-  V,
   A,
+  V,
   U,
   $,
   z,
@@ -354,9 +354,9 @@
     (w = w && w.hasOwnProperty("default") ? w.default : w),
     (v = v && v.hasOwnProperty("default") ? v.default : v),
     (k = k && k.hasOwnProperty("default") ? k.default : k),
-    (C = C && C.hasOwnProperty("default") ? C.default : C),
-    (d = d && d.hasOwnProperty("default") ? d.default : d),
     (b = b && b.hasOwnProperty("default") ? b.default : b),
+    (d = d && d.hasOwnProperty("default") ? d.default : d),
+    (C = C && C.hasOwnProperty("default") ? C.default : C),
     (_ = _ && _.hasOwnProperty("default") ? _.default : _),
     (S = S && S.hasOwnProperty("default") ? S.default : S),
     (M = M && M.hasOwnProperty("default") ? M.default : M),
@@ -377,8 +377,8 @@
     (R = R && R.hasOwnProperty("default") ? R.default : R),
     (H = H && H.hasOwnProperty("default") ? H.default : H),
     (K = K && K.hasOwnProperty("default") ? K.default : K),
-    (V = V && V.hasOwnProperty("default") ? V.default : V),
     (A = A && A.hasOwnProperty("default") ? A.default : A),
+    (V = V && V.hasOwnProperty("default") ? V.default : V),
     (U = U && U.hasOwnProperty("default") ? U.default : U),
     ($ = $ && $.hasOwnProperty("default") ? $.default : $),
     (z = z && z.hasOwnProperty("default") ? z.default : z),
@@ -482,7 +482,7 @@
       u(e, t, { locale: r || null, awareOfUnicodeTokens: !0 })
     );
   }
-  function Ce(e, t) {
+  function be(e, t) {
     var n = t.hour,
       r = void 0 === n ? 0 : n,
       a = t.minute,
@@ -490,7 +490,7 @@
       s = t.second;
     return E(P(O(e, void 0 === s ? 0 : s), o), r);
   }
-  function be(e, t) {
+  function Ce(e, t) {
     var n = Te(t || Ne());
     return q(e, { locale: n });
   }
@@ -504,10 +504,10 @@
     return e && t ? U(e, t) : !e && !t;
   }
   function Oe(e, t) {
-    return e && t ? A(e, t) : !e && !t;
+    return e && t ? V(e, t) : !e && !t;
   }
   function Pe(e, t) {
-    return e && t ? V(e, t) : !e && !t;
+    return e && t ? A(e, t) : !e && !t;
   }
   function Ee(e, t, n) {
     var r,
@@ -558,7 +558,7 @@
   }
   function Le(e, t) {
     for (var n = t.length, r = 0; r < n; r++)
-      if (C(t[r]) === C(e) && k(t[r]) === k(e)) return !0;
+      if (b(t[r]) === b(e) && k(t[r]) === k(e)) return !0;
     return !1;
   }
   function Fe(e, t) {
@@ -567,9 +567,9 @@
     if (!n || !r) throw Error("Both minTime and maxTime props required");
     var a,
       o = we(),
-      s = E(P(o, k(e)), C(e)),
-      i = E(P(o, k(n)), C(n)),
-      p = E(P(o, k(r)), C(r));
+      s = E(P(o, k(e)), b(e)),
+      i = E(P(o, k(n)), b(n)),
+      p = E(P(o, k(r)), b(r));
     try {
       a = !J(s, { start: i, end: p });
     } catch (e) {
@@ -661,7 +661,7 @@
   }
   function He(e, t, n, r, a) {
     for (var o = a.length, s = [], i = 0; i < o; i++) {
-      var p = m(l(e, C(a[i])), k(a[i])),
+      var p = m(l(e, b(a[i])), k(a[i])),
         c = m(e, (n + 1) * r);
       z(p, t) && G(p, c) && s.push(a[i]);
     }
@@ -670,7 +670,7 @@
   function Ke(e) {
     return e < 10 ? "0".concat(e) : "".concat(e);
   }
-  var Ve = ee(
+  var Ae = ee(
       (function() {
         function t(e) {
           var a;
@@ -812,7 +812,7 @@
         );
       })()
     ),
-    Ae = (function() {
+    Ve = (function() {
       function o() {
         var e, a;
         re(this, o);
@@ -874,7 +874,7 @@
             );
           }),
           se(ue(a), "renderDropdown", function() {
-            return f.createElement(Ve, {
+            return f.createElement(Ae, {
               key: "dropdown",
               ref: "options",
               year: a.props.year,
@@ -1457,6 +1457,11 @@
               i.getHighLightedClass("react-datepicker__day--highlighted")
             );
           }),
+          se(ue(i), "buildAriaLabelText", function(e) {
+            return i.isDisabled()
+              ? "".concat(e, " is unavailable")
+              : "Select ".concat(e);
+          }),
           (i.buttonRef = null),
           i
         );
@@ -1487,7 +1492,7 @@
               return f.createElement(
                 "button",
                 {
-                  "aria-label": "Select ".concat(e),
+                  "aria-label": this.buildAriaLabelText(e),
                   "aria-selected": this.isKeyboardSelected() + "",
                   className: this.getClassNames(this.props.day),
                   key: e,
@@ -1504,10 +1509,10 @@
                 },
                 this.props.renderDayContents
                   ? this.props.renderDayContents(
-                      b(this.props.day),
+                      C(this.props.day),
                       this.props.day
                     )
-                  : b(this.props.day)
+                  : C(this.props.day)
               );
             }
           }
@@ -1587,7 +1592,7 @@
             var t;
           }),
           se(ue(a), "renderDays", function() {
-            var n = be(a.props.day, a.props.locale),
+            var n = Ce(a.props.day, a.props.locale),
               e = [],
               t = a.formatWeekNumber(n);
             if (a.props.showWeekNumber) {
@@ -1703,7 +1708,7 @@
             for (
               var e = [],
                 t = D.props.fixedHeight,
-                n = be(_e(D.props.day), D.props.locale),
+                n = Ce(_e(D.props.day), D.props.locale),
                 r = 0,
                 a = !1;
               e.push(
@@ -1913,17 +1918,20 @@
             var r = ["react-datepicker__time-list-item"];
             return (
               h.props.selected &&
-                t === C(e) &&
+                t === b(e) &&
                 n === k(e) &&
                 r.push("react-datepicker__time-list-item--selected"),
               h.isDisabledTime(e) &&
                 r.push("react-datepicker__time-list-item--disabled"),
               (!h.props.intervals ||
                 (h.props.injectTimes &&
-                  (60 * C(e) + k(e)) % h.props.intervals != 0)) &&
+                  (60 * b(e) + k(e)) % h.props.intervals != 0)) &&
                 r.push("react-datepicker__time-list-item--injected"),
               r.join(" ")
             );
+          }),
+          se(ue(h), "buildAriaLabelText", function() {
+            h.isDisabledTime(time), ke(time, format, h.props.locale);
           }),
           se(ue(h), "renderTimes", function() {
             var e,
@@ -1931,7 +1939,7 @@
               n = h.props.format ? h.props.format : "p",
               r = h.props.intervals,
               a = h.props.selected || h.props.openToDate || we(),
-              o = C(a),
+              o = b(a),
               s = k(a),
               i = ((e = we()), W(e)),
               p = 1440 / r,
@@ -1956,15 +1964,13 @@
                   key: e,
                   className: h.liClasses(t, o, s),
                   ref: function(e) {
-                    o !== C(t) || s < k(t) || (h.centerLi = e);
+                    o !== b(t) || s < k(t) || (h.centerLi = e);
                   }
                 },
                 f.createElement(
                   "button",
                   ie(
-                    {
-                      "aria-label": "Select ".concat(ke(t, n, h.props.locale))
-                    },
+                    { "aria-label": h.buildAriaLabelText() },
                     h.isDisabledTime(t) ? { disabled: "disabled" } : "",
                     { onClick: h.handleClick.bind(ue(h), t) }
                   ),
@@ -2300,7 +2306,7 @@
             );
           }),
           se(ue(p), "header", function() {
-            var r = be(
+            var r = Ce(
                 0 < arguments.length && void 0 !== arguments[0]
                   ? arguments[0]
                   : p.state.date,
@@ -2455,7 +2461,7 @@
               p.props.showYearDropdown &&
               !(0 < arguments.length && void 0 !== arguments[0] && arguments[0])
             )
-              return f.createElement(Ae, {
+              return f.createElement(Ve, {
                 adjustDateOnChange: p.props.adjustDateOnChange,
                 date: p.state.date,
                 onSelect: p.props.onSelect,
@@ -3047,7 +3053,7 @@
                   if (d.props.selected) {
                     var o = d.props.selected;
                     n && (o = we(a)),
-                      (a = Ce(a, { hour: C(o), minute: k(o), second: v(o) }));
+                      (a = be(a, { hour: b(o), minute: k(o), second: v(o) }));
                   }
                   d.props.inline || d.setState({ preSelection: a }),
                     d.props.inline &&
@@ -3073,9 +3079,9 @@
               r && d.setState({ preSelection: e });
           }),
           se(ue(d), "handleTimeChange", function(e) {
-            var t = Ce(
+            var t = be(
               d.props.selected ? d.props.selected : d.getPreSelection(),
-              { hour: C(e), minute: k(e) }
+              { hour: b(e), minute: k(e) }
             );
             d.setState({ preSelection: t }),
               d.props.onChange(t),

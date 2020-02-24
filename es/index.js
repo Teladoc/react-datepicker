@@ -3,7 +3,7 @@ import "prop-types";
 import classnames from "classnames";
 import isDate from "date-fns/isDate";
 import isValidDate from "date-fns/isValid";
-import format from "date-fns/format";
+import format$1 from "date-fns/format";
 import addMinutes from "date-fns/addMinutes";
 import addHours from "date-fns/addHours";
 import utils$1 from "date-fns/addDays";
@@ -371,7 +371,7 @@ function parseDate(value, dateFormat, locale, strictParsing) {
         strictParsingValueMatch =
           isValid(tryParseDate) &&
           value ===
-            format(tryParseDate, df, {
+            format$1(tryParseDate, df, {
               awareOfUnicodeTokens: true
             });
       }
@@ -391,7 +391,7 @@ function parseDate(value, dateFormat, locale, strictParsing) {
     strictParsingValueMatch =
       isValid(parsedDate) &&
       value ===
-        format(parsedDate, dateFormat, {
+        format$1(parsedDate, dateFormat, {
           awareOfUnicodeTokens: true
         });
   } else if (!isValid(parsedDate)) {
@@ -428,7 +428,7 @@ function isValid(date) {
 
 function formatDate(date, formatStr, locale) {
   if (locale === "en") {
-    return format(date, formatStr, {
+    return format$1(date, formatStr, {
       awareOfUnicodeTokens: true
     });
   }
@@ -452,7 +452,7 @@ function formatDate(date, formatStr, locale) {
     localeObj = getLocaleObject(getDefaultLocale());
   }
 
-  return format(date, formatStr, {
+  return format$1(date, formatStr, {
     locale: localeObj ? localeObj : null,
     awareOfUnicodeTokens: true
   });
@@ -2164,6 +2164,16 @@ var Day =
         );
       });
 
+      _defineProperty(
+        _assertThisInitialized(_this),
+        "buildAriaLabelText",
+        function(dayString) {
+          return _this.isDisabled()
+            ? "".concat(dayString, " is unavailable")
+            : "Select ".concat(dayString);
+        }
+      );
+
       _this.buttonRef = null;
       return _this;
     }
@@ -2207,7 +2217,7 @@ var Day =
           return React.createElement(
             "button",
             {
-              "aria-label": "Select ".concat(dayString),
+              "aria-label": this.buildAriaLabelText(dayString),
               "aria-selected": String(this.isKeyboardSelected()),
               className: this.getClassNames(this.props.day),
               key: dayString,
@@ -2846,6 +2856,19 @@ var Time =
         return classes.join(" ");
       });
 
+      _defineProperty(
+        _assertThisInitialized(_this),
+        "buildAriaLabelText",
+        function() {
+          _this.isDisabledTime(time)
+            ? "".concat(
+                formatDate(time, format, _this.props.locale),
+                " is unavailable"
+              )
+            : "Select ".concat(formatDate(time, format, _this.props.locale));
+        }
+      );
+
       _defineProperty(_assertThisInitialized(_this), "renderTimes", function() {
         var times = [];
         var format = _this.props.format ? _this.props.format : "p";
@@ -2899,9 +2922,7 @@ var Time =
               "button",
               _extends(
                 {
-                  "aria-label": "Select ".concat(
-                    formatDate(time, format, _this.props.locale)
-                  )
+                  "aria-label": _this.buildAriaLabelText()
                 },
                 _this.isDisabledTime(time)
                   ? {
