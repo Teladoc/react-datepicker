@@ -249,7 +249,6 @@ export default class Day extends React.Component {
         role="button"
         tabIndex="-1"
         type="button"
-        disabled={this.isDisabled()}
       >
         {this.props.renderDayContents
           ? this.props.renderDayContents(

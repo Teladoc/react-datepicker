@@ -2164,6 +2164,16 @@ var Day =
         );
       });
 
+      _defineProperty(
+        _assertThisInitialized(_this),
+        "buildAriaLabelText",
+        function(dayString) {
+          return _this.isDisabled()
+            ? "".concat(dayString, " is unavailable")
+            : "Select ".concat(dayString);
+        }
+      );
+
       _this.buttonRef = null;
       return _this;
     }
@@ -2207,7 +2217,7 @@ var Day =
           return React.createElement(
             "button",
             {
-              "aria-label": "Select ".concat(dayString),
+              "aria-label": this.buildAriaLabelText(dayString),
               "aria-selected": String(this.isKeyboardSelected()),
               className: this.getClassNames(this.props.day),
               key: dayString,
@@ -2899,9 +2909,14 @@ var Time =
               "button",
               _extends(
                 {
-                  "aria-label": "Select ".concat(
-                    formatDate(time, format, _this.props.locale)
-                  )
+                  "aria-label": _this.isDisabledTime(time)
+                    ? "".concat(
+                        formatDate(time, format, _this.props.locale),
+                        " is unavailable"
+                      )
+                    : "Select ".concat(
+                        formatDate(time, format, _this.props.locale)
+                      )
                 },
                 _this.isDisabledTime(time)
                   ? {
