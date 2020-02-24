@@ -1930,7 +1930,7 @@
               r.join(" ")
             );
           }),
-          se(ue(h), "buildAriaLabelText", function(e) {
+          se(ue(h), "buildAriaLabelText", function() {
             h.isDisabledTime(time), ke(time, format, h.props.locale);
           }),
           se(ue(h), "renderTimes", function() {
@@ -1970,7 +1970,7 @@
                 f.createElement(
                   "button",
                   ie(
-                    { "aria-label": h.buildAriaLabelText(timeString) },
+                    { "aria-label": h.buildAriaLabelText() },
                     h.isDisabledTime(t) ? { disabled: "disabled" } : "",
                     { onClick: h.handleClick.bind(ue(h), t) }
                   ),
