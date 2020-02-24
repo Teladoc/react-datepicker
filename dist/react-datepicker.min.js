@@ -124,7 +124,7 @@
         e.classNames,
         e.isDate,
         e.isValidDate,
-        e.format,
+        e.format$1,
         e.addMinutes,
         e.addHours,
         e.utils,
@@ -220,8 +220,8 @@
   R,
   H,
   K,
-  V,
   A,
+  V,
   U,
   $,
   z,
@@ -377,8 +377,8 @@
     (R = R && R.hasOwnProperty("default") ? R.default : R),
     (H = H && H.hasOwnProperty("default") ? H.default : H),
     (K = K && K.hasOwnProperty("default") ? K.default : K),
-    (V = V && V.hasOwnProperty("default") ? V.default : V),
     (A = A && A.hasOwnProperty("default") ? A.default : A),
+    (V = V && V.hasOwnProperty("default") ? V.default : V),
     (U = U && U.hasOwnProperty("default") ? U.default : U),
     ($ = $ && $.hasOwnProperty("default") ? $.default : $),
     (z = z && z.hasOwnProperty("default") ? z.default : z),
@@ -504,10 +504,10 @@
     return e && t ? U(e, t) : !e && !t;
   }
   function Oe(e, t) {
-    return e && t ? A(e, t) : !e && !t;
+    return e && t ? V(e, t) : !e && !t;
   }
   function Pe(e, t) {
-    return e && t ? V(e, t) : !e && !t;
+    return e && t ? A(e, t) : !e && !t;
   }
   function Ee(e, t, n) {
     var r,
@@ -670,7 +670,7 @@
   function Ke(e) {
     return e < 10 ? "0".concat(e) : "".concat(e);
   }
-  var Ve = ee(
+  var Ae = ee(
       (function() {
         function t(e) {
           var a;
@@ -812,7 +812,7 @@
         );
       })()
     ),
-    Ae = (function() {
+    Ve = (function() {
       function o() {
         var e, a;
         re(this, o);
@@ -874,7 +874,7 @@
             );
           }),
           se(ue(a), "renderDropdown", function() {
-            return f.createElement(Ve, {
+            return f.createElement(Ae, {
               key: "dropdown",
               ref: "options",
               year: a.props.year,
@@ -1930,6 +1930,9 @@
               r.join(" ")
             );
           }),
+          se(ue(h), "buildAriaLabelText", function(e) {
+            h.isDisabledTime(time), ke(time, format, h.props.locale);
+          }),
           se(ue(h), "renderTimes", function() {
             var e,
               t = [],
@@ -1967,11 +1970,7 @@
                 f.createElement(
                   "button",
                   ie(
-                    {
-                      "aria-label": h.isDisabledTime(t)
-                        ? "".concat(ke(t, n, h.props.locale), " is unavailable")
-                        : "Select ".concat(ke(t, n, h.props.locale))
-                    },
+                    { "aria-label": h.buildAriaLabelText(timeString) },
                     h.isDisabledTime(t) ? { disabled: "disabled" } : "",
                     { onClick: h.handleClick.bind(ue(h), t) }
                   ),
@@ -2462,7 +2461,7 @@
               p.props.showYearDropdown &&
               !(0 < arguments.length && void 0 !== arguments[0] && arguments[0])
             )
-              return f.createElement(Ae, {
+              return f.createElement(Ve, {
                 adjustDateOnChange: p.props.adjustDateOnChange,
                 date: p.state.date,
                 onSelect: p.props.onSelect,
