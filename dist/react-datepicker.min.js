@@ -124,7 +124,7 @@
         e.classNames,
         e.isDate,
         e.isValidDate,
-        e.format$1,
+        e.format,
         e.addMinutes,
         e.addHours,
         e.utils,
@@ -1930,8 +1930,8 @@
               r.join(" ")
             );
           }),
-          se(ue(h), "buildAriaLabelText", function() {
-            h.isDisabledTime(time), ke(time, format, h.props.locale);
+          se(ue(h), "buildAriaLabelText", function(e, t) {
+            h.isDisabledTime(e), ke(e, t, h.props.locale);
           }),
           se(ue(h), "renderTimes", function() {
             var e,
@@ -1970,7 +1970,7 @@
                 f.createElement(
                   "button",
                   ie(
-                    { "aria-label": h.buildAriaLabelText() },
+                    { "aria-label": h.buildAriaLabelText(t, n) },
                     h.isDisabledTime(t) ? { disabled: "disabled" } : "",
                     { onClick: h.handleClick.bind(ue(h), t) }
                   ),

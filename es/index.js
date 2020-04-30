@@ -3,7 +3,7 @@ import "prop-types";
 import classnames from "classnames";
 import isDate from "date-fns/isDate";
 import isValidDate from "date-fns/isValid";
-import format$1 from "date-fns/format";
+import format from "date-fns/format";
 import addMinutes from "date-fns/addMinutes";
 import addHours from "date-fns/addHours";
 import utils$1 from "date-fns/addDays";
@@ -371,7 +371,7 @@ function parseDate(value, dateFormat, locale, strictParsing) {
         strictParsingValueMatch =
           isValid(tryParseDate) &&
           value ===
-            format$1(tryParseDate, df, {
+            format(tryParseDate, df, {
               awareOfUnicodeTokens: true
             });
       }
@@ -391,7 +391,7 @@ function parseDate(value, dateFormat, locale, strictParsing) {
     strictParsingValueMatch =
       isValid(parsedDate) &&
       value ===
-        format$1(parsedDate, dateFormat, {
+        format(parsedDate, dateFormat, {
           awareOfUnicodeTokens: true
         });
   } else if (!isValid(parsedDate)) {
@@ -428,7 +428,7 @@ function isValid(date) {
 
 function formatDate(date, formatStr, locale) {
   if (locale === "en") {
-    return format$1(date, formatStr, {
+    return format(date, formatStr, {
       awareOfUnicodeTokens: true
     });
   }
@@ -452,7 +452,7 @@ function formatDate(date, formatStr, locale) {
     localeObj = getLocaleObject(getDefaultLocale());
   }
 
-  return format$1(date, formatStr, {
+  return format(date, formatStr, {
     locale: localeObj ? localeObj : null,
     awareOfUnicodeTokens: true
   });
@@ -2859,7 +2859,7 @@ var Time =
       _defineProperty(
         _assertThisInitialized(_this),
         "buildAriaLabelText",
-        function() {
+        function(time, format) {
           _this.isDisabledTime(time)
             ? "".concat(
                 formatDate(time, format, _this.props.locale),
@@ -2922,7 +2922,7 @@ var Time =
               "button",
               _extends(
                 {
-                  "aria-label": _this.buildAriaLabelText()
+                  "aria-label": _this.buildAriaLabelText(time, format)
                 },
                 _this.isDisabledTime(time)
                   ? {
