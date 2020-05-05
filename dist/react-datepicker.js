@@ -1931,7 +1931,9 @@
             );
           }),
           se(ue(h), "buildAriaLabelText", function(e, t) {
-            h.isDisabledTime(e), ke(e, t, h.props.locale);
+            return h.isDisabledTime(e)
+              ? "".concat(ke(e, t, h.props.locale), " is unavailable")
+              : "Select ".concat(ke(e, t, h.props.locale));
           }),
           se(ue(h), "renderTimes", function() {
             var e,
@@ -1969,11 +1971,11 @@
                 },
                 f.createElement(
                   "button",
-                  ie(
-                    { "aria-label": h.buildAriaLabelText(t, n) },
-                    h.isDisabledTime(t) ? { disabled: "disabled" } : "",
-                    { onClick: h.handleClick.bind(ue(h), t) }
-                  ),
+                  {
+                    "aria-label": h.buildAriaLabelText(t, n),
+                    disabled: h.isDisabledTime(t),
+                    onClick: h.handleClick.bind(ue(h), t)
+                  },
                   ke(t, n, h.props.locale)
                 )
               );

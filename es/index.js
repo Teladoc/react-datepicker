@@ -2860,7 +2860,7 @@ var Time =
         _assertThisInitialized(_this),
         "buildAriaLabelText",
         function(time, format) {
-          _this.isDisabledTime(time)
+          return _this.isDisabledTime(time)
             ? "".concat(
                 formatDate(time, format, _this.props.locale),
                 " is unavailable"
@@ -2920,22 +2920,14 @@ var Time =
             },
             React.createElement(
               "button",
-              _extends(
-                {
-                  "aria-label": _this.buildAriaLabelText(time, format)
-                },
-                _this.isDisabledTime(time)
-                  ? {
-                      disabled: "disabled"
-                    }
-                  : "",
-                {
-                  onClick: _this.handleClick.bind(
-                    _assertThisInitialized(_this),
-                    time
-                  )
-                }
-              ),
+              {
+                "aria-label": _this.buildAriaLabelText(time, format),
+                disabled: _this.isDisabledTime(time),
+                onClick: _this.handleClick.bind(
+                  _assertThisInitialized(_this),
+                  time
+                )
+              },
               formatDate(time, format, _this.props.locale)
             )
           );
