@@ -150,13 +150,13 @@ function _objectSpread2(target) {
     var source = arguments[i] != null ? arguments[i] : {};
 
     if (i % 2) {
-      ownKeys(source, true).forEach(function(key) {
+      ownKeys(Object(source), true).forEach(function(key) {
         _defineProperty(target, key, source[key]);
       });
     } else if (Object.getOwnPropertyDescriptors) {
       Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
     } else {
-      ownKeys(source).forEach(function(key) {
+      ownKeys(Object(source)).forEach(function(key) {
         Object.defineProperty(
           target,
           key,
@@ -2164,6 +2164,16 @@ var Day =
         );
       });
 
+      _defineProperty(
+        _assertThisInitialized(_this),
+        "buildAriaLabelText",
+        function(dayString) {
+          return _this.isDisabled()
+            ? "".concat(dayString, " is unavailable")
+            : "Select ".concat(dayString);
+        }
+      );
+
       _this.buttonRef = null;
       return _this;
     }
@@ -2207,7 +2217,7 @@ var Day =
           return React.createElement(
             "button",
             {
-              "aria-label": "Select ".concat(dayString),
+              "aria-label": this.buildAriaLabelText(dayString),
               "aria-selected": String(this.isKeyboardSelected()),
               className: this.getClassNames(this.props.day),
               key: dayString,
@@ -2218,7 +2228,7 @@ var Day =
               ref: function ref(r) {
                 return (_this2.buttonRef = r);
               },
-              role: "option",
+              role: "button",
               tabIndex: "-1",
               type: "button"
             },
@@ -2676,7 +2686,12 @@ var Month =
         _assertThisInitialized(_this),
         "renderMonths",
         function() {
-          var months = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [9, 10, 11]];
+          var months = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [9, 10, 11]
+          ];
           return months.map(function(month, i) {
             return React.createElement(
               "div",
@@ -2841,6 +2856,19 @@ var Time =
         return classes.join(" ");
       });
 
+      _defineProperty(
+        _assertThisInitialized(_this),
+        "buildAriaLabelText",
+        function(time, format) {
+          return _this.isDisabledTime(time)
+            ? "".concat(
+                formatDate(time, format, _this.props.locale),
+                " is unavailable"
+              )
+            : "Select ".concat(formatDate(time, format, _this.props.locale));
+        }
+      );
+
       _defineProperty(_assertThisInitialized(_this), "renderTimes", function() {
         var times = [];
         var format = _this.props.format ? _this.props.format : "p";
@@ -2892,20 +2920,14 @@ var Time =
             },
             React.createElement(
               "button",
-              _extends(
-                {},
-                _this.isDisabledTime(time)
-                  ? {
-                      disabled: "disabled"
-                    }
-                  : "",
-                {
-                  onClick: _this.handleClick.bind(
-                    _assertThisInitialized(_this),
-                    time
-                  )
-                }
-              ),
+              {
+                "aria-label": _this.buildAriaLabelText(time, format),
+                disabled: _this.isDisabledTime(time),
+                onClick: _this.handleClick.bind(
+                  _assertThisInitialized(_this),
+                  time
+                )
+              },
               formatDate(time, format, _this.props.locale)
             )
           );
@@ -3036,8 +3058,9 @@ var Time =
                   React.createElement(
                     "ul",
                     {
-                      onKeyDown: this.onKeyDown,
+                      "aria-label": "Please select an appointment time",
                       className: "react-datepicker__time-list",
+                      onKeyDown: this.onKeyDown,
                       ref: function ref(list) {
                         _this2.list = list;
                       },
@@ -3175,7 +3198,7 @@ function CalendarContainer(_ref) {
     {
       className: className,
       "aria-label": "Date picker",
-      "aria-describedBy": ariaDescribedBy,
+      "aria-describedby": ariaDescribedBy,
       role: "dialog",
       "aria-modal": "true"
     },
@@ -3898,6 +3921,7 @@ var Calendar =
               React.createElement(
                 "div",
                 {
+                  "aria-label": "Please select an appointment day",
                   key: monthKey,
                   ref: function ref(div) {
                     _this.monthContainer = div;

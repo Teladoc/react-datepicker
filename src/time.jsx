@@ -119,6 +119,12 @@ export default class Time extends React.Component {
     return classes.join(" ");
   };
 
+  buildAriaLabelText = (time, format) => {
+    return this.isDisabledTime(time)
+      ? `${formatDate(time, format, this.props.locale)} is unavailable`
+      : `Select ${formatDate(time, format, this.props.locale)}`;
+  };
+
   renderTimes = () => {
     let times = [];
     const format = this.props.format ? this.props.format : "p";
@@ -167,7 +173,8 @@ export default class Time extends React.Component {
         }}
       >
         <button
-          {...(this.isDisabledTime(time) ? { disabled: "disabled" } : "")}
+          aria-label={this.buildAriaLabelText(time, format)}
+          disabled={this.isDisabledTime(time)}
           onClick={this.handleClick.bind(this, time)}
         >
           {formatDate(time, format, this.props.locale)}
@@ -236,8 +243,9 @@ export default class Time extends React.Component {
         <div className="react-datepicker__time">
           <div className="react-datepicker__time-box">
             <ul
-              onKeyDown={this.onKeyDown}
+              aria-label="Please select an appointment time"
               className="react-datepicker__time-list"
+              onKeyDown={this.onKeyDown}
               ref={list => {
                 this.list = list;
               }}
