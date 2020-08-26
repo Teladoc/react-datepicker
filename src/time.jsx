@@ -173,6 +173,7 @@ export default class Time extends React.Component {
         }}
       >
         <button
+          type="button"
           aria-label={this.buildAriaLabelText(time, format)}
           disabled={this.isDisabledTime(time)}
           onClick={this.handleClick.bind(this, time)}
