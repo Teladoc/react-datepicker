@@ -801,24 +801,22 @@ export default class DatePicker extends React.Component {
     }
 
     return (
-      <div role="application">
-        <PopperComponent
-          className={this.props.popperClassName}
-          wrapperClassName={this.props.wrapperClassName}
-          hidePopper={!this.isCalendarOpen()}
-          popperModifiers={this.props.popperModifiers}
-          targetComponent={
-            <div className="react-datepicker__input-container">
-              {this.renderDateInput()}
-              {this.renderClearButton()}
-            </div>
-          }
-          popperContainer={this.props.popperContainer}
-          popperComponent={calendar}
-          popperPlacement={this.props.popperPlacement}
-          popperProps={this.props.popperProps}
-        />
-      </div>
+      <PopperComponent
+        className={this.props.popperClassName}
+        wrapperClassName={this.props.wrapperClassName}
+        hidePopper={!this.isCalendarOpen()}
+        popperModifiers={this.props.popperModifiers}
+        targetComponent={
+          <div className="react-datepicker__input-container">
+            {this.renderDateInput()}
+            {this.renderClearButton()}
+          </div>
+        }
+        popperContainer={this.props.popperContainer}
+        popperComponent={calendar}
+        popperPlacement={this.props.popperPlacement}
+        popperProps={this.props.popperProps}
+      />
     );
   }
 }
