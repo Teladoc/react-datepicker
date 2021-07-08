@@ -5,6 +5,7 @@ export default function CalendarContainer({
   arrowProps,
   className,
   children,
+  showPopperArrow,
   "aria-describedBy": ariaDescribedBy
 }) {
   return (
@@ -15,7 +16,9 @@ export default function CalendarContainer({
       role="dialog"
       aria-modal="true"
     >
-      <div className="react-datepicker__triangle" {...arrowProps} />
+      {showPopperArrow && (
+        <div className="react-datepicker__triangle" {...arrowProps} />
+      )}
       {children}
     </div>
   );
@@ -27,8 +30,9 @@ CalendarContainer.defaultProps = {
 };
 
 CalendarContainer.propTypes = {
-  arrowProps: PropTypes.object,
   className: PropTypes.string,
   children: PropTypes.node.isRequired,
+  arrowProps: PropTypes.object, // react-popper arrow props
+  showPopperArrow: PropTypes.bool,
   "aria-describedBy": PropTypes.string
 };

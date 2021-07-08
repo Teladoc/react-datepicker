@@ -18,22 +18,27 @@ import getMinutes from "date-fns/getMinutes";
 import getHours from "date-fns/getHours";
 import getDay from "date-fns/getDay";
 import getDate from "date-fns/getDate";
+import getISOWeek from "date-fns/getISOWeek";
 import getMonth from "date-fns/getMonth";
+import getQuarter from "date-fns/getQuarter";
 import getYear from "date-fns/getYear";
 import getTime from "date-fns/getTime";
 import setSeconds from "date-fns/setSeconds";
 import setMinutes from "date-fns/setMinutes";
 import setHours from "date-fns/setHours";
 import setMonth from "date-fns/setMonth";
+import setQuarter from "date-fns/setQuarter";
 import setYear from "date-fns/setYear";
 import min from "date-fns/min";
 import max from "date-fns/max";
 import differenceInCalendarDays from "date-fns/differenceInCalendarDays";
 import differenceInCalendarMonths from "date-fns/differenceInCalendarMonths";
 import differenceInCalendarWeeks from "date-fns/differenceInCalendarWeeks";
+import differenceInCalendarYears from "date-fns/differenceInCalendarYears";
 import startOfDay from "date-fns/startOfDay";
 import startOfWeek from "date-fns/startOfWeek";
 import startOfMonth from "date-fns/startOfMonth";
+import startOfQuarter from "date-fns/startOfQuarter";
 import startOfYear from "date-fns/startOfYear";
 import endOfDay from "date-fns/endOfDay";
 import endOfWeek from "date-fns/endOfWeek";
@@ -42,18 +47,21 @@ import dfIsEqual from "date-fns/isEqual";
 import dfIsSameDay from "date-fns/isSameDay";
 import dfIsSameMonth from "date-fns/isSameMonth";
 import dfIsSameYear from "date-fns/isSameYear";
+import dfIsSameQuarter from "date-fns/isSameQuarter";
 import isAfter from "date-fns/isAfter";
 import isBefore from "date-fns/isBefore";
 import isWithinInterval from "date-fns/isWithinInterval";
 import toDate from "date-fns/toDate";
 import parse from "date-fns/parse";
 import parseISO from "date-fns/parseISO";
-import longFormatters from "date-fns/_lib/format/longFormatters";
+import longFormatters from "date-fns/esm/_lib/format/longFormatters";
+
+export const DEFAULT_YEAR_ITEM_NUMBER = 12;
 
 // This RegExp catches symbols escaped by quotes, and also
 // sequences of symbols P, p, and the combinations like `PPPPPPPppppp`
 var longFormattingTokensRegExp = /P+p+|P+|p+|''|'(''|[^'])+('|$)|./g;
-export const DAY_ARIA_LABEL = "EEEE LLLL do yyyy"; // Wednesday January 1st, 2020
+export const DAY_ARIA_LABEL = "EEEE LLLL do yyyy";
 
 // ** Date Constructors **
 
@@ -66,19 +74,20 @@ export function newDate(value) {
   return isValid(d) ? d : null;
 }
 
-export function parseDate(value, dateFormat, locale, strictParsing) {
+export function parseDate(value, dateFormat, locale, strictParsing, minDate) {
   let parsedDate = null;
-  let localeObject = getLocaleObject(locale) || getDefaultLocale();
+  let localeObject =
+    getLocaleObject(locale) || getLocaleObject(getDefaultLocale());
   let strictParsingValueMatch = true;
   if (Array.isArray(dateFormat)) {
     dateFormat.forEach(df => {
       let tryParseDate = parse(value, df, new Date(), { locale: localeObject });
       if (strictParsing) {
         strictParsingValueMatch =
-          isValid(tryParseDate) &&
+          isValid(tryParseDate, minDate) &&
           value === format(tryParseDate, df, { awareOfUnicodeTokens: true });
       }
-      if (isValid(tryParseDate) && strictParsingValueMatch) {
+      if (isValid(tryParseDate, minDate) && strictParsingValueMatch) {
         parsedDate = tryParseDate;
       }
     });
@@ -122,8 +131,9 @@ export function parseDate(value, dateFormat, locale, strictParsing) {
 
 export { isDate };
 
-export function isValid(date) {
-  return isValidDate(date) && isAfter(date, new Date("1/1/1000"));
+export function isValid(date, minDate) {
+  minDate = minDate ? minDate : new Date("1/1/1000");
+  return isValidDate(date) && isAfter(date, minDate);
 }
 
 // ** Date Formatting **
@@ -157,10 +167,21 @@ export function safeDateFormat(date, { dateFormat, locale }) {
       formatDate(
         date,
         Array.isArray(dateFormat) ? dateFormat[0] : dateFormat,
-        (locale: locale)
+        locale
       )) ||
     ""
   );
+}
+
+export function safeDateRangeFormat(startDate, endDate, props) {
+  if (!startDate) {
+    return "";
+  }
+
+  const formattedStartDate = safeDateFormat(startDate, props);
+  const formattedEndDate = endDate ? safeDateFormat(endDate, props) : "";
+
+  return `${formattedStartDate} - ${formattedEndDate}`;
 }
 
 // ** Date Setters **
@@ -169,7 +190,7 @@ export function setTime(date, { hour = 0, minute = 0, second = 0 }) {
   return setHours(setMinutes(setSeconds(date, second), minute), hour);
 }
 
-export { setMonth, setYear };
+export { setMinutes, setHours, setMonth, setQuarter, setYear };
 
 // ** Date Getters **
 
@@ -179,21 +200,22 @@ export {
   getMinutes,
   getHours,
   getMonth,
+  getQuarter,
   getYear,
   getDay,
   getDate,
   getTime
 };
 
-export function getWeek(date) {
-  if (!isSameYear(endOfWeek(date), date)) {
-    return 1;
-  }
-  return differenceInCalendarWeeks(date, startOfYear(date)) + 1;
+export function getWeek(date, locale) {
+  let localeObj =
+    (locale && getLocaleObject(locale)) ||
+    (getDefaultLocale() && getLocaleObject(getDefaultLocale()));
+  return getISOWeek(date, localeObj ? { locale: localeObj } : null);
 }
 
 export function getDayOfWeekCode(day, locale) {
-  return formatDate(day, "ddd", (locale: locale));
+  return formatDate(day, "ddd", locale);
 }
 
 // *** Start of ***
@@ -202,15 +224,26 @@ export function getStartOfDay(date) {
   return startOfDay(date);
 }
 
-export function getStartOfWeek(date, locale) {
+export function getStartOfWeek(date, locale, calendarStartDay) {
   let localeObj = locale
     ? getLocaleObject(locale)
     : getLocaleObject(getDefaultLocale());
-  return startOfWeek(date, { locale: localeObj });
+  return startOfWeek(date, {
+    locale: localeObj,
+    weekStartsOn: calendarStartDay
+  });
 }
 
 export function getStartOfMonth(date) {
   return startOfMonth(date);
+}
+
+export function getStartOfYear(date) {
+  return startOfYear(date);
+}
+
+export function getStartOfQuarter(date) {
+  return startOfQuarter(date);
 }
 
 export function getStartOfToday() {
@@ -235,7 +268,15 @@ export { addMinutes, addDays, addWeeks, addMonths, addYears };
 
 // *** Subtraction ***
 
-export { subMinutes, subHours, subDays, subWeeks, subMonths, subYears };
+export {
+  addHours,
+  subMinutes,
+  subHours,
+  subDays,
+  subWeeks,
+  subMonths,
+  subYears
+};
 
 // ** Date Comparison **
 
@@ -252,6 +293,14 @@ export function isSameYear(date1, date2) {
 export function isSameMonth(date1, date2) {
   if (date1 && date2) {
     return dfIsSameMonth(date1, date2);
+  } else {
+    return !date1 && !date2;
+  }
+}
+
+export function isSameQuarter(date1, date2) {
+  if (date1 && date2) {
+    return dfIsSameQuarter(date1, date2);
   } else {
     return !date1 && !date2;
   }
@@ -346,6 +395,10 @@ export function getMonthShortInLocale(month, locale) {
   return formatDate(setMonth(newDate(), month), "LLL", locale);
 }
 
+export function getQuarterShortInLocale(quarter, locale) {
+  return formatDate(setQuarter(newDate(), quarter), "QQQ", locale);
+}
+
 // ** Utils for some components **
 
 export function isDayDisabled(
@@ -403,6 +456,43 @@ export function isMonthinRange(startDate, endDate, m, day) {
   }
 }
 
+export function isQuarterDisabled(
+  quarter,
+  { minDate, maxDate, excludeDates, includeDates, filterDate } = {}
+) {
+  return (
+    isOutOfBounds(quarter, { minDate, maxDate }) ||
+    (excludeDates &&
+      excludeDates.some(excludeDate => isSameQuarter(quarter, excludeDate))) ||
+    (includeDates &&
+      !includeDates.some(includeDate => isSameQuarter(quarter, includeDate))) ||
+    (filterDate && !filterDate(newDate(quarter))) ||
+    false
+  );
+}
+
+export function isYearDisabled(year, { minDate, maxDate } = {}) {
+  const date = new Date(year, 0, 1);
+  return isOutOfBounds(date, { minDate, maxDate }) || false;
+}
+
+export function isQuarterInRange(startDate, endDate, q, day) {
+  const startDateYear = getYear(startDate);
+  const startDateQuarter = getQuarter(startDate);
+  const endDateYear = getYear(endDate);
+  const endDateQuarter = getQuarter(endDate);
+  const dayYear = getYear(day);
+  if (startDateYear === endDateYear && startDateYear === dayYear) {
+    return startDateQuarter <= q && q <= endDateQuarter;
+  } else if (startDateYear < endDateYear) {
+    return (
+      (dayYear === startDateYear && startDateQuarter <= q) ||
+      (dayYear === endDateYear && endDateQuarter >= q) ||
+      (dayYear < endDateYear && dayYear > startDateYear)
+    );
+  }
+}
+
 export function isOutOfBounds(day, { minDate, maxDate } = {}) {
   return (
     (minDate && differenceInCalendarDays(day, minDate) < 0) ||
@@ -410,18 +500,24 @@ export function isOutOfBounds(day, { minDate, maxDate } = {}) {
   );
 }
 
-export function isTimeDisabled(time, disabledTimes) {
-  const l = disabledTimes.length;
-  for (let i = 0; i < l; i++) {
-    if (
-      getHours(disabledTimes[i]) === getHours(time) &&
-      getMinutes(disabledTimes[i]) === getMinutes(time)
-    ) {
-      return true;
-    }
-  }
+export function isTimeInList(time, times) {
+  return times.some(
+    listTime =>
+      getHours(listTime) === getHours(time) &&
+      getMinutes(listTime) === getMinutes(time)
+  );
+}
 
-  return false;
+export function isTimeDisabled(
+  time,
+  { excludeTimes, includeTimes, filterTime } = {}
+) {
+  return (
+    (excludeTimes && isTimeInList(time, excludeTimes)) ||
+    (includeTimes && !isTimeInList(time, includeTimes)) ||
+    (filterTime && !filterTime(time)) ||
+    false
+  );
 }
 
 export function isTimeInDisabledRange(time, { minTime, maxTime }) {
@@ -471,6 +567,50 @@ export function monthDisabledAfter(day, { maxDate, includeDates } = {}) {
       )) ||
     false
   );
+}
+
+export function yearDisabledBefore(day, { minDate, includeDates } = {}) {
+  const previousYear = subYears(day, 1);
+  return (
+    (minDate && differenceInCalendarYears(minDate, previousYear) > 0) ||
+    (includeDates &&
+      includeDates.every(
+        includeDate => differenceInCalendarYears(includeDate, previousYear) > 0
+      )) ||
+    false
+  );
+}
+
+export function yearsDisabledBefore(
+  day,
+  { minDate, yearItemNumber = DEFAULT_YEAR_ITEM_NUMBER } = {}
+) {
+  const previousYear = getStartOfYear(subYears(day, yearItemNumber));
+  const { endPeriod } = getYearsPeriod(previousYear, yearItemNumber);
+  const minDateYear = minDate && getYear(minDate);
+  return (minDateYear && minDateYear > endPeriod) || false;
+}
+
+export function yearDisabledAfter(day, { maxDate, includeDates } = {}) {
+  const nextYear = addYears(day, 1);
+  return (
+    (maxDate && differenceInCalendarYears(nextYear, maxDate) > 0) ||
+    (includeDates &&
+      includeDates.every(
+        includeDate => differenceInCalendarYears(nextYear, includeDate) > 0
+      )) ||
+    false
+  );
+}
+
+export function yearsDisabledAfter(
+  day,
+  { maxDate, yearItemNumber = DEFAULT_YEAR_ITEM_NUMBER } = {}
+) {
+  const nextYear = addYears(day, yearItemNumber);
+  const { startPeriod } = getYearsPeriod(nextYear, yearItemNumber);
+  const maxDateYear = maxDate && getYear(maxDate);
+  return (maxDateYear && maxDateYear < startPeriod) || false;
 }
 
 export function getEffectiveMinDate({ minDate, includeDates }) {
@@ -565,4 +705,13 @@ export function timesToInjectAfter(
 
 export function addZero(i) {
   return i < 10 ? `0${i}` : `${i}`;
+}
+
+export function getYearsPeriod(
+  date,
+  yearItemNumber = DEFAULT_YEAR_ITEM_NUMBER
+) {
+  const endPeriod = Math.ceil(getYear(date) / yearItemNumber) * yearItemNumber;
+  const startPeriod = endPeriod - (yearItemNumber - 1);
+  return { startPeriod, endPeriod };
 }
