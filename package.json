@@ -1,6 +1,6 @@
 {
   "author": "HackerOne",
-  "name": "react-datepicker",
+  "name": "@td/react-datepicker",
   "description": "A simple and reusable datepicker component for React",
   "version": "2.9.2",
   "license": "MIT",
