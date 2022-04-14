@@ -1,0 +1,55 @@
+@Library('cloudbees-devops-global-pipeline@test') _
+pipeline {
+  options {
+    buildDiscarder(logRotator(numToKeepStr: "5"))
+  }
+
+  environment {
+    cmkArn = credentials('devops-svc-kms-key')
+  }
+
+  agent {
+    kubernetes {
+      label "devops-pipeline-nodes"
+      yamlFile ".jenkins/jenkins-pod.yaml"
+    }
+  }
+
+  stages {
+    stage(devopsKms) {
+      steps {
+        container("docker-jenkins-agent-aws-cli") {
+          script {
+            devopsKms.npmencrypt()
+            devopsKms.npmdecrypt()
+          }
+        }
+      }
+    }
+    stage('publish package') {
+      steps {
+        container('docker-jenkins-tdh-platform') {
+          withCredentials([usernamePassword(credentialsId: 'b626c4db-099a-4677-96f1-9cf6b73b3d7a', passwordVariable: 'GIT_PASS', usernameVariable: 'GIT_USER')]) {
+            sh "node -v"
+            sh "npm -v"
+            sh "git --version"
+            sh '''
+               git config --global credential.helper "!sleep 1; echo username=$GIT_USER; echo password=$GIT_PASS; echo"
+               (echo url=https://github.com; echo ) | git credential fill
+               git config --global user.email $GIT_USER
+               git config --global user.name "Publisher Bot"
+               git config --global url."https://github.com/".insteadOf git@github.com:
+               git config --global url."https://".insteadOf git://
+               git config --global url."https://".insteadOf ssh://git@
+            '''
+
+            sh 'git status'
+            unstash 'npmfile'
+
+            sh 'npm publish --verbose'
+          }
+        }
+      }
+    }
+  }
+}
