@@ -109,6 +109,10 @@
     "react-onclickoutside": "^6.9.0",
     "react-popper": "^1.3.4"
   },
+  "publishConfig": {
+    "private": true,
+    "registry": "https://artifactory.intouchhealth.io/artifactory/api/npm/npm-snapshot-local/"
+  },
   "scripts": {
     "eslint": "eslint --ext .js,.jsx src test",
     "flow": "flow",
