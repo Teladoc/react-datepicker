@@ -25,8 +25,16 @@ module.exports = function(config) {
             test: /\.jsx?$/,
             exclude: /node_modules/,
             loader: "babel-loader",
-            query: {
-              presets: ["airbnb"]
+            options: {
+              presets: [
+                "@babel/preset-env",
+                "@babel/preset-react",
+                "@babel/preset-flow"
+              ],
+              plugins: [
+                "@babel/plugin-transform-react-jsx",
+                "@babel/plugin-proposal-class-properties"
+              ]
             }
           },
           {
